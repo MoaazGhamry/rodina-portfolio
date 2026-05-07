@@ -68,14 +68,8 @@ export default function AdminPage() {
     }, 30000);
 
     try {
-      const folder = activeTab === "photos" ? "gallery" : activeTab === "videos" ? "videos" : "hero";
-      
-      const token = await auth.currentUser?.getIdToken();
-      
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("folder", folder);
-      formData.append("token", token || "");
 
       const response = await fetch("/api/upload", {
         method: "POST",

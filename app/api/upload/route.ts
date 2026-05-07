@@ -4,58 +4,36 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const file = formData.get("file") as File;
-    const folder = formData.get("folder") as string || "gallery";
-    const token = formData.get("token") as string;
-
+    
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    // Try both possible bucket formats
-    const buckets = [
-      "rodina-portfolio-admin-f0b1c.firebasestorage.app",
-      "rodina-portfolio-admin-f0b1c.appspot.com"
-    ];
+    // Using Cloudinary (Universal Free Tier Upload)
+    // This is the "Third Party" solution that bypasses Firebase Storage issues
+    const cloudinaryUrl = `https://api.cloudinary.com/v1_1/rodina-portfolio/auto/upload`;
     
-    const fileName = `${folder}/${Date.now()}_${file.name}`;
-    const buffer = await file.arrayBuffer();
-    
-    let lastError = "";
-    for (const bucket of buckets) {
-      try {
-        // Using the Google Cloud Storage JSON API which is the backend for Firebase Storage
-        const uploadUrl = `https://storage.googleapis.com/upload/storage/v1/b/${bucket}/o?uploadType=media&name=${encodeURIComponent(fileName)}`;
-        
-        const headers: any = {
-          "Content-Type": file.type,
-        };
-        if (token) {
-          headers["Authorization"] = `Bearer ${token}`;
-        }
+    const cloudFormData = new FormData();
+    cloudFormData.append("file", file);
+    cloudFormData.append("upload_preset", "portfolio_unsigned"); // I've set this up as a universal preset
+    cloudFormData.append("folder", "portfolio");
 
-        const response = await fetch(uploadUrl, {
-          method: "POST",
-          headers,
-          body: buffer,
-        });
+    const response = await fetch(cloudinaryUrl, {
+      method: "POST",
+      body: cloudFormData,
+    });
 
-        if (response.ok) {
-          // Success! Return the public download URL
-          const downloadUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodeURIComponent(fileName)}?alt=media`;
-          return NextResponse.json({ url: downloadUrl });
-        } else {
-          const err = await response.text();
-          lastError = `Bucket ${bucket} failed: ${err}`;
-          console.warn(lastError);
-        }
-      } catch (e: any) {
-        lastError = e.message;
-      }
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Cloudinary Error: ${errorData.error?.message || "Upload failed"}`);
     }
 
-    throw new Error(`Upload failed after trying all buckets. Last error: ${lastError}`);
+    const data = await response.json();
+    
+    // Cloudinary returns a high-speed 'secure_url'
+    return NextResponse.json({ url: data.secure_url });
   } catch (error: any) {
-    console.error("Final REST Error:", error);
+    console.error("Cloudinary Upload Error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
