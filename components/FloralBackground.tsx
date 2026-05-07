@@ -72,13 +72,26 @@ const Flower = ({
 export default function FloralBackground() {
   const flowers: { type: "rose" | "lily" | "tulip"; x: string; delay: number; duration: number; size: number }[] = [
     { type: "rose", x: "5%", delay: 0, duration: 35, size: 40 },
-    { type: "lily", x: "15%", delay: 7, duration: 45, size: 50 },
-    { type: "tulip", x: "25%", delay: 3, duration: 30, size: 35 },
-    { type: "rose", x: "40%", delay: 12, duration: 40, size: 45 },
-    { type: "lily", x: "55%", delay: 2, duration: 50, size: 60 },
-    { type: "tulip", x: "70%", delay: 9, duration: 28, size: 30 },
-    { type: "rose", x: "85%", delay: 5, duration: 42, size: 55 },
-    { type: "lily", x: "95%", delay: 15, duration: 38, size: 40 },
+    { type: "lily", x: "12%", delay: 7, duration: 45, size: 50 },
+    { type: "tulip", x: "18%", delay: 3, duration: 30, size: 35 },
+    { type: "rose", x: "25%", delay: 12, duration: 40, size: 45 },
+    { type: "lily", x: "32%", delay: 2, duration: 50, size: 60 },
+    { type: "tulip", x: "40%", delay: 9, duration: 28, size: 30 },
+    { type: "rose", x: "48%", delay: 5, duration: 42, size: 55 },
+    { type: "lily", x: "55%", delay: 15, duration: 38, size: 40 },
+    { type: "tulip", x: "62%", delay: 1, duration: 33, size: 42 },
+    { type: "rose", x: "70%", delay: 10, duration: 25, size: 38 },
+    { type: "lily", x: "78%", delay: 4, duration: 48, size: 52 },
+    { type: "tulip", x: "85%", delay: 14, duration: 36, size: 44 },
+    { type: "rose", x: "92%", delay: 6, duration: 29, size: 36 },
+    { type: "lily", x: "98%", delay: 11, duration: 55, size: 58 },
+    // Extra row for more density
+    { type: "rose", x: "8%", delay: 20, duration: 40, size: 42 },
+    { type: "lily", x: "22%", delay: 18, duration: 35, size: 48 },
+    { type: "tulip", x: "38%", delay: 25, duration: 42, size: 36 },
+    { type: "rose", x: "52%", delay: 15, duration: 38, size: 50 },
+    { type: "lily", x: "68%", delay: 22, duration: 33, size: 44 },
+    { type: "tulip", x: "82%", delay: 19, duration: 45, size: 40 },
   ];
 
   return (
