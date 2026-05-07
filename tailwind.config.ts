@@ -1,0 +1,58 @@
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        cream: "#FDF8F5",
+        "blush-light": "#FAEEF2",
+        blush: "#F2C4CE",
+        "blush-dark": "#DBA4B0",
+        rose: "#C9848F",
+        "rose-gold": "#B8727D",
+        "rose-deep": "#8C4A54",
+        beige: "#F0E0D3",
+        charcoal: "#2A2A2A",
+        "charcoal-light": "#4A4A4A",
+        muted: "#9A8A8A",
+      },
+      fontFamily: {
+        serif: ["var(--font-playfair)", "Georgia", "serif"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+      },
+      keyframes: {
+        float: {
+          "0%, 100%": { transform: "translateY(0px) rotate(0deg)" },
+          "33%": { transform: "translateY(-18px) rotate(2deg)" },
+          "66%": { transform: "translateY(-8px) rotate(-1deg)" },
+        },
+        "float-slow": {
+          "0%, 100%": { transform: "translateY(0px) scale(1)" },
+          "50%": { transform: "translateY(-25px) scale(1.04)" },
+        },
+        shimmer: {
+          "0%": { backgroundPosition: "-200% center" },
+          "100%": { backgroundPosition: "200% center" },
+        },
+        fadeUp: {
+          "0%": { opacity: "0", transform: "translateY(30px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        float: "float 7s ease-in-out infinite",
+        "float-slow": "float-slow 11s ease-in-out infinite",
+        "float-xs": "float 5s ease-in-out infinite 1.5s",
+        shimmer: "shimmer 3s linear infinite",
+        "fade-up": "fadeUp 0.8s ease forwards",
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;

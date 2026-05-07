@@ -1,0 +1,154 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import Image from "next/image";
+
+const fadeUp = (delay = 0) => ({
+  hidden: { opacity: 0, y: 35 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.85, delay, ease: [0.22, 1, 0.36, 1] } },
+});
+
+const stats = [
+  { value: "50+", label: "Projects Completed" },
+  { value: "3+", label: "Years Editing" },
+  { value: "∞", label: "Creative Passion" },
+];
+
+const skills = [
+  "Video Editing", "Color Grading", "Beat Syncing",
+  "Photography", "Reels & TikTok", "Lifestyle Content",
+  "Cinematic Edits", "Adobe Premiere", "CapCut",
+];
+
+export default function About() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section id="about" ref={ref} className="py-24 md:py-32 bg-cream overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+
+          {/* Left — Text */}
+          <div>
+            <motion.div
+              variants={fadeUp(0)}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              className="mb-10"
+            >
+              <p className="text-xs tracking-[0.3em] uppercase text-rose-gold font-medium mb-3">
+                About Me
+              </p>
+              <h2 className="font-serif-custom text-4xl md:text-5xl font-bold text-charcoal leading-tight mb-6">
+                A Creative with a{" "}
+                <span className="text-gradient-rose italic">Business Mind.</span>
+              </h2>
+              <div className="section-divider mb-8" />
+            </motion.div>
+
+            <motion.p
+              variants={fadeUp(0.1)}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              className="text-charcoal-light/80 leading-[1.9] mb-8 text-[15px]"
+            >
+              I am a 20-year-old creative with a heart that beats for video editing and
+              photography. Currently studying Business Administration at{" "}
+              <span className="text-rose-gold font-medium">
+                Future University in Egypt (FUE)
+              </span>
+              , I blend strategic business acumen with an intense, boundless passion for
+              visual arts. Whether I&apos;m piecing together dynamic lifestyle reels, finding
+              the perfect rhythm in a cinematic edit, or capturing the quiet beauty of a
+              night out, I love turning raw moments into unforgettable stories.
+            </motion.p>
+
+            <motion.p
+              variants={fadeUp(0.18)}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              className="text-charcoal font-serif-custom italic text-xl mb-10 border-l-2 border-rose-gold pl-5"
+            >
+              &ldquo;I don&apos;t just edit videos; I breathe life into them.&rdquo;
+            </motion.p>
+
+            {/* Skills */}
+            <motion.div
+              variants={fadeUp(0.25)}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              className="flex flex-wrap gap-2 mb-10"
+            >
+              {skills.map((s) => (
+                <span
+                  key={s}
+                  className="text-xs tracking-wider uppercase px-4 py-2 rounded-full bg-blush-light text-rose-gold border border-blush/60 font-medium"
+                >
+                  {s}
+                </span>
+              ))}
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              variants={fadeUp(0.32)}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              className="grid grid-cols-3 gap-4"
+            >
+              {stats.map((s) => (
+                <div key={s.label} className="text-center p-4 rounded-2xl bg-blush-light/60 border border-blush/30">
+                  <p className="font-serif-custom text-3xl font-bold text-rose-gold mb-1">{s.value}</p>
+                  <p className="text-[11px] tracking-wider uppercase text-muted">{s.label}</p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Right — Portrait */}
+          <motion.div
+            variants={{ hidden: { opacity: 0, x: 50 }, visible: { opacity: 1, x: 0, transition: { duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] } } }}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            className="relative flex justify-center"
+          >
+            {/* Decorative blobs */}
+            <div className="absolute -top-8 -right-8 w-64 h-64 rounded-full bg-blush/30 blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-8 -left-8 w-48 h-48 rounded-full bg-beige/60 blur-2xl pointer-events-none" />
+
+            {/* Frame */}
+            <div className="relative w-72 h-96 sm:w-80 sm:h-[420px]">
+              {/* Rose-gold border offset */}
+              <div className="absolute inset-0 rounded-[2.5rem] border-2 border-rose-gold/40 translate-x-4 translate-y-4" />
+              {/* Photo card */}
+              <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-rose-gold/10 bg-beige">
+                <Image
+                  src="/6044320691735170420_121.jpg"
+                  alt="Rodina Hany Shaheen — Portrait"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 288px, 320px"
+                  priority
+                />
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-rose-deep/20 via-transparent to-transparent" />
+              </div>
+
+              {/* Floating badge */}
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                className="absolute -bottom-5 -left-6 glass-card rounded-2xl px-5 py-3 shadow-lg"
+              >
+                <p className="text-xs tracking-widest uppercase text-muted mb-0.5">Based in</p>
+                <p className="text-sm font-semibold text-charcoal">Cairo, Egypt 🌸</p>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
