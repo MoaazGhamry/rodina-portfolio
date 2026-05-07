@@ -1,4 +1,4 @@
-import { db } from "../lib/firebase";
+import { db } from "./firebase";
 import { collection, addDoc, getDocs, query, limit } from "firebase/firestore";
 
 const photos = [

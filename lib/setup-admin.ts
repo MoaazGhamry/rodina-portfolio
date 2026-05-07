@@ -1,4 +1,4 @@
-import { auth } from "./lib/firebase";
+import { auth } from "./firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export async function createAdmin(email: string, pass: string) {
