@@ -60,12 +60,13 @@ function PhotoCard({
   );
 }
 
+import { MediaModal } from "./MediaModal";
+
 export default function PhotoGallery() {
   const { photos, loading } = usePhotos();
   const [selected, setSelected] = useState<Photo | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const close = useCallback(() => setSelected(null), []);
 
   useEffect(() => {
     // Run migration only once if Firestore is empty
@@ -119,50 +120,15 @@ export default function PhotoGallery() {
         </div>
       </section>
 
-      {/* Lightbox */}
-      <AnimatePresence>
-        {selected && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[100] bg-charcoal/90 backdrop-blur-sm flex items-center justify-center p-4"
-            onClick={close}
-          >
-            <motion.div
-              initial={{ scale: 0.88, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.88, opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="relative max-w-2xl w-full max-h-[90vh] rounded-2xl overflow-hidden shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="relative w-full" style={{ aspectRatio: "3/4" }}>
-                <Image
-                  src={selected.src}
-                  alt={selected.title}
-                  fill
-                  className="object-cover"
-                  sizes="100vw"
-                />
-              </div>
-              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-charcoal/80 to-transparent p-6">
-                <p className="text-cream font-serif-custom font-semibold text-xl">
-                  {selected.title}
-                </p>
-                <p className="text-cream/70 text-sm mt-1">{selected.description}</p>
-              </div>
-              <button
-                onClick={close}
-                className="absolute top-4 right-4 w-9 h-9 rounded-full bg-charcoal/50 backdrop-blur-sm flex items-center justify-center text-cream hover:bg-rose-gold transition-colors"
-              >
-                <X size={18} />
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Universal Media Modal */}
+      <MediaModal
+        isOpen={!!selected}
+        onClose={() => setSelected(null)}
+        type="image"
+        src={selected?.src || ""}
+        title={selected?.title}
+        description={selected?.description}
+      />
     </>
   );
 }

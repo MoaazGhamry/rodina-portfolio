@@ -2,10 +2,13 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
+import { Maximize2 } from "lucide-react";
 import { useVideos, Video } from "@/hooks/useVideos";
 import { migrateVideos } from "@/lib/migrateVideos";
 
-function VideoCard({ v, index }: { v: Video; index: number }) {
+import { MediaModal } from "./MediaModal";
+
+function VideoCard({ v, index, onOpen }: { v: Video; index: number; onOpen: (v: Video) => void }) {
   const [hovered, setHovered] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
@@ -16,7 +19,8 @@ function VideoCard({ v, index }: { v: Video; index: number }) {
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
-      className="group flex flex-col"
+      className="group flex flex-col cursor-pointer"
+      onClick={() => onOpen(v)}
     >
       {/* Video container — 9:16 portrait */}
       <div
@@ -39,6 +43,13 @@ function VideoCard({ v, index }: { v: Video; index: number }) {
 
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-transparent to-transparent opacity-80" />
+
+        {/* Maximize icon on hover */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="w-12 h-12 rounded-full bg-cream/20 backdrop-blur-md flex items-center justify-center text-cream">
+             <Maximize2 size={24} />
+          </div>
+        </div>
 
         {/* Tag chip */}
         <div className="absolute top-3 left-3">
@@ -64,6 +75,7 @@ function VideoCard({ v, index }: { v: Video; index: number }) {
 
 export default function VideoPortfolio() {
   const { videos, loading } = useVideos();
+  const [selected, setSelected] = useState<Video | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -117,7 +129,7 @@ export default function VideoPortfolio() {
             ) : (
               videos.map((v, i) => (
                 <div key={v.id} className="flex-none w-[280px] sm:w-[320px] snap-center">
-                  <VideoCard v={v} index={i} />
+                  <VideoCard v={v} index={i} onOpen={setSelected} />
                 </div>
               ))
             )}
@@ -128,6 +140,16 @@ export default function VideoPortfolio() {
             <p className="text-[10px] tracking-[0.3em] uppercase text-rose-gold font-bold rotate-90">Swipe</p>
           </div>
         </div>
+
+        {/* Universal Media Modal */}
+        <MediaModal
+          isOpen={!!selected}
+          onClose={() => setSelected(null)}
+          type="video"
+          src={selected?.src || ""}
+          title={selected?.title}
+          description={selected?.description}
+        />
       </div>
     </section>
   );
