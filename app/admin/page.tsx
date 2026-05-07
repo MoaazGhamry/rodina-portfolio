@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Trash2, LogOut, Image as ImageIcon, X, Save, UploadCloud } from "lucide-react";
 import { usePhotos, Photo } from "@/hooks/usePhotos";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { migratePhotos } from "@/lib/migrate";
 import Image from "next/image";
 
 export default function AdminPage() {
@@ -27,6 +28,11 @@ export default function AdminPage() {
     });
     return () => unsubscribe();
   }, [router]);
+
+  useEffect(() => {
+    // Run migration to ensure she sees her existing photos
+    migratePhotos();
+  }, []);
 
   const handleLogout = async () => {
     await signOut(auth);
