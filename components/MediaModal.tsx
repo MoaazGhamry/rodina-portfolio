@@ -14,6 +14,19 @@ interface MediaModalProps {
   description?: string;
 }
 
+interface ArrowMood {
+  name: string;
+  arrows: {
+    d: string;
+    top?: string;
+    bottom?: string;
+    left?: string;
+    right?: string;
+    scale: number;
+    rotate?: number;
+  }[];
+}
+
 export function MediaModal({ isOpen, onClose, type, src, title, description }: MediaModalProps) {
   const [layoutMode, setLayoutMode] = useState(0);
 
@@ -24,7 +37,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
     }
   }, [isOpen]);
 
-  const arrowMoods = [
+  const arrowMoods: ArrowMood[] = [
     { 
       name: "Swirl", 
       arrows: [
