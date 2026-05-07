@@ -96,21 +96,37 @@ export default function VideoPortfolio() {
           </p>
         </motion.div>
 
-        {/* Video Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {loading ? (
-            <div className="col-span-full flex items-center justify-center py-20">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                className="w-8 h-8 border-2 border-rose-gold/20 border-t-rose-gold rounded-full"
-              />
-            </div>
-          ) : (
-            videos.map((v, i) => (
-              <VideoCard key={v.id} v={v} index={i} />
-            ))
-          )}
+        {/* Horizontal Video Container */}
+        <div className="relative group/container">
+          <div 
+            className="flex gap-6 overflow-x-auto pb-12 pt-4 scrollbar-hide snap-x snap-mandatory"
+            style={{ 
+              scrollbarWidth: 'none', 
+              msOverflowStyle: 'none',
+              WebkitOverflowScrolling: 'touch'
+            }}
+          >
+            {loading ? (
+              <div className="w-full flex items-center justify-center py-20">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                  className="w-8 h-8 border-2 border-rose-gold/20 border-t-rose-gold rounded-full"
+                />
+              </div>
+            ) : (
+              videos.map((v, i) => (
+                <div key={v.id} className="flex-none w-[280px] sm:w-[320px] snap-center">
+                  <VideoCard v={v} index={i} />
+                </div>
+              ))
+            )}
+          </div>
+          
+          {/* Scroll Hint (Desktop only) */}
+          <div className="hidden md:block absolute -right-4 top-1/2 -translate-y-1/2 translate-x-full opacity-0 group-hover/container:opacity-100 transition-opacity">
+            <p className="text-[10px] tracking-[0.3em] uppercase text-rose-gold font-bold rotate-90">Swipe</p>
+          </div>
         </div>
       </div>
     </section>

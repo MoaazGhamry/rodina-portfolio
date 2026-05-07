@@ -128,7 +128,7 @@ export default function AdminPage() {
   const currentList = activeTab === "photos" ? photos : activeTab === "videos" ? videos : heroPhotos;
 
   return (
-    <div className="min-h-screen bg-cream p-4 md:p-12">
+    <div className="min-h-screen bg-cream text-charcoal p-4 md:p-12 transition-colors duration-500">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12 gap-6">
@@ -159,7 +159,7 @@ export default function AdminPage() {
             </motion.button>
             <button
               onClick={handleLogout}
-              className="w-12 h-12 rounded-2xl bg-white border border-blush/30 flex items-center justify-center text-rose-gold hover:bg-blush/10 transition-colors shadow-sm"
+              className="w-12 h-12 rounded-2xl bg-cream border border-blush/30 flex items-center justify-center text-rose-gold hover:bg-blush/10 transition-colors shadow-sm"
             >
               <LogOut size={18} />
             </button>
@@ -176,7 +176,7 @@ export default function AdminPage() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                className="group relative bg-white rounded-3xl overflow-hidden shadow-md border border-blush/20 aspect-[3/4]"
+                className="group relative bg-cream rounded-3xl overflow-hidden shadow-md border border-blush/20 aspect-[3/4]"
               >
                 {activeTab === "videos" ? (
                   <video src={item.src} muted playsInline loop autoPlay className="w-full h-full object-cover" />
@@ -202,10 +202,10 @@ export default function AdminPage() {
                       <select
                         value={item.span}
                         onChange={(e) => updatePhoto(item.id, { span: e.target.value })}
-                        className="bg-white/20 border border-white/30 text-white text-[10px] rounded-lg px-2 py-1 outline-none"
+                        className="bg-charcoal/20 border border-white/30 text-white text-[10px] rounded-lg px-2 py-1 outline-none"
                       >
-                        <option value="" className="text-charcoal">Normal</option>
-                        <option value="row-span-2" className="text-charcoal">Large</option>
+                        <option value="" className="bg-cream text-charcoal">Normal</option>
+                        <option value="row-span-2" className="bg-cream text-charcoal">Large</option>
                       </select>
                     )}
                   </div>
@@ -290,7 +290,7 @@ export default function AdminPage() {
                           type="text"
                           value={newFile.title}
                           onChange={(e) => setNewFile({ ...newFile, title: e.target.value })}
-                          className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-white text-charcoal text-sm focus:outline-none"
+                          className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors"
                         />
                       </div>
                       <div>
@@ -299,7 +299,7 @@ export default function AdminPage() {
                           type="text"
                           value={newFile.description}
                           onChange={(e) => setNewFile({ ...newFile, description: e.target.value })}
-                          className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-white text-charcoal text-sm focus:outline-none"
+                          className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors"
                         />
                       </div>
                     </>
@@ -311,7 +311,7 @@ export default function AdminPage() {
                         type="text"
                         value={newFile.tag}
                         onChange={(e) => setNewFile({ ...newFile, tag: e.target.value })}
-                        className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-white text-charcoal text-sm focus:outline-none"
+                        className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors"
                       />
                     </div>
                   )}
