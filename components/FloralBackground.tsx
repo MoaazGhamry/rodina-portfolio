@@ -54,14 +54,14 @@ const Flower = ({
       animate={{ 
         opacity: [0, 1, 1, 0],
         y: [0, -1200], 
-        x: [0, 100, -100, 0],
-        rotate: [0, 90, -90, 360] 
+        x: type === "lily" ? [0, 80, -80, 0] : [0, 50, -50, 0], // Larger sway for lilies
+        rotate: type === "lily" ? [0, 15, -15, 0] : [0, 90, -90, 360], // Sway instead of full rotate for lilies
       }}
       transition={{ 
-        duration, 
+        duration: type === "lily" ? duration * 1.2 : duration, // Lilies move slower and more gracefully
         delay, 
         repeat: Infinity, 
-        ease: "linear" 
+        ease: "easeInOut" 
       }}
     >
       {icons[type]}

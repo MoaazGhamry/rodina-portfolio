@@ -40,18 +40,9 @@ const videos = [
 ];
 
 function VideoCard({ v, index }: { v: typeof videos[0]; index: number }) {
-  const [playing, setPlaying] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
-
-  const toggle = () => {
-    const el = videoRef.current;
-    if (!el) return;
-    if (playing) { el.pause(); setPlaying(false); }
-    else { el.play(); setPlaying(true); }
-  };
 
   return (
     <motion.div
@@ -63,14 +54,12 @@ function VideoCard({ v, index }: { v: typeof videos[0]; index: number }) {
     >
       {/* Video container — 9:16 portrait */}
       <div
-        className="relative overflow-hidden rounded-2xl bg-beige shadow-lg cursor-pointer"
+        className="relative overflow-hidden rounded-2xl bg-beige shadow-lg"
         style={{ aspectRatio: "9/16" }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        onClick={toggle}
       >
         <motion.video
-          ref={videoRef}
           src={v.src}
           autoPlay
           muted
@@ -84,25 +73,6 @@ function VideoCard({ v, index }: { v: typeof videos[0]; index: number }) {
 
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-transparent to-transparent opacity-80" />
-
-        {/* Play / Pause icon */}
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center"
-          animate={{ opacity: hovered || !playing ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <motion.div
-            animate={{ scale: hovered ? 1 : 0.85 }}
-            transition={{ duration: 0.3 }}
-            className="w-14 h-14 rounded-full bg-cream/90 flex items-center justify-center shadow-lg"
-          >
-            {playing ? (
-              <Pause size={20} className="text-rose-gold" />
-            ) : (
-              <Play size={20} className="text-rose-gold ml-0.5" fill="#B8727D" />
-            )}
-          </motion.div>
-        </motion.div>
 
         {/* Tag chip */}
         <div className="absolute top-3 left-3">
