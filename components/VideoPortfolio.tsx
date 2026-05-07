@@ -9,28 +9,26 @@ import { migrateVideos } from "@/lib/migrateVideos";
 import { MediaModal } from "./MediaModal";
 
 function VideoCard({ v, index, onOpen }: { v: Video; index: number; onOpen: (v: Video) => void }) {
-  const [hovered, setHovered] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { amount: 0.5 }); // Play when 50% in view
 
   useEffect(() => {
     if (videoRef.current) {
-      if (hovered) {
+      if (inView) {
         videoRef.current.play().catch(() => {});
       } else {
         videoRef.current.pause();
-        videoRef.current.currentTime = 0;
       }
     }
-  }, [hovered]);
+  }, [inView]);
 
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
       className="group flex flex-col cursor-pointer"
       onClick={() => onOpen(v)}
     >
@@ -38,19 +36,15 @@ function VideoCard({ v, index, onOpen }: { v: Video; index: number; onOpen: (v: 
       <div
         className="relative overflow-hidden rounded-2xl bg-beige shadow-lg transform-gpu"
         style={{ aspectRatio: "9/16" }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
       >
-        <motion.video
+        <video
           ref={videoRef}
           src={v.src}
           muted
           playsInline
           loop
           preload="metadata"
-          className="w-full h-full object-cover transition-opacity duration-500"
-          animate={{ scale: hovered ? 1.04 : 1, opacity: hovered ? 1 : 0.9 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="w-full h-full object-cover"
         />
 
         {/* Gradient overlay */}

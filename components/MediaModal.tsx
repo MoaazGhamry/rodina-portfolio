@@ -38,7 +38,6 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="relative w-full h-full max-w-7xl flex flex-col lg:flex-row items-center justify-center gap-10"
-            onClick={(e) => e.stopPropagation()}
           >
             {/* Media Container */}
             <div className="relative flex-1 w-full h-full flex items-center justify-center min-h-0">
@@ -61,6 +60,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                   loop
                   playsInline
                   className="max-w-full max-h-full rounded-2xl shadow-2xl border border-white/10"
+                  onClick={(e) => e.stopPropagation()}
                 />
               )}
             </div>
@@ -72,6 +72,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
                 className="w-full lg:w-80 flex-shrink-0"
+                onClick={(e) => e.stopPropagation()}
               >
                 <div className="bg-rose-gold/90 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl border border-white/20 text-left">
                   <div className="w-10 h-1px bg-cream/40 mb-6" />
