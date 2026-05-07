@@ -41,6 +41,20 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
           >
             {/* Media Container */}
             <div className="relative flex-1 w-full h-full flex items-center justify-center min-h-0">
+              {/* Left Side: Large Sketched Lily */}
+              <div className="hidden xl:block absolute -left-40 top-1/2 -translate-y-1/2 w-80 h-80 opacity-10 pointer-events-none grayscale brightness-150">
+                <motion.svg
+                  viewBox="0 0 100 100"
+                  fill="currentColor"
+                  className="text-white w-full h-full"
+                  animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <path d="M50 10 C60 30 90 40 50 90 C10 40 40 30 50 10 M50 30 C55 45 70 50 50 75 C30 50 45 45 50 30" />
+                  <path d="M50 50 L70 30 M50 50 L30 30" stroke="currentColor" strokeWidth="0.5" />
+                </motion.svg>
+              </div>
+
               {type === "image" ? (
                 <div className="relative w-full h-full">
                   <Image
@@ -124,6 +138,17 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                 className="w-full lg:w-80 flex-shrink-0 relative"
                 onClick={(e) => e.stopPropagation()}
               >
+                {/* Top Right Heart Doodle */}
+                <div className="absolute -top-16 -right-10 w-20 h-20 opacity-20 pointer-events-none">
+                   <motion.svg 
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-rose-gold w-full h-full"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                   >
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                   </motion.svg>
+                </div>
+
                 {/* Extra Lilies Background */}
                 <div className="absolute -top-12 -left-20 w-32 h-32 opacity-10 pointer-events-none rotate-45">
                    <svg viewBox="0 0 24 24" fill="currentColor" className="text-cream w-full h-full">
@@ -159,6 +184,14 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
                     </div>
                   </div>
+                </div>
+
+                {/* Bottom Right Doodle Dash */}
+                <div className="absolute -bottom-16 -right-12 w-32 h-32 opacity-10 pointer-events-none text-rose-gold">
+                   <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4">
+                      <circle cx="50" cy="50" r="40" />
+                      <path d="M20 50 L80 50 M50 20 L50 80" />
+                   </svg>
                 </div>
 
                 {/* Bottom Lily */}
