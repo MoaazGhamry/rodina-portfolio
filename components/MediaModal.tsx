@@ -14,6 +14,23 @@ interface MediaModalProps {
 }
 
 export function MediaModal({ isOpen, onClose, type, src, title, description }: MediaModalProps) {
+  const [themeIndex, setThemeIndex] = useState(0);
+
+  // Pick a random theme on open
+  useEffect(() => {
+    if (isOpen) {
+      setThemeIndex(Math.floor(Math.random() * 3));
+    }
+  }, [isOpen]);
+
+  const themes = [
+    { name: "Studio Pink", accent: "#B8727D", bg: "bg-rose-gold/90", heart: "text-rose-gold" },
+    { name: "Obsidian Silver", accent: "#94A3B8", bg: "bg-charcoal/90", heart: "text-slate-400" },
+    { name: "Botanical Gold", accent: "#D4AF37", bg: "bg-olive-900/90", heart: "text-yellow-600" }
+  ];
+
+  const currentTheme = themes[themeIndex];
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -24,6 +41,19 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
           className="fixed inset-0 z-[100] bg-charcoal/95 backdrop-blur-md flex items-center justify-center p-4 md:p-10"
           onClick={onClose}
         >
+          {/* Decorative Background "Garden" */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+             {/* Random Lilies and Shapes */}
+             <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 10, repeat: Infinity }} className="absolute top-10 left-10 w-40 h-40">
+                <svg viewBox="0 0 100 100" fill={currentTheme.accent}><path d="M50 10 C60 30 90 40 50 90 C10 40 40 30 50 10" /></svg>
+             </motion.div>
+             <motion.div animate={{ x: [0, 20, 0] }} transition={{ duration: 12, repeat: Infinity }} className="absolute bottom-20 right-20 w-60 h-60 rotate-45">
+                <svg viewBox="0 0 100 100" fill={currentTheme.accent}><path d="M50 10 C60 30 90 40 50 90 C10 40 40 30 50 10" /></svg>
+             </motion.div>
+             <div className="absolute top-1/2 left-20 w-10 h-10 bg-white/20 rounded-full blur-xl" />
+             <div className="absolute bottom-1/4 left-1/3 w-20 h-20 bg-rose-gold/10 rounded-full blur-2xl" />
+          </div>
+
           {/* Close button - Top right */}
           <button
             onClick={onClose}
@@ -41,7 +71,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
           >
             {/* Media Container */}
             <div className="relative flex-1 w-full h-full flex items-center justify-center min-h-0">
-              {/* Left Side: Large Sketched Lily */}
+              {/* Left Side: Extra Sketched Lilies */}
               <div className="hidden xl:block absolute -left-40 top-1/2 -translate-y-1/2 w-80 h-80 opacity-10 pointer-events-none grayscale brightness-150">
                 <motion.svg
                   viewBox="0 0 100 100"
@@ -51,7 +81,6 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                   transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
                 >
                   <path d="M50 10 C60 30 90 40 50 90 C10 40 40 30 50 10 M50 30 C55 45 70 50 50 75 C30 50 45 45 50 30" />
-                  <path d="M50 50 L70 30 M50 50 L30 30" stroke="currentColor" strokeWidth="0.5" />
                 </motion.svg>
               </div>
 
@@ -78,51 +107,24 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                 />
               )}
 
-              {/* Curvy Arrow 1 (Desktop Only) */}
+              {/* Multiple Curvy Arrows */}
               <div className="hidden lg:block absolute -right-20 top-1/4 -translate-y-1/2 pointer-events-none">
-                <motion.svg
-                  width="120"
-                  height="120"
-                  viewBox="0 0 100 100"
-                  fill="none"
+                <motion.svg width="120" height="120" viewBox="0 0 100 100" fill="none"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={{ pathLength: 1, opacity: 0.6 }}
-                  transition={{ duration: 1.2, delay: 0.6, ease: "easeInOut" }}
-                >
-                  <path
-                    d="M10,20 Q60,-10 90,40"
-                    stroke="#B8727D"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    markerEnd="url(#arrowhead)"
-                  />
+                  transition={{ duration: 1.2, delay: 0.6 }}>
+                  <path d="M10,20 Q60,-10 90,40" stroke={currentTheme.accent} strokeWidth="1.5" strokeLinecap="round" markerEnd="url(#arrowhead)"/>
                 </motion.svg>
               </div>
-
-              {/* Curvy Arrow 2 (Desktop Only) */}
               <div className="hidden lg:block absolute -right-16 bottom-1/4 translate-y-1/2 pointer-events-none">
-                <motion.svg
-                  width="100"
-                  height="100"
-                  viewBox="0 0 100 100"
-                  fill="none"
+                <motion.svg width="100" height="100" viewBox="0 0 100 100" fill="none"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={{ pathLength: 1, opacity: 0.4 }}
-                  transition={{ duration: 1, delay: 0.8, ease: "easeInOut" }}
-                >
-                  <path
-                    d="M10,80 Q40,100 80,60"
-                    stroke="#B8727D"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    markerEnd="url(#arrowhead2)"
-                  />
+                  transition={{ duration: 1, delay: 0.8 }}>
+                  <path d="M10,80 Q40,100 80,60" stroke={currentTheme.accent} strokeWidth="1.5" strokeLinecap="round" markerEnd="url(#arrowhead)"/>
                   <defs>
                     <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                      <polygon points="0 0, 10 3.5, 0 7" fill="#B8727D" />
-                    </marker>
-                    <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                      <polygon points="0 0, 10 3.5, 0 7" fill="#B8727D" />
+                      <polygon points="0 0, 10 3.5, 0 7" fill={currentTheme.accent} />
                     </marker>
                   </defs>
                 </motion.svg>
@@ -138,33 +140,13 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                 className="w-full lg:w-80 flex-shrink-0 relative"
                 onClick={(e) => e.stopPropagation()}
               >
-                {/* Top Right Heart Doodle */}
-                <div className="absolute -top-16 -right-10 w-20 h-20 opacity-20 pointer-events-none">
-                   <motion.svg 
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-rose-gold w-full h-full"
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                   >
-                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                   </motion.svg>
+                {/* Decorative Shapes */}
+                <div className="absolute -top-10 -right-10 w-20 h-20 opacity-20 animate-spin-slow">
+                   <svg viewBox="0 0 100 100" fill="white"><path d="M50 0 L60 40 L100 50 L60 60 L50 100 L40 60 L0 50 L40 40 Z" /></svg>
                 </div>
 
-                {/* Extra Lilies Background */}
-                <div className="absolute -top-12 -left-20 w-32 h-32 opacity-10 pointer-events-none rotate-45">
-                   <svg viewBox="0 0 24 24" fill="currentColor" className="text-cream w-full h-full">
-                      <path d="M12 2L14.5 9H21L15.5 13L18 20L12 15L6 20L8.5 13L3 9H9.5L12 2Z" />
-                   </svg>
-                </div>
-
-                {/* Floating Lily Decoration */}
-                <div className="absolute -top-6 -right-6 w-16 h-16 opacity-40 rotate-12 pointer-events-none">
-                   <svg viewBox="0 0 24 24" fill="none" className="text-cream w-full h-full">
-                      <path d="M12 2L14.5 9H21L15.5 13L18 20L12 15L6 20L8.5 13L3 9H9.5L12 2Z" fill="currentColor" />
-                   </svg>
-                </div>
-
-                <div className="bg-rose-gold/90 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl border border-white/20 text-left relative overflow-hidden">
-                  {/* Subtle Pattern */}
+                <div className={`${currentTheme.bg} backdrop-blur-xl rounded-[2.5rem] p-8 shadow-2xl border border-white/20 text-left relative overflow-hidden transition-colors duration-700`}>
+                  {/* Subtle Sketch Pattern */}
                   <div className="absolute inset-0 opacity-10 pointer-events-none flex items-center justify-center">
                     <svg width="200" height="200" viewBox="0 0 100 100" fill="currentColor" className="text-white">
                       <path d="M50 10 C60 30 90 40 50 90 C10 40 40 30 50 10" />
@@ -180,24 +162,17 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                   </p>
                   <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
                     <p className="text-[10px] tracking-[0.3em] uppercase text-cream/50 font-bold">Project Details</p>
-                    <div className="w-5 h-5 text-cream/30">
-                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                    <div className={`w-5 h-5 ${currentTheme.heart} opacity-50`}>
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
                     </div>
                   </div>
                 </div>
 
-                {/* Bottom Right Doodle Dash */}
-                <div className="absolute -bottom-16 -right-12 w-32 h-32 opacity-10 pointer-events-none text-rose-gold">
-                   <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4">
-                      <circle cx="50" cy="50" r="40" />
-                      <path d="M20 50 L80 50 M50 20 L50 80" />
-                   </svg>
-                </div>
-
-                {/* Bottom Lily */}
-                <div className="absolute -bottom-10 -right-10 w-24 h-24 opacity-20 -rotate-12 pointer-events-none">
-                   <svg viewBox="0 0 24 24" fill="none" className="text-cream w-full h-full">
-                      <path d="M12 2L14.5 9H21L15.5 13L18 20L12 15L6 20L8.5 13L3 9H9.5L12 2Z" fill="currentColor" />
+                {/* Scrawled Shapes Below Box */}
+                <div className="absolute -bottom-12 -left-10 w-32 h-32 opacity-10 pointer-events-none text-white">
+                   <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="5 5">
+                      <circle cx="50" cy="50" r="30" />
+                      <path d="M0 50 L100 50 M50 0 L50 100" />
                    </svg>
                 </div>
               </motion.div>
