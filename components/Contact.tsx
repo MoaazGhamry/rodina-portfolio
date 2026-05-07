@@ -219,7 +219,19 @@ export default function Contact() {
       {/* Footer */}
       <div className="mt-20 border-t border-blush/30 pt-8 text-center">
         <p className="text-muted text-xs tracking-widest uppercase">
-          © {new Date().getFullYear()} Rodina Hany Shaheen · Crafted with passion 🌸
+          © {new Date().getFullYear()} Rodina Hany Shaheen · Crafted with passion{" "}
+          <span
+            className="cursor-pointer select-none"
+            onClick={() => {
+              const count = (window as any).secretClickCount || 0;
+              (window as any).secretClickCount = count + 1;
+              if (count + 1 >= 5) {
+                window.location.href = "/login";
+              }
+            }}
+          >
+            🌸
+          </span>
         </p>
       </div>
     </section>
