@@ -68,21 +68,25 @@ export default function AdminPage() {
     }, 30000);
 
     try {
+      const cloudinaryUrl = `https://api.cloudinary.com/v1_1/dhoqtr0se/auto/upload`;
+      
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("upload_preset", "mrpt3x4r");
+      formData.append("folder", "portfolio");
 
-      const response = await fetch("/api/upload", {
+      const response = await fetch(cloudinaryUrl, {
         method: "POST",
         body: formData,
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Upload failed");
+        const errorData = await response.json();
+        throw new Error(errorData.error?.message || "Upload failed");
       }
 
-      const { url } = await response.json();
-      setNewFile(prev => ({ ...prev, src: url }));
+      const data = await response.json();
+      setNewFile(prev => ({ ...prev, src: data.secure_url }));
       clearTimeout(timeoutId);
     } catch (err: any) {
       console.error("Upload failed:", err);
