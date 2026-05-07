@@ -1,9 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useHeroPhotos } from "@/hooks/useHeroPhotos";
+import { migrateHero } from "@/lib/migrateHero";
 
 const fadeUp = (delay = 0) => ({
   hidden: { opacity: 0, y: 35 },
@@ -22,21 +24,24 @@ const skills = [
   "Cinematic Edits", "Adobe Premiere", "CapCut",
 ];
 
-const galleryImages = [
-  "/6044320691735170420_121.jpg",
-  "/6044320691735170421_121.jpg",
-  "/6044320691735170422_121.jpg",
-  "/6044320691735170423_121.jpg",
-  "/6044320691735170424_121.jpg",
-];
-
 export default function About() {
+  const { photos, loading } = useHeroPhotos();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [imgIndex, setImgIndex] = useState(0);
 
-  const nextImg = () => setImgIndex((prev) => (prev + 1) % galleryImages.length);
-  const prevImg = () => setImgIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+  useEffect(() => {
+    migrateHero();
+  }, []);
+
+  const nextImg = () => {
+    if (photos.length === 0) return;
+    setImgIndex((prev) => (prev + 1) % photos.length);
+  };
+  const prevImg = () => {
+    if (photos.length === 0) return;
+    setImgIndex((prev) => (prev - 1 + photos.length) % photos.length);
+  };
 
   return (
     <section id="about" ref={ref} className="py-24 md:py-32 bg-cream overflow-hidden">
@@ -138,37 +143,49 @@ export default function About() {
               
               {/* Photo card with Swipe Logic */}
               <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-rose-gold/10 bg-beige">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={imgIndex}
-                    initial={{ x: 300, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: -300, opacity: 0 }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
-                    onDragEnd={(e, { offset, velocity }) => {
-                      if (offset.x > 100) prevImg();
-                      else if (offset.x < -100) nextImg();
-                    }}
-                    className="absolute inset-0 cursor-grab active:cursor-grabbing"
-                  >
-                    <Image
-                      src={galleryImages[imgIndex]}
-                      alt={`Rodina Portrait ${imgIndex + 1}`}
-                      fill
-                      className="object-cover pointer-events-none"
-                      sizes="(max-width: 640px) 288px, 320px"
-                      priority
+                {loading ? (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                      className="w-8 h-8 border-2 border-rose-gold/20 border-t-rose-gold rounded-full"
                     />
-                    {/* Overlay gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-rose-deep/20 via-transparent to-transparent pointer-events-none" />
-                  </motion.div>
-                </AnimatePresence>
+                  </div>
+                ) : (
+                  <AnimatePresence mode="wait">
+                    {photos.length > 0 && (
+                      <motion.div
+                        key={imgIndex}
+                        initial={{ x: 300, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        exit={{ x: -300, opacity: 0 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        drag="x"
+                        dragConstraints={{ left: 0, right: 0 }}
+                        onDragEnd={(e, { offset, velocity }) => {
+                          if (offset.x > 100) prevImg();
+                          else if (offset.x < -100) nextImg();
+                        }}
+                        className="absolute inset-0 cursor-grab active:cursor-grabbing"
+                      >
+                        <Image
+                          src={photos[imgIndex]?.src}
+                          alt={`Rodina Portrait ${imgIndex + 1}`}
+                          fill
+                          className="object-cover pointer-events-none"
+                          sizes="(max-width: 640px) 288px, 320px"
+                          priority
+                        />
+                        {/* Overlay gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-rose-deep/20 via-transparent to-transparent pointer-events-none" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                )}
 
                 {/* Swipe Indicators */}
                 <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                  {galleryImages.map((_, i) => (
+                  {photos.map((_, i) => (
                     <div
                       key={i}
                       className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === imgIndex ? "bg-cream w-4" : "bg-cream/40"}`}
