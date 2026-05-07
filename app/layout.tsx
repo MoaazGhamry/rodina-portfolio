@@ -40,6 +40,7 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "Rodina",
   },
+  themeColor: "#FCF9F7",
   icons: {
     icon: "/favicon.png",
     apple: "/apple-touch-icon.png",
