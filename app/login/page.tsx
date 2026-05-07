@@ -23,8 +23,8 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/admin");
     } catch (err: any) {
-      // If login fails for Rodina's email, try to auto-activate (create account)
-      if (email === "rodinashaheen2005@gmail.com") {
+      // If login fails, try to auto-activate for the new admin email
+      if (email === "admin@rodina.com") {
         try {
           const { createUserWithEmailAndPassword } = await import("firebase/auth");
           await createUserWithEmailAndPassword(auth, email, password);
@@ -95,7 +95,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-12 pr-4 py-4 rounded-2xl border border-blush/40 bg-cream/50 text-charcoal text-sm focus:outline-none focus:border-rose-gold focus:ring-4 focus:ring-rose-gold/5 transition-all"
-                  placeholder="rodina@example.com"
+                  placeholder="admin@rodina.com"
                   required
                 />
               </div>
