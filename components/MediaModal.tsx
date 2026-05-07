@@ -130,15 +130,17 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
             {/* Media Container */}
             <div className="relative flex-1 w-full h-full flex items-center justify-center min-h-0">
               {type === "image" ? (
-                <div className="relative w-full h-full">
-                  <Image
-                    src={src}
-                    alt={title || "Portfolio Item"}
-                    fill
-                    className="object-contain rounded-[3rem] shadow-2xl overflow-hidden"
-                    sizes="100vw"
-                    priority
-                  />
+                <div className="relative w-full h-full flex items-center justify-center p-4">
+                  <div className="relative w-full h-full max-w-full max-h-full rounded-[3rem] overflow-hidden shadow-2xl border border-white/10">
+                    <Image
+                      src={src}
+                      alt={title || "Portfolio Item"}
+                      fill
+                      className="object-contain scale-[1.01]"
+                      sizes="100vw"
+                      priority
+                    />
+                  </div>
                 </div>
               ) : (
                 <video
