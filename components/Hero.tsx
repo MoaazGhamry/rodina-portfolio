@@ -36,16 +36,17 @@ export default function Hero() {
             height: orb.size,
             left: orb.x,
             top: orb.y,
-            background: `radial-gradient(circle at 40% 40%, ${orb.color}, transparent 70%)`,
-            filter: "blur(2px)",
+            background: `radial-gradient(circle at 40% 40%, ${orb.color}, transparent 80%)`,
+            filter: "blur(40px)",
           }}
           animate={{
-            y: [0, -22, -8, 0],
-            x: [0, 8, -5, 0],
-            scale: [1, 1.04, 0.97, 1],
+            y: [0, -80, 40, -30, 0],
+            x: [0, 40, -60, 30, 0],
+            scale: [1, 1.15, 0.9, 1.05, 1],
+            rotate: [0, 45, -45, 20, 0],
           }}
           transition={{
-            duration: orb.duration,
+            duration: orb.duration * 1.5,
             delay: orb.delay,
             repeat: Infinity,
             ease: "easeInOut",
