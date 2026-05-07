@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { auth } from "@/lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Lock, Mail, ArrowRight } from "lucide-react";
@@ -31,14 +31,29 @@ export default function LoginPage() {
           router.push("/admin");
           return;
         } catch (createErr: any) {
-          // If creation also fails (e.g. wrong password for existing user), show original error
-          setError("Invalid password. Please try again.");
+          if (createErr.code === "auth/email-already-in-use") {
+            setError("Account already exists. If you forgot your password, please use the reset link below.");
+          } else {
+            setError(createErr.message);
+          }
         }
       } else {
         setError("Invalid email or password. Please try again.");
       }
     } finally {
       setLoading(false);
+    }
+  };
+  const handleResetPassword = async () => {
+    if (!email) {
+      setError("Please enter your email first.");
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setError("Password reset email sent! Check your inbox 🌸");
+    } catch (err: any) {
+      setError(err.message);
     }
   };
 
@@ -101,6 +116,13 @@ export default function LoginPage() {
                   required
                 />
               </div>
+              <button
+                type="button"
+                onClick={handleResetPassword}
+                className="block mt-2 text-[10px] text-muted hover:text-rose-gold transition-colors tracking-widest uppercase font-bold text-right w-full"
+              >
+                Forgot Secret?
+              </button>
             </div>
 
             {error && (
