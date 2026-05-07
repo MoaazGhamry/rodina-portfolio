@@ -10,8 +10,20 @@ import { MediaModal } from "./MediaModal";
 
 function VideoCard({ v, index, onOpen }: { v: Video; index: number; onOpen: (v: Video) => void }) {
   const [hovered, setHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+
+  useEffect(() => {
+    if (videoRef.current) {
+      if (hovered) {
+        videoRef.current.play().catch(() => {});
+      } else {
+        videoRef.current.pause();
+        videoRef.current.currentTime = 0;
+      }
+    }
+  }, [hovered]);
 
   return (
     <motion.div
@@ -24,20 +36,20 @@ function VideoCard({ v, index, onOpen }: { v: Video; index: number; onOpen: (v: 
     >
       {/* Video container — 9:16 portrait */}
       <div
-        className="relative overflow-hidden rounded-2xl bg-beige shadow-lg"
+        className="relative overflow-hidden rounded-2xl bg-beige shadow-lg transform-gpu"
         style={{ aspectRatio: "9/16" }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
         <motion.video
+          ref={videoRef}
           src={v.src}
-          autoPlay
           muted
           playsInline
           loop
-          preload="auto"
-          className="w-full h-full object-cover"
-          animate={{ scale: hovered ? 1.04 : 1 }}
+          preload="metadata"
+          className="w-full h-full object-cover transition-opacity duration-500"
+          animate={{ scale: hovered ? 1.04 : 1, opacity: hovered ? 1 : 0.9 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         />
 
