@@ -48,13 +48,18 @@ export default function AdminPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Show local preview immediately to bypass CORS issues
+    const localUrl = URL.createObjectURL(file);
+    setNewFile({ ...newFile, src: localUrl });
+
     setUploading(true);
     try {
       const folder = activeTab === "photos" ? "gallery" : "videos";
       const storageRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
       await uploadBytes(storageRef, file);
       const url = await getDownloadURL(storageRef);
-      setNewFile({ ...newFile, src: url });
+      // Once uploaded, use the permanent URL
+      setNewFile(prev => ({ ...prev, src: url }));
     } catch (err) {
       console.error("Upload failed:", err);
     } finally {
@@ -79,34 +84,34 @@ export default function AdminPage() {
     <div className="min-h-screen bg-cream p-6 md:p-12">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
-          <div>
-            <h1 className="font-serif-custom text-4xl font-bold text-charcoal mb-2">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12 gap-6">
+          <div className="w-full md:w-auto">
+            <h1 className="font-serif-custom text-3xl md:text-4xl font-bold text-charcoal mb-2">
               Portfolio <span className="text-gradient-rose italic">Studio</span>
             </h1>
-            <div className="flex gap-4 mt-4">
+            <div className="flex gap-6 mt-6 overflow-x-auto pb-2 scrollbar-hide border-b border-blush/20 md:border-none">
               <button 
                 onClick={() => setActiveTab("photos")}
-                className={`text-xs tracking-[0.2em] uppercase font-bold transition-all ${activeTab === 'photos' ? 'text-rose-gold border-b-2 border-rose-gold' : 'text-muted hover:text-charcoal'}`}
+                className={`text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold transition-all whitespace-nowrap pb-2 md:pb-0 ${activeTab === 'photos' ? 'text-rose-gold border-b-2 border-rose-gold' : 'text-muted hover:text-charcoal'}`}
               >
                 Photography
               </button>
               <button 
                 onClick={() => setActiveTab("videos")}
-                className={`text-xs tracking-[0.2em] uppercase font-bold transition-all ${activeTab === 'videos' ? 'text-rose-gold border-b-2 border-rose-gold' : 'text-muted hover:text-charcoal'}`}
+                className={`text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold transition-all whitespace-nowrap pb-2 md:pb-0 ${activeTab === 'videos' ? 'text-rose-gold border-b-2 border-rose-gold' : 'text-muted hover:text-charcoal'}`}
               >
                 Video Editing
               </button>
             </div>
           </div>
-          <div className="flex gap-4">
+          <div className="flex w-full md:w-auto gap-3">
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => setIsAdding(true)}
-              className="px-6 py-3 rounded-2xl bg-rose-gold text-cream text-sm font-bold tracking-widest uppercase flex items-center gap-2 shadow-lg shadow-rose-gold/20"
+              className="flex-1 md:flex-none px-5 py-3.5 rounded-2xl bg-rose-gold text-cream text-[10px] md:text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2 shadow-lg shadow-rose-gold/20"
             >
-              <Plus size={18} /> Add {activeTab === "photos" ? "Photo" : "Video"}
+              <Plus size={16} /> Add {activeTab === "photos" ? "Photo" : "Video"}
             </motion.button>
             <button
               onClick={handleLogout}
@@ -118,7 +123,7 @@ export default function AdminPage() {
         </div>
 
         {/* List */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           <AnimatePresence mode="popLayout">
             {(activeTab === "photos" ? photos : videos).map((item: any) => (
               <motion.div
@@ -176,20 +181,20 @@ export default function AdminPage() {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="w-full max-w-lg bg-cream rounded-[2.5rem] p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto"
+              className="w-full max-w-lg bg-cream rounded-[2.5rem] p-6 md:p-8 shadow-2xl relative max-h-[95vh] overflow-y-auto"
             >
               <button
                 onClick={() => setIsAdding(false)}
-                className="absolute top-6 right-6 text-muted hover:text-charcoal transition-colors"
+                className="absolute top-4 right-4 md:top-6 md:right-6 text-muted hover:text-charcoal transition-colors"
               >
                 <X size={24} />
               </button>
 
-              <h2 className="font-serif-custom text-2xl font-bold text-charcoal mb-8 italic">
+              <h2 className="font-serif-custom text-xl md:text-2xl font-bold text-charcoal mb-6 md:mb-8 italic">
                 Add New {activeTab === "photos" ? "Moment 🌸" : "Story 🎬"}
               </h2>
 
-              <div className="space-y-6">
+              <div className="space-y-5 md:space-y-6">
                 <div className="relative group">
                   <div className={`aspect-[4/3] rounded-3xl border-2 border-dashed border-blush/50 bg-white/50 flex flex-col items-center justify-center overflow-hidden transition-all ${newFile.src ? 'border-rose-gold' : 'hover:border-rose-gold/50'}`}>
                     {newFile.src ? (
