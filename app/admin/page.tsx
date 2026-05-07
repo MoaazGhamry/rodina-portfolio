@@ -273,13 +273,27 @@ export default function AdminPage() {
                 </div>
 
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleSave}
-                  disabled={!newFile.src || !newFile.title || uploading}
-                  className="w-full py-4 rounded-2xl bg-rose-gold text-cream text-sm font-bold tracking-[0.2em] uppercase shadow-lg shadow-rose-gold/20 disabled:opacity-50"
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
+                  onClick={() => {
+                    console.log("Save button clicked");
+                    handleSave();
+                  }}
+                  disabled={uploading}
+                  className="w-full py-5 rounded-2xl bg-rose-gold text-cream text-sm font-bold tracking-[0.2em] uppercase shadow-xl shadow-rose-gold/30 disabled:opacity-50 flex items-center justify-center gap-3 relative z-[110] cursor-pointer"
                 >
-                  <Save size={18} /> Save to {activeTab === "photos" ? "Gallery" : "Videos"}
+                  {uploading ? (
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                      className="w-5 h-5 border-2 border-cream/20 border-t-cream rounded-full"
+                    />
+                  ) : (
+                    <>
+                      <Save size={20} />
+                      <span>Save to {activeTab === "photos" ? "Gallery" : "Videos"}</span>
+                    </>
+                  )}
                 </motion.button>
               </div>
             </motion.div>

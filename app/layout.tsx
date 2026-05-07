@@ -34,6 +34,12 @@ export const metadata: Metadata = {
       "Freelance Video Editor & Photographer crafting cinematic stories with passion.",
     type: "website",
   },
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Rodina",
+  },
   icons: {
     icon: "/favicon.png",
   },
