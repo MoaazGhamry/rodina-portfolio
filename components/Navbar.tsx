@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 const links = [
   { label: "About", href: "#about" },
@@ -71,14 +72,24 @@ export default function Navbar() {
             </li>
           </ul>
 
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden text-charcoal p-2"
-            onClick={() => setOpen(!open)}
-            aria-label="Toggle menu"
-          >
-            {open ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          {/* Mobile hamburger & Toggle */}
+          <div className="flex items-center gap-2">
+            <div className="md:hidden">
+              <ThemeToggle />
+            </div>
+            <button
+              className="md:hidden text-charcoal p-2"
+              onClick={() => setOpen(!open)}
+              aria-label="Toggle menu"
+            >
+              {open ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
+
+          {/* Desktop Toggle */}
+          <div className="hidden md:block absolute left-1/2 -translate-x-1/2">
+            <ThemeToggle />
+          </div>
         </div>
       </motion.nav>
 
