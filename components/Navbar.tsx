@@ -62,33 +62,29 @@ export default function Navbar() {
                 </button>
               </li>
             ))}
-            <li>
-              <button
-                onClick={() => scrollTo("#contact")}
-                className="text-sm tracking-widest uppercase px-5 py-2 rounded-full border border-rose-gold text-rose-gold hover:bg-rose-gold hover:text-cream transition-all duration-300 font-medium"
-              >
-                Hire Me
-              </button>
-            </li>
           </ul>
 
-          {/* Mobile hamburger & Toggle */}
-          <div className="flex items-center gap-2">
-            <div className="md:hidden">
-              <ThemeToggle />
-            </div>
+          {/* Desktop Toggle & Action */}
+          <div className="hidden md:flex items-center gap-6">
+            <ThemeToggle />
             <button
-              className="md:hidden text-charcoal p-2"
+              onClick={() => scrollTo("#contact")}
+              className="text-sm tracking-widest uppercase px-5 py-2 rounded-full border border-rose-gold text-rose-gold hover:bg-rose-gold hover:text-cream transition-all duration-300 font-medium"
+            >
+              Hire Me
+            </button>
+          </div>
+
+          {/* Mobile hamburger & Toggle */}
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
+            <button
+              className="text-charcoal p-2"
               onClick={() => setOpen(!open)}
               aria-label="Toggle menu"
             >
               {open ? <X size={22} /> : <Menu size={22} />}
             </button>
-          </div>
-
-          {/* Desktop Toggle */}
-          <div className="hidden md:block absolute left-1/2 -translate-x-1/2">
-            <ThemeToggle />
           </div>
         </div>
       </motion.nav>

@@ -36,7 +36,7 @@ export default function Hero() {
             height: orb.size,
             left: orb.x,
             top: orb.y,
-            background: `radial-gradient(circle at 40% 40%, ${orb.color}, transparent 80%)`,
+            background: `radial-gradient(circle at 40% 40%, rgb(var(--rose-gold) / 0.25), transparent 80%)`,
             filter: "blur(40px)",
           }}
           animate={{
@@ -59,25 +59,33 @@ export default function Hero() {
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
           backgroundImage:
-            "linear-gradient(#B8727D 1px,transparent 1px),linear-gradient(90deg,#B8727D 1px,transparent 1px)",
+            "linear-gradient(rgb(var(--rose-gold)) 1px,transparent 1px),linear-gradient(90deg,rgb(var(--rose-gold)) 1px,transparent 1px)",
           backgroundSize: "60px 60px",
         }}
       />
 
       {/* Hero Floral Accents */}
-      <div className="absolute top-20 right-10 text-rose-gold/20 -rotate-12 pointer-events-none hidden md:block">
-        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.5">
+      <motion.div 
+        animate={{ y: [0, -15, 0], rotate: [-12, -8, -12] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-20 right-10 text-rose-gold/30 pointer-events-none hidden md:block"
+      >
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
           <path d="M12 22V12" />
-          <path d="M12 12C12 12 19 10 20 7C21 4 18 3 15 5C12 7 12 12 12 12Z" fill="currentColor" fillOpacity="0.1" />
-          <path d="M12 12C12 12 5 10 4 7C3 4 6 3 9 5C12 7 12 12 12 12Z" fill="currentColor" fillOpacity="0.1" />
+          <path d="M12 12C12 12 19 10 20 7C21 4 18 3 15 5C12 7 12 12 12 12Z" fill="currentColor" fillOpacity="0.15" />
+          <path d="M12 12C12 12 5 10 4 7C3 4 6 3 9 5C12 7 12 12 12 12Z" fill="currentColor" fillOpacity="0.15" />
         </svg>
-      </div>
-      <div className="absolute bottom-20 left-10 text-rose-gold/20 rotate-12 pointer-events-none hidden md:block">
-        <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.5">
+      </motion.div>
+      <motion.div 
+        animate={{ y: [0, 15, 0], rotate: [12, 16, 12] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-20 left-10 text-rose-gold/30 pointer-events-none hidden md:block"
+      >
+        <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
           <path d="M12 22V15" />
-          <path d="M12 15C12 15 20 12 20 8C20 4 16 4 12 8C8 4 4 4 4 8C4 12 12 15 12 15Z" fill="currentColor" fillOpacity="0.1" />
+          <path d="M12 15C12 15 20 12 20 8C20 4 16 4 12 8C8 4 4 4 4 8C4 12 12 15 12 15Z" fill="currentColor" fillOpacity="0.15" />
         </svg>
-      </div>
+      </motion.div>
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
