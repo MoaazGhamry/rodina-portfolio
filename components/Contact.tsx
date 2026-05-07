@@ -2,7 +2,7 @@
 
 import { useRef, useState, FormEvent } from "react";
 import { motion, useInView } from "framer-motion";
-import { Instagram, Mail, Send, CheckCircle } from "lucide-react";
+import { Instagram, Mail, Send, CheckCircle, MessageCircle } from "lucide-react";
 
 /* TikTok icon as inline SVG */
 const TikTokIcon = () => (
@@ -25,9 +25,15 @@ const socialLinks = [
     color: "#2A2A2A",
   },
   {
+    icon: <MessageCircle size={20} />,
+    label: "WhatsApp",
+    href: "https://wa.me/201096639115",
+    color: "#25D366",
+  },
+  {
     icon: <Mail size={20} />,
     label: "Email Me",
-    href: "mailto:rodinahany32@gmail.com",
+    href: "mailto:rodinashaheen2005@gmail.com",
     color: "#B8727D",
   },
 ];
