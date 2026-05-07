@@ -12,8 +12,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showActivate, setShowActivate] = useState(false);
-  const [activateCount, setActivateCount] = useState(0);
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -25,19 +23,20 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/admin");
     } catch (err: any) {
-      // If login fails, check if it's because the user doesn't exist
-      // If so, and the email matches Rodina's, create the account (Auto-Activation)
-      if (err.code === "auth/user-not-found" && email === "rodinashaheen2005@gmail.com") {
+      // If login fails for Rodina's email, try to auto-activate (create account)
+      if (email === "rodinashaheen2005@gmail.com") {
         try {
           const { createUserWithEmailAndPassword } = await import("firebase/auth");
           await createUserWithEmailAndPassword(auth, email, password);
           router.push("/admin");
           return;
         } catch (createErr: any) {
-          setError(createErr.message);
+          // If creation also fails (e.g. wrong password for existing user), show original error
+          setError("Invalid password. Please try again.");
         }
+      } else {
+        setError("Invalid email or password. Please try again.");
       }
-      setError("Invalid email or password. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -58,21 +57,14 @@ export default function LoginPage() {
       >
         <div className="glass-card rounded-[2.5rem] p-10 shadow-2xl border border-blush/30 bg-cream/80 backdrop-blur-xl">
           <div className="text-center mb-10">
-            <div 
-              onClick={() => {
-                const newCount = activateCount + 1;
-                setActivateCount(newCount);
-                if (newCount >= 5) setShowActivate(true);
-              }}
-              className="w-16 h-16 rounded-3xl bg-rose-gold flex items-center justify-center text-cream mx-auto mb-6 shadow-lg shadow-rose-gold/20 cursor-pointer"
-            >
+            <div className="w-16 h-16 rounded-3xl bg-rose-gold flex items-center justify-center text-cream mx-auto mb-6 shadow-lg shadow-rose-gold/20">
               <Lock size={28} />
             </div>
             <h1 className="font-serif-custom text-3xl font-bold text-charcoal mb-2 italic">
               Hello, Rodina 🌸
             </h1>
             <p className="text-muted text-sm tracking-widest uppercase">
-              {showActivate ? "Setup your new secret access" : "Enter your credentials to manage your gallery"}
+              Enter your credentials to manage your gallery
             </p>
           </div>
 
@@ -121,42 +113,19 @@ export default function LoginPage() {
               </motion.p>
             )}
 
-            {showActivate ? (
-              <motion.button
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                onClick={async (e) => {
-                  e.preventDefault();
-                  setLoading(true);
-                  try {
-                    const { createUserWithEmailAndPassword } = await import("firebase/auth");
-                    await createUserWithEmailAndPassword(auth, email, password);
-                    router.push("/admin");
-                  } catch (err: any) {
-                    setError(err.message);
-                  } finally {
-                    setLoading(false);
-                  }
-                }}
-                className="w-full py-5 rounded-2xl bg-charcoal text-cream text-sm font-bold tracking-[0.2em] uppercase shadow-lg flex items-center justify-center gap-3 transition-all"
-              >
-                Activate Account 🌸
-              </motion.button>
-            ) : (
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                type="submit"
-                disabled={loading}
-                className="w-full py-5 rounded-2xl bg-rose-gold text-cream text-sm font-bold tracking-[0.2em] uppercase shadow-lg shadow-rose-gold/20 flex items-center justify-center gap-3 transition-all disabled:opacity-70"
-              >
-                {loading ? "Verifying..." : (
-                  <>
-                    Access Dashboard <ArrowRight size={18} />
-                  </>
-                )}
-              </motion.button>
-            )}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              type="submit"
+              disabled={loading}
+              className="w-full py-5 rounded-2xl bg-rose-gold text-cream text-sm font-bold tracking-[0.2em] uppercase shadow-lg shadow-rose-gold/20 flex items-center justify-center gap-3 transition-all disabled:opacity-70"
+            >
+              {loading ? "Verifying..." : (
+                <>
+                  {email === "rodinashaheen2005@gmail.com" ? "Access Dashboard" : "Access Dashboard"} <ArrowRight size={18} />
+                </>
+              )}
+            </motion.button>
           </form>
 
           <div className="mt-10 text-center">
