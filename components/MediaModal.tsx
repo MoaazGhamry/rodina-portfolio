@@ -64,33 +64,50 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                 />
               )}
 
-              {/* Curvy Arrow (Desktop Only) */}
-              <div className="hidden lg:block absolute -right-20 top-1/2 -translate-y-1/2 pointer-events-none">
+              {/* Curvy Arrow 1 (Desktop Only) */}
+              <div className="hidden lg:block absolute -right-20 top-1/4 -translate-y-1/2 pointer-events-none">
+                <motion.svg
+                  width="120"
+                  height="120"
+                  viewBox="0 0 100 100"
+                  fill="none"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 0.6 }}
+                  transition={{ duration: 1.2, delay: 0.6, ease: "easeInOut" }}
+                >
+                  <path
+                    d="M10,20 Q60,-10 90,40"
+                    stroke="#B8727D"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    markerEnd="url(#arrowhead)"
+                  />
+                </motion.svg>
+              </div>
+
+              {/* Curvy Arrow 2 (Desktop Only) */}
+              <div className="hidden lg:block absolute -right-16 bottom-1/4 translate-y-1/2 pointer-events-none">
                 <motion.svg
                   width="100"
                   height="100"
                   viewBox="0 0 100 100"
                   fill="none"
                   initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 1, delay: 0.5, ease: "easeInOut" }}
+                  animate={{ pathLength: 1, opacity: 0.4 }}
+                  transition={{ duration: 1, delay: 0.8, ease: "easeInOut" }}
                 >
                   <path
-                    d="M10,50 Q50,10 90,50"
+                    d="M10,80 Q40,100 80,60"
                     stroke="#B8727D"
-                    strokeWidth="2"
+                    strokeWidth="1.5"
                     strokeLinecap="round"
-                    markerEnd="url(#arrowhead)"
+                    markerEnd="url(#arrowhead2)"
                   />
                   <defs>
-                    <marker
-                      id="arrowhead"
-                      markerWidth="10"
-                      markerHeight="7"
-                      refX="0"
-                      refY="3.5"
-                      orient="auto"
-                    >
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                      <polygon points="0 0, 10 3.5, 0 7" fill="#B8727D" />
+                    </marker>
+                    <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
                       <polygon points="0 0, 10 3.5, 0 7" fill="#B8727D" />
                     </marker>
                   </defs>
@@ -107,6 +124,13 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                 className="w-full lg:w-80 flex-shrink-0 relative"
                 onClick={(e) => e.stopPropagation()}
               >
+                {/* Extra Lilies Background */}
+                <div className="absolute -top-12 -left-20 w-32 h-32 opacity-10 pointer-events-none rotate-45">
+                   <svg viewBox="0 0 24 24" fill="currentColor" className="text-cream w-full h-full">
+                      <path d="M12 2L14.5 9H21L15.5 13L18 20L12 15L6 20L8.5 13L3 9H9.5L12 2Z" />
+                   </svg>
+                </div>
+
                 {/* Floating Lily Decoration */}
                 <div className="absolute -top-6 -right-6 w-16 h-16 opacity-40 rotate-12 pointer-events-none">
                    <svg viewBox="0 0 24 24" fill="none" className="text-cream w-full h-full">
@@ -116,7 +140,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
 
                 <div className="bg-rose-gold/90 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl border border-white/20 text-left relative overflow-hidden">
                   {/* Subtle Pattern */}
-                  <div className="absolute inset-0 opacity-5 pointer-events-none flex items-center justify-center">
+                  <div className="absolute inset-0 opacity-10 pointer-events-none flex items-center justify-center">
                     <svg width="200" height="200" viewBox="0 0 100 100" fill="currentColor" className="text-white">
                       <path d="M50 10 C60 30 90 40 50 90 C10 40 40 30 50 10" />
                     </svg>
@@ -138,8 +162,8 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                 </div>
 
                 {/* Bottom Lily */}
-                <div className="absolute -bottom-4 -left-4 w-12 h-12 opacity-30 -rotate-12 pointer-events-none">
-                   <svg viewBox="0 0 24 24" fill="none" className="text-rose-gold w-full h-full">
+                <div className="absolute -bottom-10 -right-10 w-24 h-24 opacity-20 -rotate-12 pointer-events-none">
+                   <svg viewBox="0 0 24 24" fill="none" className="text-cream w-full h-full">
                       <path d="M12 2L14.5 9H21L15.5 13L18 20L12 15L6 20L8.5 13L3 9H9.5L12 2Z" fill="currentColor" />
                    </svg>
                 </div>
