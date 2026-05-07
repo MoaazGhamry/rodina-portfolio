@@ -59,10 +59,25 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
         { d: "M90,90 Q50,50 10,90", top: "5%", left: "10%", scale: 1.1 },
         { d: "M50,10 L50,90", bottom: "5%", right: "40%", scale: 0.9, rotate: 45 }
       ]
+    },
+    {
+      name: "Starburst",
+      arrows: [
+        { d: "M0,0 L100,100", top: "20%", right: "20%", scale: 1.2, rotate: -30 },
+        { d: "M100,0 L0,100", bottom: "20%", right: "20%", scale: 1.2, rotate: 30 },
+        { d: "M50,0 L50,100", top: "50%", right: "30%", scale: 1, rotate: 90 }
+      ]
+    },
+    {
+      name: "Orbit",
+      arrows: [
+        { d: "M10,50 A40,40 0 1,1 90,50", top: "5%", right: "5%", scale: 2 },
+        { d: "M90,50 A40,40 0 1,1 10,50", bottom: "5%", left: "5%", scale: 2 }
+      ]
     }
   ];
 
-  const currentMood = arrowMoods[layoutMode];
+  const currentMood = arrowMoods[layoutMode % arrowMoods.length];
 
   return (
     <AnimatePresence>
@@ -79,19 +94,19 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
              {/* Randomized Lilies */}
              <motion.div 
                animate={{ 
-                 y: layoutMode === 0 ? [0, -20, 0] : [0, 20, 0],
+                 y: layoutMode % 2 === 0 ? [0, -30, 0] : [0, 30, 0],
                  rotate: layoutMode === 1 ? [0, 360] : 0 
                }} 
                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-               className={`absolute w-48 h-48 ${layoutMode === 0 ? "top-10 left-10" : "bottom-10 right-1/4"}`}
+               className={`absolute w-48 h-48 ${layoutMode % 2 === 0 ? "top-10 left-10" : "bottom-10 right-1/4"}`}
              >
                 <svg viewBox="0 0 100 100" fill="#B8727D"><path d="M50 10 C60 30 90 40 50 90 C10 40 40 30 50 10" /></svg>
              </motion.div>
              
              <motion.div 
-               animate={{ scale: [1, 1.2, 1] }} 
-               transition={{ duration: 8, repeat: Infinity }}
-               className={`absolute w-64 h-64 ${layoutMode === 2 ? "top-1/4 right-10" : "bottom-20 left-20"}`}
+               animate={{ scale: [1, 1.3, 1], rotate: [0, -10, 0] }} 
+               transition={{ duration: 10, repeat: Infinity }}
+               className={`absolute w-72 h-72 ${layoutMode % 3 === 0 ? "top-1/4 right-10" : "bottom-20 left-20"}`}
              >
                 <svg viewBox="0 0 100 100" fill="#B8727D"><path d="M50 10 C60 30 90 40 50 90 C10 40 40 30 50 10" /></svg>
              </motion.div>
@@ -120,7 +135,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                     src={src}
                     alt={title || "Portfolio Item"}
                     fill
-                    className="object-contain"
+                    className="object-contain rounded-[3rem] shadow-2xl overflow-hidden"
                     sizes="100vw"
                     priority
                   />
@@ -132,7 +147,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                   autoPlay
                   loop
                   playsInline
-                  className="max-w-full max-h-full rounded-2xl shadow-2xl border border-white/10"
+                  className="max-w-full max-h-full rounded-[3rem] shadow-2xl border border-white/10"
                   onClick={(e) => e.stopPropagation()}
                 />
               )}
@@ -203,9 +218,9 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                 </div>
 
                 {/* Randomized Shapes Below Box */}
-                <div className={`absolute ${layoutMode === 1 ? "-top-12 -left-12" : "-bottom-12 -left-10"} w-32 h-32 opacity-10 pointer-events-none text-white transition-all duration-1000`}>
+                <div className={`absolute ${layoutMode % 2 === 1 ? "-top-12 -left-12" : "-bottom-12 -left-10"} w-32 h-32 opacity-10 pointer-events-none text-white transition-all duration-1000`}>
                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="5 5">
-                      <circle cx="50" cy="50" r={layoutMode === 0 ? 30 : 45} />
+                      <circle cx="50" cy="50" r={layoutMode % 2 === 0 ? 30 : 45} />
                       <path d="M0 50 L100 50 M50 0 L50 100" />
                    </svg>
                 </div>
