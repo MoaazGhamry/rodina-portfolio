@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,17 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: "#FDF8F5",
-        "blush-light": "#FAEEF2",
-        blush: "#F2C4CE",
+        cream: "var(--background)",
+        "blush-light": "var(--blush-light)",
+        blush: "var(--blush)",
         "blush-dark": "#DBA4B0",
         rose: "#C9848F",
         "rose-gold": "#B8727D",
         "rose-deep": "#8C4A54",
         beige: "#F0E0D3",
-        charcoal: "#2A2A2A",
-        "charcoal-light": "#4A4A4A",
-        muted: "#9A8A8A",
+        charcoal: "var(--foreground)",
+        "charcoal-light": "var(--foreground)",
+        muted: "#94A3B8",
       },
       fontFamily: {
         serif: ["var(--font-playfair)", "Georgia", "serif"],

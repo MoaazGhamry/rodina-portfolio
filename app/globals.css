@@ -3,22 +3,47 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: #FCF9F7;
+    --foreground: #2A2A2A;
+    --rose-gold: #B8727D;
+    --blush: #F2C4CE;
+    --blush-light: #FAEEF2;
+    --charcoal: #2A2A2A;
+    --cream: #FCF9F7;
+    --card-bg: rgba(253, 248, 245, 0.7);
+    --border: rgba(242, 196, 206, 0.3);
+  }
+
+  .dark {
+    --background: #121212;
+    --foreground: #F5F0ED;
+    --charcoal: #F5F0ED;
+    --cream: #121212;
+    --blush: #4A2B31;
+    --blush-light: #2D1F21;
+    --card-bg: rgba(30, 30, 30, 0.7);
+    --border: rgba(184, 114, 125, 0.2);
+  }
+
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-cream text-charcoal antialiased overflow-x-hidden;
+    @apply bg-cream text-charcoal antialiased transition-colors duration-500;
+    background-color: var(--background);
+    color: var(--foreground);
   }
 
   ::selection {
-    background-color: #F2C4CE;
-    color: #2A2A2A;
+    background-color: var(--blush);
+    color: var(--charcoal);
   }
 
   ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: #FDF8F5; }
-  ::-webkit-scrollbar-thumb { background: #B8727D; border-radius: 9999px; }
+  ::-webkit-scrollbar-track { background: var(--background); }
+  ::-webkit-scrollbar-thumb { background: var(--rose-gold); border-radius: 9999px; }
 }
 
 @layer utilities {
@@ -31,11 +56,17 @@
     background-clip: text;
   }
 
+  .dark .text-gradient-rose {
+    background: linear-gradient(135deg, #D4909C 0%, #E5B7C1 60%, #F2C4CE 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
   .glass-card {
-    background: rgba(253, 248, 245, 0.7);
+    background: var(--card-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(242, 196, 206, 0.3);
+    border: 1px solid var(--border);
   }
 
   .section-divider {
