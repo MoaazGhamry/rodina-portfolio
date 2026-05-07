@@ -7,7 +7,7 @@ import { Play, Pause } from "lucide-react";
 const videos = [
   {
     id: 1,
-    src: "/IMG_7676.mp4",
+    src: "https://res.cloudinary.com/dhoqtr0se/video/upload/v1778162700/IMG_7676_g8yvh2.mov",
     title: "Cinematic Night Vibes",
     description: "Theme Park after dark — atmospheric edits capturing the magic of illuminated wonderlands.",
     tag: "Dynamic Cuts & Color Grading",
@@ -15,7 +15,7 @@ const videos = [
   },
   {
     id: 2,
-    src: "/IMG_7677.mp4",
+    src: "https://res.cloudinary.com/dhoqtr0se/video/upload/v1778162483/IMG_7677_xlbdt2.mov",
     title: "Navy Elegance",
     description: "Fashion-forward outfit showcase — beat-synced transitions that make every frame count.",
     tag: "Beat-Synced Fashion Reels",
@@ -23,7 +23,7 @@ const videos = [
   },
   {
     id: 3,
-    src: "/IMG_7721.mp4",
+    src: "https://res.cloudinary.com/dhoqtr0se/video/upload/v1778162448/IMG_7721_aspgne.mov",
     title: "Winter Streetwear",
     description: "Lifestyle & streetwear vibes — cool tones, crisp edits, and serious winter energy.",
     tag: "Lifestyle & Aesthetic Edits",
@@ -31,7 +31,7 @@ const videos = [
   },
   {
     id: 4,
-    src: "/IMG_7723.mp4",
+    src: "https://res.cloudinary.com/dhoqtr0se/video/upload/v1778162493/IMG_7723_vpfzyf.mov",
     title: "Aesthetic Showcase",
     description: "Product and accessory highlight reels — close-up glory with cinematic finesse.",
     tag: "Product Cinematography",
