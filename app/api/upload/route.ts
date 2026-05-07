@@ -9,14 +9,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    // Using a verified Professional Cloudinary Bridge (Configured for Rodina Portfolio)
-    // Cloud Name: dyy8g5xqc (Authorized for this project)
-    const cloudinaryUrl = `https://api.cloudinary.com/v1_1/dyy8g5xqc/auto/upload`;
+    // Using YOUR Personal Cloudinary Account! 🌟
+    // Cloud Name: dhoqtr0se
+    // Preset: mrpt3x4r
+    const cloudinaryUrl = `https://api.cloudinary.com/v1_1/dhoqtr0se/auto/upload`;
     
     const cloudFormData = new FormData();
     cloudFormData.append("file", file);
-    cloudFormData.append("upload_preset", "rodina_unsigned"); // Authorized preset
-    cloudFormData.append("folder", "rodina_portfolio");
+    cloudFormData.append("upload_preset", "mrpt3x4r"); 
+    cloudFormData.append("folder", "portfolio");
 
     const response = await fetch(cloudinaryUrl, {
       method: "POST",
@@ -25,14 +26,14 @@ export async function POST(request: Request) {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(`Upload Engine Error: ${errorData.error?.message || "Internal failure"}`);
+      throw new Error(`Cloudinary Error: ${errorData.error?.message || "Upload failed"}`);
     }
 
     const data = await response.json();
     
     return NextResponse.json({ url: data.secure_url });
   } catch (error: any) {
-    console.error("Upload Bridge Error:", error);
+    console.error("Cloudinary Upload Error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
