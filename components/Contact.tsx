@@ -58,10 +58,10 @@ export default function Contact() {
   });
 
   return (
-    <section id="contact" className="py-24 md:py-32 bg-blush-light/40 relative overflow-hidden">
+    <section id="contact" className="py-24 md:py-32 bg-blush-light/40 dark:bg-charcoal/50 relative overflow-hidden transition-colors duration-500">
       {/* Background orb */}
-      <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-blush/25 blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-beige/40 blur-3xl pointer-events-none" />
+      <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-blush/25 dark:bg-rose-gold/5 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-beige/40 dark:bg-rose-gold/10 blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-6" ref={ref}>
         {/* Heading */}
@@ -74,7 +74,7 @@ export default function Contact() {
           <p className="text-xs tracking-[0.3em] uppercase text-rose-gold font-medium mb-3">
             Get in Touch
           </p>
-          <h2 className="font-serif-custom text-4xl md:text-5xl font-bold text-charcoal mb-4">
+          <h2 className="font-serif-custom text-4xl md:text-5xl font-bold text-charcoal dark:text-cream mb-4 transition-colors">
             Let&apos;s Create Something{" "}
             <span className="text-gradient-rose italic">Beautiful Together.</span>
           </h2>
@@ -103,7 +103,7 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   whileHover={{ x: 6 }}
                   transition={{ duration: 0.2 }}
-                  className="flex items-center gap-4 p-4 rounded-2xl glass-card hover:shadow-md transition-shadow group"
+                  className="flex items-center gap-4 p-4 rounded-2xl glass-card bg-white/50 dark:bg-white/5 border border-blush/20 dark:border-white/10 hover:shadow-md transition-all group"
                 >
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center text-cream flex-shrink-0 transition-transform group-hover:scale-110"
@@ -111,10 +111,10 @@ export default function Contact() {
                   >
                     {s.icon}
                   </div>
-                  <span className="text-sm font-medium text-charcoal tracking-wide">
+                  <span className="text-sm font-medium text-charcoal dark:text-cream tracking-wide transition-colors">
                     {s.label}
                   </span>
-                  <span className="ml-auto text-muted text-xs tracking-widest uppercase">
+                  <span className="ml-auto text-muted dark:text-cream/40 text-xs tracking-widest uppercase transition-colors">
                     Follow →
                   </span>
                 </motion.a>
@@ -137,20 +137,20 @@ export default function Contact() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center justify-center text-center py-16 glass-card rounded-3xl"
+                className="flex flex-col items-center justify-center text-center py-16 glass-card bg-white/50 dark:bg-charcoal/80 border border-blush/20 dark:border-white/10 rounded-3xl"
               >
                 <CheckCircle size={48} className="text-rose-gold mb-4" />
-                <h3 className="font-serif-custom text-2xl font-bold text-charcoal mb-2">
+                <h3 className="font-serif-custom text-2xl font-bold text-charcoal dark:text-cream mb-2">
                   Message Sent! 🌸
                 </h3>
-                <p className="text-muted text-sm">
+                <p className="text-muted dark:text-cream/50 text-sm">
                   Thank you! I&apos;ll get back to you shortly.
                 </p>
               </motion.div>
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="glass-card rounded-3xl p-8 space-y-5 shadow-lg"
+                className="glass-card bg-white/60 dark:bg-charcoal/80 border border-blush/20 dark:border-white/10 rounded-3xl p-8 space-y-5 shadow-lg transition-colors duration-500"
               >
                 {[
                   { id: "name", label: "Your Name", type: "text", placeholder: "Jane Smith" },
@@ -159,7 +159,7 @@ export default function Contact() {
                   <div key={f.id}>
                     <label
                       htmlFor={f.id}
-                      className="block text-xs tracking-widest uppercase text-muted mb-2 font-medium"
+                      className="block text-xs tracking-widest uppercase text-muted dark:text-cream/60 mb-2 font-medium transition-colors"
                     >
                       {f.label}
                     </label>
@@ -169,7 +169,7 @@ export default function Contact() {
                       type={f.type}
                       required
                       placeholder={f.placeholder}
-                      className="w-full px-4 py-3 rounded-xl border border-blush/50 bg-cream/80 text-charcoal text-sm placeholder-muted/60 focus:outline-none focus:border-rose-gold focus:ring-2 focus:ring-rose-gold/20 transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-blush/40 dark:border-white/10 bg-cream/50 dark:bg-white/5 text-charcoal dark:text-cream text-sm placeholder:text-muted/40 dark:placeholder:text-cream/20 focus:outline-none focus:border-rose-gold focus:ring-2 focus:ring-rose-gold/20 transition-all"
                     />
                   </div>
                 ))}
@@ -177,7 +177,7 @@ export default function Contact() {
                 <div>
                   <label
                     htmlFor="project"
-                    className="block text-xs tracking-widest uppercase text-muted mb-2 font-medium"
+                    className="block text-xs tracking-widest uppercase text-muted dark:text-cream/60 mb-2 font-medium transition-colors"
                   >
                     Project Details
                   </label>
@@ -187,7 +187,7 @@ export default function Contact() {
                     required
                     rows={4}
                     placeholder="Tell me about your vision — what kind of edit or shoot are you looking for?"
-                    className="w-full px-4 py-3 rounded-xl border border-blush/50 bg-cream/80 text-charcoal text-sm placeholder-muted/60 focus:outline-none focus:border-rose-gold focus:ring-2 focus:ring-rose-gold/20 transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-blush/40 dark:border-white/10 bg-cream/50 dark:bg-white/5 text-charcoal dark:text-cream text-sm placeholder:text-muted/40 dark:placeholder:text-cream/20 focus:outline-none focus:border-rose-gold focus:ring-2 focus:ring-rose-gold/20 transition-all resize-none"
                   />
                 </div>
 

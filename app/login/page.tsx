@@ -58,11 +58,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-cream flex items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-cream dark:bg-charcoal flex items-center justify-center p-6 relative overflow-hidden transition-colors duration-500">
       {/* Background elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-blush/40 blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-beige/60 blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-beige/60 dark:bg-rose-gold/10 blur-3xl" />
       </div>
 
       <motion.div
@@ -70,22 +70,22 @@ export default function LoginPage() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md relative z-10"
       >
-        <div className="glass-card rounded-[2.5rem] p-10 shadow-2xl border border-blush/30 bg-cream/80 backdrop-blur-xl">
+        <div className="glass-card rounded-[2.5rem] p-10 shadow-2xl border border-blush/30 dark:border-white/10 bg-cream/80 dark:bg-charcoal/80 backdrop-blur-xl transition-colors duration-500">
           <div className="text-center mb-10">
             <div className="w-16 h-16 rounded-3xl bg-rose-gold flex items-center justify-center text-cream mx-auto mb-6 shadow-lg shadow-rose-gold/20">
               <Lock size={28} />
             </div>
-            <h1 className="font-serif-custom text-3xl font-bold text-charcoal mb-2 italic">
+            <h1 className="font-serif-custom text-3xl font-bold text-charcoal dark:text-cream mb-2 italic transition-colors">
               Hello, Rodina 🌸
             </h1>
-            <p className="text-muted text-sm tracking-widest uppercase">
+            <p className="text-muted dark:text-cream/50 text-sm tracking-widest uppercase transition-colors">
               Enter your credentials to manage your gallery
             </p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">
+              <label className="block text-[10px] tracking-[0.2em] uppercase text-muted dark:text-cream/60 mb-2 font-bold transition-colors">
                 Email Address
               </label>
               <div className="relative">
@@ -94,7 +94,7 @@ export default function LoginPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 rounded-2xl border border-blush/40 bg-cream/50 text-charcoal text-sm focus:outline-none focus:border-rose-gold focus:ring-4 focus:ring-rose-gold/5 transition-all"
+                  className="w-full pl-12 pr-4 py-4 rounded-2xl border border-blush/40 dark:border-white/10 bg-cream/50 dark:bg-white/5 text-charcoal dark:text-cream text-sm focus:outline-none focus:border-rose-gold focus:ring-4 focus:ring-rose-gold/10 transition-all placeholder:text-muted/40 dark:placeholder:text-cream/20"
                   placeholder="rodina@example.com"
                   required
                 />
@@ -102,7 +102,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">
+              <label className="block text-[10px] tracking-[0.2em] uppercase text-muted dark:text-cream/60 mb-2 font-bold transition-colors">
                 Secret Password
               </label>
               <div className="relative">
@@ -111,7 +111,7 @@ export default function LoginPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 rounded-2xl border border-blush/40 bg-cream/50 text-charcoal text-sm focus:outline-none focus:border-rose-gold focus:ring-4 focus:ring-rose-gold/5 transition-all"
+                  className="w-full pl-12 pr-4 py-4 rounded-2xl border border-blush/40 dark:border-white/10 bg-cream/50 dark:bg-white/5 text-charcoal dark:text-cream text-sm focus:outline-none focus:border-rose-gold focus:ring-4 focus:ring-rose-gold/10 transition-all placeholder:text-muted/40 dark:placeholder:text-cream/20"
                   placeholder="••••••••"
                   required
                 />
@@ -119,7 +119,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={handleResetPassword}
-                className="block mt-2 text-[10px] text-muted hover:text-rose-gold transition-colors tracking-widest uppercase font-bold text-right w-full"
+                className="block mt-2 text-[10px] text-muted dark:text-cream/50 hover:text-rose-gold transition-colors tracking-widest uppercase font-bold text-right w-full"
               >
                 Forgot Secret?
               </button>
@@ -151,7 +151,7 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-10 text-center">
-            <a href="/" className="text-muted hover:text-rose-gold text-xs transition-colors tracking-widest uppercase">
+            <a href="/" className="text-muted dark:text-cream/50 hover:text-rose-gold text-xs transition-colors tracking-widest uppercase">
               ← Return to Portfolio
             </a>
           </div>
