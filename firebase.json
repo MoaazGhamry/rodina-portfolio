@@ -1,7 +1,11 @@
 {
   "auth": {
     "providers": {
-      "emailPassword": true
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Rodina Portfolio",
+        "supportEmail": "moaaz.1.mohamed@gmail.com"
+      }
     }
   },
   "firestore": {

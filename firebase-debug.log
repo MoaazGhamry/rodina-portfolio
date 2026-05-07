@@ -1,0 +1,22 @@
+[debug] [2026-05-07T17:07:07.274Z] ----------------------------------------------------------------------
+[debug] [2026-05-07T17:07:07.276Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moaaz Mohamed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js auth:import users.json --project rodina-portfolio-admin-f0b1c
+[debug] [2026-05-07T17:07:07.276Z] CLI Version:   15.11.0
+[debug] [2026-05-07T17:07:07.276Z] Platform:      win32
+[debug] [2026-05-07T17:07:07.277Z] Node Version:  v24.11.1
+[debug] [2026-05-07T17:07:07.277Z] Time:          Thu May 07 2026 20:07:07 GMT+0300 (Eastern European Summer Time)
+[debug] [2026-05-07T17:07:07.277Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-05-07T17:07:07.419Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-05-07T17:07:07.420Z] > authorizing via signed-in user (moaaz.1.mohamed@gmail.com)
+[debug] [2026-05-07T17:07:07.420Z] [iam] checking project rodina-portfolio-admin-f0b1c for permissions ["firebase.projects.get","firebaseauth.users.create","firebaseauth.users.update"]
+[debug] [2026-05-07T17:07:07.421Z] Checked if tokens are valid: true, expires at: 1778176617599
+[debug] [2026-05-07T17:07:07.421Z] Checked if tokens are valid: true, expires at: 1778176617599
+[debug] [2026-05-07T17:07:07.421Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/rodina-portfolio-admin-f0b1c:testIamPermissions [none]
+[debug] [2026-05-07T17:07:07.421Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/rodina-portfolio-admin-f0b1c:testIamPermissions  x-goog-user-project=rodina-portfolio-admin-f0b1c
+[debug] [2026-05-07T17:07:07.421Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/rodina-portfolio-admin-f0b1c:testIamPermissions {"permissions":["firebase.projects.get","firebaseauth.users.create","firebaseauth.users.update"]}
+[debug] [2026-05-07T17:07:08.381Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/rodina-portfolio-admin-f0b1c:testIamPermissions 200
+[debug] [2026-05-07T17:07:08.382Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/rodina-portfolio-admin-f0b1c:testIamPermissions {"permissions":["firebase.projects.get","firebaseauth.users.create","firebaseauth.users.update"]}
+[warn] !  No hash algorithm specified. Password users cannot be imported. 
+[debug] [2026-05-07T17:07:08.638Z] Error: ENOENT: no such file or directory, stat 'D:\Portfolio\users.json'
+[error] 
+[error] Error: An unexpected error has occurred.
