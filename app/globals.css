@@ -3,66 +3,45 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --bg-cream: 252, 249, 247;
-    --text-charcoal: 42, 42, 42;
-    --text-muted: 107, 114, 128;
-    --rose-gold: 184, 114, 125;
-    --blush: 242, 180, 195;
-    --charcoal-light: 61, 61, 61;
-  }
-
-  .dark {
-    --bg-cream: 18, 18, 18;
-    --text-charcoal: 245, 245, 245;
-    --text-muted: 160, 160, 160;
-    --rose-gold: 219, 164, 176;
-    --blush: 42, 42, 42;
-    --charcoal-light: 224, 224, 224;
-  }
-
   html {
     scroll-behavior: smooth;
-    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   body {
-    background-color: rgb(var(--bg-cream));
-    color: rgb(var(--text-charcoal));
-    @apply antialiased overflow-x-hidden;
+    @apply bg-cream text-charcoal antialiased overflow-x-hidden;
   }
 
   ::selection {
-    background-color: rgba(var(--blush), 0.5);
-    color: rgb(var(--text-charcoal));
+    background-color: #F2C4CE;
+    color: #2A2A2A;
   }
 
   ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: rgb(var(--bg-cream)); }
-  ::-webkit-scrollbar-thumb { background: rgb(var(--rose-gold)); border-radius: 9999px; }
+  ::-webkit-scrollbar-track { background: #FDF8F5; }
+  ::-webkit-scrollbar-thumb { background: #B8727D; border-radius: 9999px; }
 }
 
 @layer utilities {
   .font-serif-custom { font-family: var(--font-playfair), Georgia, serif; }
 
   .text-gradient-rose {
-    background: linear-gradient(135deg, rgb(var(--rose-gold)) 0%, #DBA4B0 60%, rgb(var(--blush)) 100%);
+    background: linear-gradient(135deg, #B8727D 0%, #DBA4B0 60%, #F2C4CE 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .glass-card {
-    background: rgba(var(--bg-cream), 0.7);
+    background: rgba(253, 248, 245, 0.7);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(var(--rose-gold), 0.3);
+    border: 1px solid rgba(242, 196, 206, 0.3);
   }
 
   .section-divider {
     width: 60px;
     height: 2px;
-    background: linear-gradient(90deg, rgb(var(--rose-gold)), rgb(var(--blush)));
+    background: linear-gradient(90deg, #B8727D, #F2C4CE);
     border-radius: 9999px;
   }
 }
