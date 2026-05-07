@@ -63,6 +63,39 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                   onClick={(e) => e.stopPropagation()}
                 />
               )}
+
+              {/* Curvy Arrow (Desktop Only) */}
+              <div className="hidden lg:block absolute -right-20 top-1/2 -translate-y-1/2 pointer-events-none">
+                <motion.svg
+                  width="100"
+                  height="100"
+                  viewBox="0 0 100 100"
+                  fill="none"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 1, delay: 0.5, ease: "easeInOut" }}
+                >
+                  <path
+                    d="M10,50 Q50,10 90,50"
+                    stroke="#B8727D"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    markerEnd="url(#arrowhead)"
+                  />
+                  <defs>
+                    <marker
+                      id="arrowhead"
+                      markerWidth="10"
+                      markerHeight="7"
+                      refX="0"
+                      refY="3.5"
+                      orient="auto"
+                    >
+                      <polygon points="0 0, 10 3.5, 0 7" fill="#B8727D" />
+                    </marker>
+                  </defs>
+                </motion.svg>
+              </div>
             </div>
 
             {/* Pink Info Box */}
@@ -71,10 +104,24 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                 initial={{ x: 20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="w-full lg:w-80 flex-shrink-0"
+                className="w-full lg:w-80 flex-shrink-0 relative"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="bg-rose-gold/90 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl border border-white/20 text-left">
+                {/* Floating Lily Decoration */}
+                <div className="absolute -top-6 -right-6 w-16 h-16 opacity-40 rotate-12 pointer-events-none">
+                   <svg viewBox="0 0 24 24" fill="none" className="text-cream w-full h-full">
+                      <path d="M12 2L14.5 9H21L15.5 13L18 20L12 15L6 20L8.5 13L3 9H9.5L12 2Z" fill="currentColor" />
+                   </svg>
+                </div>
+
+                <div className="bg-rose-gold/90 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl border border-white/20 text-left relative overflow-hidden">
+                  {/* Subtle Pattern */}
+                  <div className="absolute inset-0 opacity-5 pointer-events-none flex items-center justify-center">
+                    <svg width="200" height="200" viewBox="0 0 100 100" fill="currentColor" className="text-white">
+                      <path d="M50 10 C60 30 90 40 50 90 C10 40 40 30 50 10" />
+                    </svg>
+                  </div>
+
                   <div className="w-10 h-1px bg-cream/40 mb-6" />
                   <h3 className="font-serif-custom text-2xl md:text-3xl font-bold text-cream mb-4 italic leading-tight">
                     {title}
@@ -82,9 +129,19 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                   <p className="text-cream/90 text-sm md:text-base leading-relaxed font-medium">
                     {description}
                   </p>
-                  <div className="mt-8 pt-6 border-t border-white/10">
+                  <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
                     <p className="text-[10px] tracking-[0.3em] uppercase text-cream/50 font-bold">Project Details</p>
+                    <div className="w-5 h-5 text-cream/30">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                    </div>
                   </div>
+                </div>
+
+                {/* Bottom Lily */}
+                <div className="absolute -bottom-4 -left-4 w-12 h-12 opacity-30 -rotate-12 pointer-events-none">
+                   <svg viewBox="0 0 24 24" fill="none" className="text-rose-gold w-full h-full">
+                      <path d="M12 2L14.5 9H21L15.5 13L18 20L12 15L6 20L8.5 13L3 9H9.5L12 2Z" fill="currentColor" />
+                   </svg>
                 </div>
               </motion.div>
             )}
