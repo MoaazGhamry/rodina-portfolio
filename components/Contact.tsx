@@ -74,9 +74,9 @@ export default function Contact() {
           <p className="text-xs tracking-[0.3em] uppercase text-rose-gold font-medium mb-3">
             Get in Touch
           </p>
-          <h2 className="font-serif-custom text-4xl md:text-5xl font-bold text-charcoal dark:text-cream mb-4 transition-colors">
+          <h2 className="font-serif-custom text-4xl md:text-5xl font-bold text-charcoal dark:text-white mb-4 transition-colors">
             Let&apos;s Create Something{" "}
-            <span className="text-gradient-rose italic">Beautiful Together.</span>
+            <span className="text-gradient-rose italic drop-shadow-[0_0_15px_rgba(184,114,125,0.3)]">Beautiful Together.</span>
           </h2>
           <div className="section-divider mx-auto" />
         </motion.div>
@@ -88,7 +88,7 @@ export default function Contact() {
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
           >
-            <p className="text-charcoal-light/80 leading-relaxed mb-8 text-[15px]">
+            <p className="text-charcoal-light/80 dark:text-cream/70 leading-relaxed mb-8 text-[15px] transition-colors">
               Whether you need a cinematic reel, a lifestyle edit, or photography
               for your brand — I&apos;d love to collaborate. Reach out and let&apos;s
               bring your vision to life.
@@ -101,20 +101,23 @@ export default function Contact() {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ x: 6 }}
+                  whileHover={{ x: 6, scale: 1.01 }}
                   transition={{ duration: 0.2 }}
-                  className="flex items-center gap-4 p-4 rounded-2xl glass-card bg-white/50 dark:bg-white/5 border border-blush/20 dark:border-white/10 hover:shadow-md transition-all group"
+                  className="flex items-center gap-4 p-4 rounded-2xl glass-card bg-white/50 dark:bg-white/10 border border-blush/20 dark:border-white/10 hover:shadow-xl transition-all group"
                 >
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-cream flex-shrink-0 transition-transform group-hover:scale-110"
-                    style={{ background: s.color }}
+                    className="w-10 h-10 rounded-xl flex items-center justify-center text-cream flex-shrink-0 transition-all group-hover:scale-110 shadow-lg"
+                    style={{ 
+                      background: s.color,
+                      boxShadow: `0 4px 15px ${s.color}40`
+                    }}
                   >
                     {s.icon}
                   </div>
-                  <span className="text-sm font-medium text-charcoal dark:text-cream tracking-wide transition-colors">
+                  <span className="text-sm font-bold text-charcoal dark:text-white tracking-wide transition-colors">
                     {s.label}
                   </span>
-                  <span className="ml-auto text-muted dark:text-cream/40 text-xs tracking-widest uppercase transition-colors">
+                  <span className="ml-auto text-muted dark:text-white/40 text-[10px] tracking-[0.2em] uppercase transition-colors">
                     Follow →
                   </span>
                 </motion.a>
