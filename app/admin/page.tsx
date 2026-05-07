@@ -69,9 +69,22 @@ export default function AdminPage() {
 
     try {
       const folder = activeTab === "photos" ? "gallery" : activeTab === "videos" ? "videos" : "hero";
-      const storageRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
-      await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(storageRef);
+      
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("folder", folder);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Upload failed");
+      }
+
+      const { url } = await response.json();
       setNewFile(prev => ({ ...prev, src: url }));
       clearTimeout(timeoutId);
     } catch (err: any) {
