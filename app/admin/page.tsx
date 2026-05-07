@@ -48,7 +48,6 @@ export default function AdminPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Show local preview immediately to bypass CORS issues
     const localUrl = URL.createObjectURL(file);
     setNewFile({ ...newFile, src: localUrl });
 
@@ -58,10 +57,10 @@ export default function AdminPage() {
       const storageRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
       await uploadBytes(storageRef, file);
       const url = await getDownloadURL(storageRef);
-      // Once uploaded, use the permanent URL
       setNewFile(prev => ({ ...prev, src: url }));
-    } catch (err) {
+    } catch (err: any) {
       console.error("Upload failed:", err);
+      alert("Upload failed: " + err.message);
     } finally {
       setUploading(false);
     }
@@ -69,13 +68,21 @@ export default function AdminPage() {
 
   const handleSave = async () => {
     if (!newFile.src || !newFile.title) return;
-    if (activeTab === "photos") {
-      await addPhoto({ title: newFile.title, description: newFile.description, src: newFile.src, span: newFile.span });
-    } else {
-      await addVideo({ title: newFile.title, description: newFile.description, src: newFile.src, tag: newFile.tag, accent: newFile.accent });
+    setUploading(true); // Reuse uploading state for saving too
+    try {
+      if (activeTab === "photos") {
+        await addPhoto({ title: newFile.title, description: newFile.description, src: newFile.src, span: newFile.span });
+      } else {
+        await addVideo({ title: newFile.title, description: newFile.description, src: newFile.src, tag: newFile.tag, accent: newFile.accent });
+      }
+      setNewFile({ title: "", description: "", src: "", span: "", tag: "", accent: "#B8727D" });
+      setIsAdding(false);
+    } catch (err: any) {
+      console.error("Save failed:", err);
+      alert("Save failed: " + err.message);
+    } finally {
+      setUploading(false);
     }
-    setNewFile({ title: "", description: "", src: "", span: "", tag: "", accent: "#B8727D" });
-    setIsAdding(false);
   };
 
   if (authLoading) return null;
