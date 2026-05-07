@@ -53,15 +53,15 @@ const Flower = ({
       initial={{ opacity: 0, y: 200, rotate: 0 }}
       animate={{ 
         opacity: [0, 1, 1, 0],
-        y: [0, -1200], 
-        x: type === "lily" ? [0, 80, -80, 0] : [0, 50, -50, 0], // Larger sway for lilies
-        rotate: type === "lily" ? [0, 15, -15, 0] : [0, 90, -90, 360], // Sway instead of full rotate for lilies
+        y: type === "lily" ? [0, -1200] : [0, -1000], 
+        x: type === "lily" ? [0, 300] : [0, -200], // Diagonal 'flying' motion
+        rotate: type === "lily" ? [0, 15, -15, 45] : [0, 90, -90, 360],
       }}
       transition={{ 
-        duration: type === "lily" ? duration * 1.2 : duration, // Lilies move slower and more gracefully
+        duration: type === "lily" ? duration * 0.8 : duration, // Lilies fly a bit faster
         delay, 
         repeat: Infinity, 
-        ease: "easeInOut" 
+        ease: "linear" // Linear for a constant 'flying' feel
       }}
     >
       {icons[type]}

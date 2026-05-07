@@ -34,6 +34,9 @@ export const metadata: Metadata = {
       "Freelance Video Editor & Photographer crafting cinematic stories with passion.",
     type: "website",
   },
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

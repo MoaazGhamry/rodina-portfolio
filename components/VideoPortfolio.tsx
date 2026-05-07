@@ -121,12 +121,12 @@ export default function VideoPortfolio() {
           <div className="section-divider mx-auto mb-5" />
           <p className="text-sm text-muted max-w-lg mx-auto leading-relaxed">
             From cinematic color grades to beat-synced reels — each edit is a
-            carefully composed visual story. Tap to play.
+            carefully composed visual story.
           </p>
         </motion.div>
 
-        {/* 2×2 Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+        {/* Video Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {videos.map((v, i) => (
             <VideoCard key={v.id} v={v} index={i} />
           ))}
