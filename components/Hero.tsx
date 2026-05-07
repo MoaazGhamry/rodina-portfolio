@@ -49,7 +49,7 @@ export default function Hero() {
             height: orb.size,
             left: orb.x,
             top: orb.y,
-            background: `radial-gradient(circle at 40% 40%, rgb(var(--rose-gold) / 0.3), transparent 80%)`,
+            background: `radial-gradient(circle at 40% 40%, rgb(var(--blush) / 0.4), transparent 80%)`,
             filter: "blur(50px)",
           }}
           animate={{
