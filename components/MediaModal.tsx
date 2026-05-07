@@ -37,10 +37,11 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full h-full max-w-6xl flex flex-col items-center justify-center pointer-events-none"
+            className="relative w-full h-full max-w-7xl flex flex-col lg:flex-row items-center justify-center gap-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative w-full h-full flex items-center justify-center pointer-events-auto">
+            {/* Media Container */}
+            <div className="relative flex-1 w-full h-full flex items-center justify-center min-h-0">
               {type === "image" ? (
                 <div className="relative w-full h-full">
                   <Image
@@ -59,23 +60,32 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                   autoPlay
                   loop
                   playsInline
-                  className="max-w-full max-h-full rounded-lg shadow-2xl"
+                  className="max-w-full max-h-full rounded-2xl shadow-2xl border border-white/10"
                 />
               )}
             </div>
 
-            {/* Info Overlay */}
+            {/* Pink Info Box */}
             {(title || description) && (
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-2xl p-8 text-center pointer-events-none">
-                <div className="bg-charcoal/40 backdrop-blur-md rounded-2xl p-6 border border-white/10">
-                  <h3 className="font-serif-custom text-2xl font-bold text-cream mb-2 italic">
+              <motion.div 
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="w-full lg:w-80 flex-shrink-0"
+              >
+                <div className="bg-rose-gold/90 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl border border-white/20 text-left">
+                  <div className="w-10 h-1px bg-cream/40 mb-6" />
+                  <h3 className="font-serif-custom text-2xl md:text-3xl font-bold text-cream mb-4 italic leading-tight">
                     {title}
                   </h3>
-                  <p className="text-cream/70 text-sm leading-relaxed">
+                  <p className="text-cream/90 text-sm md:text-base leading-relaxed font-medium">
                     {description}
                   </p>
+                  <div className="mt-8 pt-6 border-t border-white/10">
+                    <p className="text-[10px] tracking-[0.3em] uppercase text-cream/50 font-bold">Project Details</p>
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             )}
           </motion.div>
         </motion.div>
