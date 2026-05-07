@@ -1,8 +1,7 @@
-"use client";
-
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const fadeUp = (delay = 0) => ({
   hidden: { opacity: 0, y: 35 },
@@ -21,9 +20,21 @@ const skills = [
   "Cinematic Edits", "Adobe Premiere", "CapCut",
 ];
 
+const galleryImages = [
+  "/6044320691735170420_121.jpg",
+  "/6044320691735170421_121.jpg",
+  "/6044320691735170422_121.jpg",
+  "/6044320691735170423_121.jpg",
+  "/6044320691735170424_121.jpg",
+];
+
 export default function About() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
+  const [imgIndex, setImgIndex] = useState(0);
+
+  const nextImg = () => setImgIndex((prev) => (prev + 1) % galleryImages.length);
+  const prevImg = () => setImgIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
 
   return (
     <section id="about" ref={ref} className="py-24 md:py-32 bg-cream overflow-hidden">
@@ -107,42 +118,84 @@ export default function About() {
             </motion.div>
           </div>
 
-          {/* Right — Portrait */}
+          {/* Right — Swipeable Gallery */}
           <motion.div
             variants={{ hidden: { opacity: 0, x: 50 }, visible: { opacity: 1, x: 0, transition: { duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] } } }}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="relative flex justify-center"
+            className="relative flex justify-center group"
           >
             {/* Decorative blobs */}
             <div className="absolute -top-8 -right-8 w-64 h-64 rounded-full bg-blush/30 blur-3xl pointer-events-none" />
             <div className="absolute -bottom-8 -left-8 w-48 h-48 rounded-full bg-beige/60 blur-2xl pointer-events-none" />
 
             {/* Frame */}
-            <div className="relative w-72 h-96 sm:w-80 sm:h-[420px]">
+            <div className="relative w-72 h-96 sm:w-80 sm:h-[420px] select-none">
               {/* Rose-gold border offset */}
               <div className="absolute inset-0 rounded-[2.5rem] border-2 border-rose-gold/40 translate-x-4 translate-y-4" />
-              {/* Photo card */}
+              
+              {/* Photo card with Swipe Logic */}
               <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-rose-gold/10 bg-beige">
-                <Image
-                  src="/6044320691735170420_121.jpg"
-                  alt="Rodina Hany Shaheen — Portrait"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 288px, 320px"
-                  priority
-                />
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-rose-deep/20 via-transparent to-transparent" />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={imgIndex}
+                    initial={{ x: 300, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: -300, opacity: 0 }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    onDragEnd={(e, { offset, velocity }) => {
+                      if (offset.x > 100) prevImg();
+                      else if (offset.x < -100) nextImg();
+                    }}
+                    className="absolute inset-0 cursor-grab active:cursor-grabbing"
+                  >
+                    <Image
+                      src={galleryImages[imgIndex]}
+                      alt={`Rodina Portrait ${imgIndex + 1}`}
+                      fill
+                      className="object-cover pointer-events-none"
+                      sizes="(max-width: 640px) 288px, 320px"
+                      priority
+                    />
+                    {/* Overlay gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-rose-deep/20 via-transparent to-transparent pointer-events-none" />
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Swipe Indicators */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                  {galleryImages.map((_, i) => (
+                    <div
+                      key={i}
+                      className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === imgIndex ? "bg-cream w-4" : "bg-cream/40"}`}
+                    />
+                  ))}
+                </div>
               </div>
+
+              {/* Navigation Arrows */}
+              <button
+                onClick={prevImg}
+                className="absolute left-[-20px] top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-cream/90 shadow-md flex items-center justify-center text-rose-gold hover:bg-rose-gold hover:text-cream transition-all z-20 opacity-0 group-hover:opacity-100"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button
+                onClick={nextImg}
+                className="absolute right-[-20px] top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-cream/90 shadow-md flex items-center justify-center text-rose-gold hover:bg-rose-gold hover:text-cream transition-all z-20 opacity-0 group-hover:opacity-100"
+              >
+                <ChevronRight size={20} />
+              </button>
 
               {/* Floating badge */}
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                className="absolute -bottom-5 -left-6 glass-card rounded-2xl px-5 py-3 shadow-lg"
+                className="absolute -bottom-5 -left-10 glass-card rounded-2xl px-5 py-3 shadow-lg z-20"
               >
-                <p className="text-xs tracking-widest uppercase text-muted mb-0.5">Based in</p>
+                <p className="text-[10px] tracking-widest uppercase text-muted mb-0.5 font-bold">Swipe Me</p>
                 <p className="text-sm font-semibold text-charcoal">Cairo, Egypt 🌸</p>
               </motion.div>
             </div>

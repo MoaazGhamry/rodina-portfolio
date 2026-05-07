@@ -63,6 +63,21 @@ export default function Hero() {
         }}
       />
 
+      {/* Hero Floral Accents */}
+      <div className="absolute top-20 right-10 text-rose-gold/20 -rotate-12 pointer-events-none hidden md:block">
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.5">
+          <path d="M12 22V12" />
+          <path d="M12 12C12 12 19 10 20 7C21 4 18 3 15 5C12 7 12 12 12 12Z" fill="currentColor" fillOpacity="0.1" />
+          <path d="M12 12C12 12 5 10 4 7C3 4 6 3 9 5C12 7 12 12 12 12Z" fill="currentColor" fillOpacity="0.1" />
+        </svg>
+      </div>
+      <div className="absolute bottom-20 left-10 text-rose-gold/20 rotate-12 pointer-events-none hidden md:block">
+        <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.5">
+          <path d="M12 22V15" />
+          <path d="M12 15C12 15 20 12 20 8C20 4 16 4 12 8C8 4 4 4 4 8C4 12 12 15 12 15Z" fill="currentColor" fillOpacity="0.1" />
+        </svg>
+      </div>
+
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         {/* Eyebrow tag */}

@@ -72,6 +72,7 @@ function VideoCard({ v, index }: { v: typeof videos[0]; index: number }) {
         <motion.video
           ref={videoRef}
           src={v.src}
+          autoPlay
           muted
           playsInline
           loop
