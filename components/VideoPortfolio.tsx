@@ -8,20 +8,20 @@ import { migrateVideos } from "@/lib/migrateVideos";
 
 import { MediaModal } from "./MediaModal";
 
-function VideoCard({ v, index, onOpen }: { v: Video; index: number; onOpen: (v: Video) => void }) {
+function VideoCard({ v, index, onOpen, isGlobalPaused }: { v: Video; index: number; onOpen: (v: Video) => void; isGlobalPaused: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.5 }); // Play when 50% in view
 
   useEffect(() => {
     if (videoRef.current) {
-      if (inView) {
+      if (inView && !isGlobalPaused) {
         videoRef.current.play().catch(() => {});
       } else {
         videoRef.current.pause();
       }
     }
-  }, [inView]);
+  }, [inView, isGlobalPaused]);
 
   return (
     <motion.div
@@ -108,7 +108,7 @@ export default function VideoPortfolio() {
             <span className="text-gradient-rose italic">Crafted</span>
           </h2>
           <div className="section-divider mx-auto mb-5" />
-          <p className="text-sm text-muted max-w-lg mx-auto leading-relaxed">
+          <p className="text-sm text-muted max-lg mx-auto leading-relaxed">
             From cinematic color grades to beat-synced reels — each edit is a
             carefully composed visual story.
           </p>
@@ -135,7 +135,7 @@ export default function VideoPortfolio() {
             ) : (
               videos.map((v, i) => (
                 <div key={v.id} className="flex-none w-[280px] sm:w-[320px] snap-center">
-                  <VideoCard v={v} index={i} onOpen={setSelected} />
+                  <VideoCard v={v} index={i} onOpen={setSelected} isGlobalPaused={!!selected} />
                 </div>
               ))
             )}
