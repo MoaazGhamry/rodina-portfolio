@@ -3,7 +3,7 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { X, ZoomIn } from "lucide-react";
+import { X, ZoomIn, MapPin } from "lucide-react";
 import { usePhotos, Photo } from "@/hooks/usePhotos";
 import { migratePhotos } from "@/lib/migrate";
 
@@ -49,7 +49,13 @@ function PhotoCard({
             <p className="text-cream font-serif-custom font-semibold text-base leading-tight">
               {photo.title}
             </p>
-            <p className="text-cream/80 text-xs mt-0.5">{photo.description}</p>
+            {photo.location && (
+              <div className="flex items-center gap-1 text-[10px] text-cream/70 mt-1 uppercase tracking-wider font-medium">
+                <MapPin size={10} />
+                <span>{photo.location}</span>
+              </div>
+            )}
+            <p className="text-cream/80 text-xs mt-1">{photo.description}</p>
           </div>
           <div className="w-8 h-8 rounded-full bg-cream/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
             <ZoomIn size={14} className="text-cream" />
@@ -128,6 +134,7 @@ export default function PhotoGallery() {
         src={selected?.src || ""}
         title={selected?.title}
         description={selected?.description}
+        location={selected?.location}
       />
     </>
   );

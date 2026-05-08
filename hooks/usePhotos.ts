@@ -7,6 +7,7 @@ export interface Photo {
   src: string;
   title: string;
   description: string;
+  location?: string;
   span: string;
   createdAt: any;
 }

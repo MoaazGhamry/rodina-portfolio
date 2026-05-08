@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Maximize2 } from "lucide-react";
+import { X, Maximize2, MapPin } from "lucide-react";
 import Image from "next/image";
 
 interface MediaModalProps {
@@ -12,6 +12,7 @@ interface MediaModalProps {
   src: string;
   title?: string;
   description?: string;
+  location?: string;
 }
 
 interface ArrowMood {
@@ -27,7 +28,7 @@ interface ArrowMood {
   }[];
 }
 
-export function MediaModal({ isOpen, onClose, type, src, title, description }: MediaModalProps) {
+export function MediaModal({ isOpen, onClose, type, src, title, description, location }: MediaModalProps) {
   const [layoutMode, setLayoutMode] = useState(0);
 
   // Pick a random layout on open
@@ -205,9 +206,15 @@ export function MediaModal({ isOpen, onClose, type, src, title, description }: M
                   </div>
 
                   <div className="w-10 h-1px bg-cream/40 mb-6" />
-                  <h3 className="font-serif-custom text-2xl md:text-3xl font-bold text-cream mb-4 italic leading-tight">
+                  <h3 className="font-serif-custom text-2xl md:text-3xl font-bold text-cream mb-2 italic leading-tight">
                     {title}
                   </h3>
+                  {location && (
+                    <div className="flex items-center gap-2 text-[10px] text-cream/70 mb-4 uppercase tracking-widest font-bold">
+                      <MapPin size={12} className="text-cream" />
+                      <span>{location}</span>
+                    </div>
+                  )}
                   <p className="text-cream/90 text-sm md:text-base leading-relaxed font-medium">
                     {description}
                   </p>

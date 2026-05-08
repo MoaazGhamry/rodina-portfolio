@@ -28,7 +28,7 @@ export default function AdminPage() {
   const { photos: heroPhotos, addHeroPhoto, removeHeroPhoto } = useHeroPhotos();
   
   const [isAdding, setIsAdding] = useState(false);
-  const [newFile, setNewFile] = useState({ title: "", description: "", src: "", span: "", tag: "", accent: "#B8727D" });
+  const [newFile, setNewFile] = useState({ title: "", description: "", location: "", src: "", span: "", tag: "", accent: "#B8727D" });
   const [uploading, setUploading] = useState(false);
   const router = useRouter();
 
@@ -135,7 +135,13 @@ export default function AdminPage() {
     setUploading(true);
     try {
       if (activeTab === "photos") {
-        await addPhoto({ title: newFile.title, description: newFile.description, src: newFile.src, span: newFile.span });
+        await addPhoto({ 
+            title: newFile.title, 
+            description: newFile.description, 
+            location: newFile.location,
+            src: newFile.src, 
+            span: newFile.span 
+        });
       } else if (activeTab === "videos") {
         await addVideo({ title: newFile.title, description: newFile.description, src: newFile.src, tag: newFile.tag, accent: newFile.accent });
       } else if (activeTab === "moments") {
@@ -143,7 +149,7 @@ export default function AdminPage() {
       } else {
         await addHeroPhoto({ src: newFile.src });
       }
-      setNewFile({ title: "", description: "", src: "", span: "", tag: "", accent: "#B8727D" });
+      setNewFile({ title: "", description: "", location: "", src: "", span: "", tag: "", accent: "#B8727D" });
       setIsAdding(false);
     } catch (err: any) {
       console.error("Save failed:", err);
@@ -330,6 +336,15 @@ export default function AdminPage() {
                           type="text"
                           value={newFile.description}
                           onChange={(e) => setNewFile({ ...newFile, description: e.target.value })}
+                          className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">Location (e.g. Dubai, UAE)</label>
+                        <input
+                          type="text"
+                          value={newFile.location}
+                          onChange={(e) => setNewFile({ ...newFile, location: e.target.value })}
                           className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors"
                         />
                       </div>
