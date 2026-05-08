@@ -23,12 +23,15 @@ function PhotoCard({
     ? photo.src.replace("/upload/", "/upload/f_auto,q_auto,w_1000,c_limit/")
     : photo.src;
 
-  // Mobile: always single cell. Desktop (md+): apply the stored span.
-  const desktopSpan = (photo.span || "col-span-1 row-span-1")
-    .split(" ")
-    .map((c) => `md:${c}`)
-    .join(" ");
-  const spanClass = `col-span-1 row-span-1 ${desktopSpan}`;
+  // Mobile: row spans are collapsed to 1 to prevent giant gaps.
+  // Desktop (md+): full stored span via responsive classes.
+  const spanMap: Record<string, string> = {
+    "col-span-1 row-span-1": "col-span-1 row-span-1",
+    "col-span-1 row-span-2": "col-span-1 row-span-1 md:col-span-1 md:row-span-2",
+    "col-span-2 row-span-1": "col-span-2 row-span-1",
+    "col-span-2 row-span-2": "col-span-2 row-span-1 md:col-span-2 md:row-span-2",
+  };
+  const spanClass = spanMap[photo.span] ?? "col-span-1 row-span-1";
 
   return (
     <motion.div
@@ -120,7 +123,7 @@ export default function PhotoGallery() {
 
           {/* Masonry-style grid */}
           <div
-            className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 auto-rows-[160px] md:auto-rows-[200px]"
+            className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 auto-rows-[160px] md:auto-rows-[200px] grid-flow-dense"
           >
             {loading ? (
               <div className="col-span-full flex items-center justify-center py-20">
