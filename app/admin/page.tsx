@@ -15,6 +15,7 @@ import { migratePhotos } from "@/lib/migrate";
 import { migrateVideos } from "@/lib/migrateVideos";
 import { migrateHero } from "@/lib/migrateHero";
 import Image from "next/image";
+import heic2any from "heic2any";
 
 type Tab = "photos" | "videos" | "moments" | "hero";
 
@@ -56,7 +57,32 @@ export default function AdminPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const localUrl = URL.createObjectURL(file);
+    let fileToUpload = file;
+
+    // Handle HEIC/HEIF conversion
+    if (file.type === "image/heic" || file.type === "image/heif" || file.name.toLowerCase().endsWith(".heic") || file.name.toLowerCase().endsWith(".heif")) {
+      setUploading(true);
+      try {
+        const blob = await heic2any({
+          blob: file,
+          toType: "image/jpeg",
+          quality: 0.8
+        });
+        
+        // Convert Blob/Blob[] to File
+        const convertedBlob = Array.isArray(blob) ? blob[0] : blob;
+        fileToUpload = new File([convertedBlob], file.name.replace(/\.(heic|heif)$/i, ".jpg"), {
+          type: "image/jpeg",
+        });
+      } catch (err) {
+        console.error("HEIC conversion failed:", err);
+        alert("Failed to process HEIC image. Please try a different format.");
+        setUploading(false);
+        return;
+      }
+    }
+
+    const localUrl = URL.createObjectURL(fileToUpload);
     setNewFile({ ...newFile, src: localUrl });
 
     setUploading(true);
@@ -73,7 +99,7 @@ export default function AdminPage() {
       const cloudinaryUrl = `https://api.cloudinary.com/v1_1/dhoqtr0se/auto/upload`;
       
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", fileToUpload);
       formData.append("upload_preset", "mrpt3x4r");
       formData.append("folder", "portfolio");
 
@@ -280,7 +306,7 @@ export default function AdminPage() {
                       type="file"
                       onChange={handleFileUpload}
                       className="absolute inset-0 opacity-0 cursor-pointer"
-                      accept={activeTab === "photos" || activeTab === "hero" ? "image/*" : "video/*"}
+                      accept={activeTab === "photos" || activeTab === "hero" ? "image/*,.heic,.heif" : "video/*"}
                       disabled={uploading}
                     />
                   </div>
