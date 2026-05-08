@@ -81,7 +81,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
   const currentMood = arrowMoods[layoutMode % arrowMoods.length];
 
   const optimizedSrc = src.includes("cloudinary.com")
-    ? src.replace("/upload/", "/upload/f_auto,q_auto:best,w_2000,c_limit/")
+    ? src.replace("/upload/", "/upload/f_auto,q_auto,w_1600,c_limit/")
     : src;
 
   return (

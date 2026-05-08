@@ -20,7 +20,7 @@ function PhotoCard({
   const inView = useInView(ref, { once: true, margin: "-40px" });
 
   const optimizedSrc = photo.src.includes("cloudinary.com")
-    ? photo.src.replace("/upload/", "/upload/f_auto,q_auto:best,w_2000,c_limit/")
+    ? photo.src.replace("/upload/", "/upload/f_auto,q_auto,w_1000,c_limit/")
     : photo.src;
 
   return (

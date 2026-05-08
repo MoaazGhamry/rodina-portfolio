@@ -169,12 +169,15 @@ export default function About() {
                         className="absolute inset-0 cursor-grab active:cursor-grabbing"
                       >
                         <Image
-                          src={photos[imgIndex]?.src}
+                          src={photos[imgIndex]?.src.includes("cloudinary.com") 
+                            ? photos[imgIndex].src.replace("/upload/", "/upload/f_auto,q_auto,w_1000,c_limit/") 
+                            : photos[imgIndex]?.src}
                           alt={`Rodina Portrait ${imgIndex + 1}`}
                           fill
                           className="object-cover pointer-events-none"
                           sizes="(max-width: 640px) 288px, 320px"
                           priority
+                          unoptimized
                         />
                         {/* Overlay gradient */}
                         <div className="absolute inset-0 bg-gradient-to-t from-rose-deep/20 via-transparent to-transparent pointer-events-none" />
