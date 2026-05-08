@@ -40,11 +40,14 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "Rodina",
   },
-  themeColor: "#FCF9F7",
   icons: {
     icon: "/favicon.png",
     apple: "/app-apple-icon.png",
   },
+};
+
+export const viewport = {
+  themeColor: "#FCF9F7",
 };
 
 import { ThemeProvider } from "@/components/ThemeProvider";

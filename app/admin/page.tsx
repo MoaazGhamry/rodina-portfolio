@@ -15,7 +15,6 @@ import { migratePhotos } from "@/lib/migrate";
 import { migrateVideos } from "@/lib/migrateVideos";
 import { migrateHero } from "@/lib/migrateHero";
 import Image from "next/image";
-import heic2any from "heic2any";
 
 type Tab = "photos" | "videos" | "moments" | "hero";
 
@@ -63,7 +62,8 @@ export default function AdminPage() {
     if (file.type === "image/heic" || file.type === "image/heif" || file.name.toLowerCase().endsWith(".heic") || file.name.toLowerCase().endsWith(".heif")) {
       setUploading(true);
       try {
-        const blob = await heic2any({
+        const heic2any = (await import("heic2any")).default;
+        const blob = await (heic2any as any)({
           blob: file,
           toType: "image/jpeg",
           quality: 0.8
