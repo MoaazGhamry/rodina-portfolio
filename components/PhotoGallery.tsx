@@ -20,7 +20,7 @@ function PhotoCard({
   const inView = useInView(ref, { once: true, margin: "-40px" });
 
   const optimizedSrc = photo.src.includes("cloudinary.com")
-    ? photo.src.replace("/upload/", "/upload/f_auto,q_auto,w_800,c_limit/")
+    ? photo.src.replace("/upload/", "/upload/f_auto,q_auto:best,w_2000,c_limit/")
     : photo.src;
 
   return (
@@ -40,6 +40,7 @@ function PhotoCard({
         className="object-cover transition-transform duration-700 group-hover:scale-110"
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         priority={index < 4}
+        unoptimized
       />
 
       {/* Hover overlay */}
