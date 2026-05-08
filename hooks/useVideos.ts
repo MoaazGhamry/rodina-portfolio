@@ -11,6 +11,7 @@ export interface Video {
   description: string;
   tag: string;
   accent: string;
+  location?: string;
   createdAt?: any;
 }
 

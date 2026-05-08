@@ -143,11 +143,11 @@ export default function AdminPage() {
             span: newFile.span 
         });
       } else if (activeTab === "videos") {
-        await addVideo({ title: newFile.title, description: newFile.description, src: newFile.src, tag: newFile.tag, accent: newFile.accent });
+        await addVideo({ title: newFile.title, description: newFile.description, src: newFile.src, tag: newFile.tag, accent: newFile.accent, location: newFile.location });
       } else if (activeTab === "moments") {
-        await addMoment({ title: newFile.title, description: newFile.description, src: newFile.src });
+        await addMoment({ title: newFile.title, description: newFile.description, src: newFile.src, location: newFile.location });
       } else {
-        await addHeroPhoto({ src: newFile.src });
+        await addHeroPhoto({ src: newFile.src, location: newFile.location });
       }
       setNewFile({ title: "", description: "", location: "", src: "", span: "col-span-1 row-span-1", tag: "", accent: "#B8727D" });
       setIsAdding(false);
@@ -331,50 +331,57 @@ export default function AdminPage() {
                 </div>
 
                 <div className="space-y-4">
+                  {/* Common Fields */}
                   {activeTab !== "hero" && (
-                    <>
-                      <div>
-                        <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">Title</label>
-                        <input
-                          type="text"
-                          value={newFile.title}
-                          onChange={(e) => setNewFile({ ...newFile, title: e.target.value })}
-                          className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">Image Size (Grid)</label>
-                        <select
-                          value={newFile.span}
-                          onChange={(e) => setNewFile({ ...newFile, span: e.target.value })}
-                          className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors appearance-none"
-                        >
-                          <option value="col-span-1 row-span-1">Small (Standard Square)</option>
-                          <option value="col-span-1 row-span-2">Medium (Portrait/Tall)</option>
-                          <option value="col-span-2 row-span-1">Wide (Landscape)</option>
-                          <option value="col-span-2 row-span-2">Large (Featured Block)</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">Description</label>
-                        <input
-                          type="text"
-                          value={newFile.description}
-                          onChange={(e) => setNewFile({ ...newFile, description: e.target.value })}
-                          className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">Location (e.g. Dubai, UAE)</label>
-                        <input
-                          type="text"
-                          value={newFile.location}
-                          onChange={(e) => setNewFile({ ...newFile, location: e.target.value })}
-                          className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors"
-                        />
-                      </div>
-                    </>
+                    <div>
+                      <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">Title</label>
+                      <input
+                        type="text"
+                        value={newFile.title}
+                        onChange={(e) => setNewFile({ ...newFile, title: e.target.value })}
+                        className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors"
+                      />
+                    </div>
                   )}
+
+                  {activeTab === "photos" && (
+                    <div>
+                      <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">Image Size (Grid)</label>
+                      <select
+                        value={newFile.span}
+                        onChange={(e) => setNewFile({ ...newFile, span: e.target.value })}
+                        className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors appearance-none"
+                      >
+                        <option value="col-span-1 row-span-1">Small (Standard Square)</option>
+                        <option value="col-span-1 row-span-2">Medium (Portrait/Tall)</option>
+                        <option value="col-span-2 row-span-1">Wide (Landscape)</option>
+                        <option value="col-span-2 row-span-2">Large (Featured Block)</option>
+                      </select>
+                    </div>
+                  )}
+
+                  {activeTab !== "hero" && (
+                    <div>
+                      <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">Description</label>
+                      <input
+                        type="text"
+                        value={newFile.description}
+                        onChange={(e) => setNewFile({ ...newFile, description: e.target.value })}
+                        className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors"
+                      />
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">Location (e.g. Cairo, Egypt)</label>
+                    <input
+                      type="text"
+                      value={newFile.location}
+                      onChange={(e) => setNewFile({ ...newFile, location: e.target.value })}
+                      className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors"
+                    />
+                  </div>
+
                   {activeTab === "videos" && (
                     <div>
                       <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">Tag (e.g. Beat-Synced)</label>

@@ -73,6 +73,12 @@ function VideoCard({ v, index, onOpen, isGlobalPaused }: { v: Video; index: numb
         <h3 className="font-serif-custom text-lg font-semibold text-charcoal mb-1">
           {v.title}
         </h3>
+        {v.location && (
+          <div className="flex items-center gap-1.5 text-[10px] text-rose-gold mb-1.5 uppercase tracking-[0.15em] font-bold">
+            <span className="w-4 h-px bg-rose-gold/30" />
+            <span>{v.location}</span>
+          </div>
+        )}
         <p className="text-xs text-muted leading-relaxed">{v.description}</p>
       </div>
     </motion.div>
@@ -154,6 +160,7 @@ export default function VideoPortfolio() {
           src={selected?.src || ""}
           title={selected?.title}
           description={selected?.description}
+          location={selected?.location}
         />
       </div>
     </section>

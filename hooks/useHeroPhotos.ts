@@ -7,6 +7,7 @@ import { collection, onSnapshot, addDoc, deleteDoc, doc, query, orderBy } from "
 export interface HeroPhoto {
   id: string;
   src: string;
+  location?: string;
   createdAt?: any;
 }
 

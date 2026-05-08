@@ -9,6 +9,7 @@ export interface Moment {
   src: string;
   title: string;
   description?: string;
+  location?: string;
   createdAt?: any;
 }
 

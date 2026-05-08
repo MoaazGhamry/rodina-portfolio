@@ -66,6 +66,12 @@ function MomentCard({ moment, index, onOpen, isGlobalPaused }: { moment: Moment;
         <h4 className="font-serif-custom text-base md:text-xl font-bold text-white mb-0.5 md:mb-1">
           {moment.title}
         </h4>
+        {moment.location && (
+          <div className="flex items-center gap-1.5 text-[10px] text-cream/70 mb-1 uppercase tracking-widest font-bold">
+            <span className="w-3 h-px bg-cream/30" />
+            <span>{moment.location}</span>
+          </div>
+        )}
         {moment.description && (
           <p className="text-[10px] text-cream/80 uppercase tracking-widest font-medium">
             {moment.description}
@@ -156,6 +162,7 @@ export default function Moments() {
         src={selected?.src || ""}
         title={selected?.title}
         description={selected?.description}
+        location={selected?.location}
       />
     </section>
   );

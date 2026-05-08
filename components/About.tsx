@@ -215,7 +215,7 @@ export default function About() {
                 className="absolute -bottom-5 -left-10 glass-card rounded-2xl px-5 py-3 shadow-lg z-20"
               >
                 <p className="text-[10px] tracking-widest uppercase text-muted mb-0.5 font-bold">Swipe Me</p>
-                <p className="text-sm font-semibold text-charcoal">Cairo, Egypt 🌸</p>
+                <p className="text-sm font-semibold text-charcoal">{photos[imgIndex]?.location || "Cairo, Egypt"} 🌸</p>
               </motion.div>
             </div>
           </motion.div>
