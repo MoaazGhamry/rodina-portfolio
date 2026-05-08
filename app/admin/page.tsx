@@ -9,13 +9,14 @@ import { Plus, Trash2, LogOut, X, Save, UploadCloud, Video as VideoIcon, ImageIc
 import { usePhotos } from "@/hooks/usePhotos";
 import { useVideos } from "@/hooks/useVideos";
 import { useHeroPhotos } from "@/hooks/useHeroPhotos";
+import { useMoments } from "@/hooks/useMoments";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { migratePhotos } from "@/lib/migrate";
 import { migrateVideos } from "@/lib/migrateVideos";
 import { migrateHero } from "@/lib/migrateHero";
 import Image from "next/image";
 
-type Tab = "photos" | "videos" | "hero";
+type Tab = "photos" | "videos" | "moments" | "hero";
 
 export default function AdminPage() {
   const [user, setUser] = useState<any>(null);
@@ -23,6 +24,7 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<Tab>("photos");
   const { photos, addPhoto, removePhoto, updatePhoto } = usePhotos();
   const { videos, addVideo, removeVideo } = useVideos();
+  const { moments, addMoment, removeMoment } = useMoments();
   const { photos: heroPhotos, addHeroPhoto, removeHeroPhoto } = useHeroPhotos();
   
   const [isAdding, setIsAdding] = useState(false);
@@ -110,6 +112,8 @@ export default function AdminPage() {
         await addPhoto({ title: newFile.title, description: newFile.description, src: newFile.src, span: newFile.span });
       } else if (activeTab === "videos") {
         await addVideo({ title: newFile.title, description: newFile.description, src: newFile.src, tag: newFile.tag, accent: newFile.accent });
+      } else if (activeTab === "moments") {
+        await addMoment({ title: newFile.title, description: newFile.description, src: newFile.src });
       } else {
         await addHeroPhoto({ src: newFile.src });
       }
@@ -125,7 +129,7 @@ export default function AdminPage() {
 
   if (authLoading) return null;
 
-  const currentList = activeTab === "photos" ? photos : activeTab === "videos" ? videos : heroPhotos;
+  const currentList = activeTab === "photos" ? photos : activeTab === "videos" ? videos : activeTab === "moments" ? moments : heroPhotos;
 
   return (
     <div className="min-h-screen bg-cream text-charcoal p-4 md:p-12 transition-colors duration-500">
@@ -137,13 +141,13 @@ export default function AdminPage() {
               Portfolio <span className="text-gradient-rose italic">Studio</span>
             </h1>
             <div className="flex gap-6 mt-6 overflow-x-auto pb-2 scrollbar-hide border-b border-blush/20 md:border-none">
-              {(["photos", "videos", "hero"] as Tab[]).map((t) => (
+              {(["photos", "videos", "moments", "hero"] as Tab[]).map((t) => (
                 <button 
                   key={t}
                   onClick={() => setActiveTab(t)}
                   className={`text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold transition-all whitespace-nowrap pb-2 md:pb-0 ${activeTab === t ? 'text-rose-gold border-b-2 border-rose-gold' : 'text-muted hover:text-charcoal'}`}
                 >
-                  {t === "photos" ? "Gallery" : t === "videos" ? "Videos" : "Portraits"}
+                  {t === "photos" ? "Gallery" : t === "videos" ? "Videos" : t === "moments" ? "Moments" : "Portraits"}
                 </button>
               ))}
             </div>
@@ -155,7 +159,7 @@ export default function AdminPage() {
               onClick={() => setIsAdding(true)}
               className="flex-1 md:flex-none px-5 py-3.5 rounded-2xl bg-rose-gold text-cream text-[10px] md:text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2 shadow-lg shadow-rose-gold/20"
             >
-              <Plus size={16} /> Add {activeTab === "hero" ? "Portrait" : activeTab === "photos" ? "Photo" : "Video"}
+              <Plus size={16} /> Add {activeTab === "hero" ? "Portrait" : activeTab === "photos" ? "Photo" : activeTab === "videos" ? "Video" : "Moment"}
             </motion.button>
             <button
               onClick={handleLogout}
@@ -178,7 +182,7 @@ export default function AdminPage() {
                 exit={{ opacity: 0, scale: 0.9 }}
                 className="group relative bg-cream rounded-3xl overflow-hidden shadow-md border border-blush/20 aspect-[3/4]"
               >
-                {activeTab === "videos" ? (
+                {activeTab === "videos" || activeTab === "moments" ? (
                   <video src={item.src} muted playsInline loop autoPlay className="w-full h-full object-cover" />
                 ) : (
                   <Image src={item.src} alt={item.title || "Hero"} fill className="object-cover" />
@@ -192,6 +196,7 @@ export default function AdminPage() {
                       onClick={() => {
                         if (activeTab === "photos") removePhoto(item.id);
                         else if (activeTab === "videos") removeVideo(item.id);
+                        else if (activeTab === "moments") removeMoment(item.id);
                         else removeHeroPhoto(item.id);
                       }}
                       className="p-2 rounded-xl bg-red-500/80 text-white hover:bg-red-600 transition-colors"
@@ -239,14 +244,14 @@ export default function AdminPage() {
               </button>
 
               <h2 className="font-serif-custom text-xl md:text-2xl font-bold text-charcoal mb-6 md:mb-8 italic">
-                Add New {activeTab === "photos" ? "Moment 🌸" : activeTab === "videos" ? "Story 🎬" : "Portrait ✨"}
+                Add New {activeTab === "photos" ? "Moment 🌸" : activeTab === "videos" ? "Story 🎬" : activeTab === "moments" ? "Moment 🎥" : "Portrait ✨"}
               </h2>
 
               <div className="space-y-5 md:space-y-6">
                 <div className="relative group">
                   <div className={`aspect-[4/3] rounded-3xl border-2 border-dashed border-blush/50 bg-white/50 flex flex-col items-center justify-center overflow-hidden transition-all ${newFile.src ? 'border-rose-gold' : 'hover:border-rose-gold/50'}`}>
                     {newFile.src ? (
-                      activeTab === "videos" ? (
+                      activeTab === "videos" || activeTab === "moments" ? (
                         <video src={newFile.src} autoPlay muted loop className="w-full h-full object-cover" />
                       ) : (
                         <Image src={newFile.src} alt="Preview" fill className="object-cover" />
@@ -333,7 +338,7 @@ export default function AdminPage() {
                   ) : (
                     <>
                       <Save size={20} />
-                      <span>Save to {activeTab === "hero" ? "Portraits" : activeTab === "photos" ? "Gallery" : "Videos"}</span>
+                      <span>Save to {activeTab === "hero" ? "Portraits" : activeTab === "photos" ? "Gallery" : activeTab === "videos" ? "Videos" : "Moments"}</span>
                     </>
                   )}
                 </motion.button>
