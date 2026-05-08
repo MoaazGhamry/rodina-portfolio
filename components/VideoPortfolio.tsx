@@ -103,9 +103,8 @@ export default function VideoPortfolio() {
           <p className="text-xs tracking-[0.3em] uppercase text-rose-gold font-medium mb-3">
             Video Editing
           </p>
-          <h2 className="font-serif-custom text-4xl md:text-5xl font-bold text-charcoal mb-4">
-            Stories I&apos;ve{" "}
-            <span className="text-gradient-rose italic">Crafted</span>
+          <h2 className="font-serif-custom text-3xl md:text-5xl font-bold text-charcoal mb-4">
+            Stories I&apos;ve <span className="text-gradient-rose italic">Crafted</span>
           </h2>
           <div className="section-divider mx-auto mb-5" />
           <p className="text-sm text-muted max-lg mx-auto leading-relaxed">
@@ -134,7 +133,7 @@ export default function VideoPortfolio() {
               </div>
             ) : (
               videos.map((v, i) => (
-                <div key={v.id} className="flex-none w-[280px] sm:w-[320px] snap-center">
+                <div key={v.id} className="flex-none w-[240px] sm:w-[320px] snap-center">
                   <VideoCard v={v} index={i} onOpen={setSelected} isGlobalPaused={!!selected} />
                 </div>
               ))

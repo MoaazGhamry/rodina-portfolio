@@ -62,8 +62,8 @@ function MomentCard({ moment, index, onOpen, isGlobalPaused }: { moment: Moment;
       </div>
 
       {/* Caption Area */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-        <h4 className="font-serif-custom text-xl font-bold text-white mb-1">
+      <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 md:translate-y-4 md:group-hover:translate-y-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 bg-gradient-to-t from-charcoal/80 to-transparent md:from-transparent">
+        <h4 className="font-serif-custom text-base md:text-xl font-bold text-white mb-0.5 md:mb-1">
           {moment.title}
         </h4>
         {moment.description && (
@@ -123,7 +123,7 @@ export default function Moments() {
         </div>
 
         {/* Masonry-style Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-8">
           {loading ? (
             Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="aspect-[9/16] rounded-[2rem] bg-blush/10 animate-pulse" />
