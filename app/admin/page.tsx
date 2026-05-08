@@ -211,7 +211,7 @@ export default function AdminPage() {
                 {activeTab === "videos" || activeTab === "moments" ? (
                   <video src={item.src} muted playsInline loop autoPlay className="w-full h-full object-cover" />
                 ) : (
-                  <Image src={item.src} alt={item.title || "Hero"} fill className="object-cover" />
+                  <Image src={item.src} alt={item.title || "Hero"} fill className="object-cover" unoptimized />
                 )}
                 <div className="absolute inset-0 bg-charcoal/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
                   <p className="text-cream font-serif-custom font-semibold text-lg leading-tight mb-1">
@@ -280,7 +280,7 @@ export default function AdminPage() {
                       activeTab === "videos" || activeTab === "moments" ? (
                         <video src={newFile.src} autoPlay muted loop className="w-full h-full object-cover" />
                       ) : (
-                        <Image src={newFile.src} alt="Preview" fill className="object-cover" />
+                        <img src={newFile.src} alt="Preview" className="w-full h-full object-cover" />
                       )
                     ) : (
                       <div className="text-center p-6">
