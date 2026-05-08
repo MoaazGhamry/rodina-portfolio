@@ -126,13 +126,13 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full h-full max-w-7xl flex flex-col lg:flex-row items-center justify-center gap-10"
+            className="relative w-full h-full max-w-7xl flex flex-col lg:flex-row items-center justify-center gap-4 md:gap-10"
           >
             {/* Media Container */}
             <div className="relative flex-1 w-full h-full flex items-center justify-center min-h-0">
               {type === "image" ? (
                 <div className="relative w-full h-full flex items-center justify-center p-4">
-                  <div className="relative w-full h-full max-w-full max-h-full rounded-[3rem] overflow-hidden shadow-2xl border border-white/10">
+                  <div className="relative w-full h-full max-w-full max-h-full rounded-2xl md:rounded-[3rem] overflow-hidden shadow-2xl border border-white/10">
                     <Image
                       src={src}
                       alt={title || "Portfolio Item"}
@@ -150,7 +150,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                   autoPlay
                   loop
                   playsInline
-                  className="max-w-full max-h-full rounded-[3rem] shadow-2xl border border-white/10"
+                  className="max-w-full max-h-[70vh] md:max-h-full rounded-2xl md:rounded-[3rem] shadow-2xl border border-white/10"
                   onClick={(e) => e.stopPropagation()}
                 />
               )}
@@ -197,7 +197,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                    <svg viewBox="0 0 100 100" fill="white"><path d="M50 0 L60 40 L100 50 L60 60 L50 100 L40 60 L0 50 L40 40 Z" /></svg>
                 </div>
 
-                <div className="bg-rose-gold/90 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-2xl border border-white/20 text-left relative overflow-hidden">
+                <div className="bg-rose-gold/90 backdrop-blur-xl rounded-3xl md:rounded-[2.5rem] p-5 md:p-8 shadow-2xl border border-white/20 text-left relative overflow-hidden">
                   {/* Subtle Sketch Pattern */}
                   <div className="absolute inset-0 opacity-10 pointer-events-none flex items-center justify-center">
                     <svg width="200" height="200" viewBox="0 0 100 100" fill="currentColor" className="text-white">
@@ -205,8 +205,8 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                     </svg>
                   </div>
 
-                  <div className="w-10 h-1px bg-cream/40 mb-6" />
-                  <h3 className="font-serif-custom text-2xl md:text-3xl font-bold text-cream mb-2 italic leading-tight">
+                  <div className="w-10 h-1px bg-cream/40 mb-3 md:mb-6" />
+                  <h3 className="font-serif-custom text-xl md:text-3xl font-bold text-cream mb-1 md:mb-2 italic leading-tight">
                     {title}
                   </h3>
                   {location && (
