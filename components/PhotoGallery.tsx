@@ -23,14 +23,21 @@ function PhotoCard({
     ? photo.src.replace("/upload/", "/upload/f_auto,q_auto,w_1000,c_limit/")
     : photo.src;
 
+  // Mobile: always single cell. Desktop (md+): apply the stored span.
+  const desktopSpan = (photo.span || "col-span-1 row-span-1")
+    .split(" ")
+    .map((c) => `md:${c}`)
+    .join(" ");
+  const spanClass = `col-span-1 row-span-1 ${desktopSpan}`;
+
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, scale: 0.93 }}
       animate={inView ? { opacity: 1, scale: 1 } : {}}
       transition={{ duration: 0.7, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative overflow-hidden rounded-2xl cursor-pointer group shadow-md ${photo.span}`}
-      style={{ minHeight: 200 }}
+      className={`relative overflow-hidden rounded-2xl cursor-pointer group shadow-md ${spanClass}`}
+      style={{ minHeight: 160 }}
       onClick={() => onOpen(photo)}
     >
       <Image
@@ -113,7 +120,7 @@ export default function PhotoGallery() {
 
           {/* Masonry-style grid */}
           <div
-            className="grid grid-cols-2 md:grid-cols-3 gap-4 auto-rows-[200px]"
+            className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 auto-rows-[160px] md:auto-rows-[200px]"
           >
             {loading ? (
               <div className="col-span-full flex items-center justify-center py-20">
