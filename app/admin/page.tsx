@@ -219,11 +219,8 @@ export default function AdminPage() {
                 ) : (
                   <Image src={item.src} alt={item.title || "Hero"} fill className="object-cover" unoptimized />
                 )}
-                <div className="absolute inset-0 bg-charcoal/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
-                  <p className="text-cream font-serif-custom font-semibold text-lg leading-tight mb-1">
-                    {item.title || "Portrait"}
-                  </p>
-                  <div className="flex justify-between items-center mt-2">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-4">
+                  <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => {
                         if (activeTab === "photos") removePhoto(item.id);
@@ -231,21 +228,36 @@ export default function AdminPage() {
                         else if (activeTab === "moments") removeMoment(item.id);
                         else removeHeroPhoto(item.id);
                       }}
-                      className="p-2 rounded-xl bg-red-500/80 text-white hover:bg-red-600 transition-colors"
+                      className="w-10 h-10 rounded-2xl bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-colors shadow-lg"
                     >
-                      <Trash2 size={16} />
+                      <Trash2 size={18} />
                     </button>
-                    {activeTab === "photos" && (
+                  </div>
+
+                  <p className="text-white font-serif-custom font-semibold text-base leading-tight mb-2 drop-shadow-md">
+                    {item.title || (activeTab === "hero" ? "Portrait" : "Untitled")}
+                  </p>
+                  
+                  {activeTab === "photos" && (
+                    <div className="flex items-center gap-2">
                       <select
                         value={item.span}
                         onChange={(e) => updatePhoto(item.id, { span: e.target.value })}
-                        className="bg-charcoal/20 border border-white/30 text-white text-[10px] rounded-lg px-2 py-1 outline-none"
+                        className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] rounded-xl px-3 py-2 outline-none cursor-pointer hover:bg-white/20 transition-colors"
                       >
-                        <option value="" className="bg-cream text-charcoal">Normal</option>
-                        <option value="row-span-2" className="bg-cream text-charcoal">Large</option>
+                        <option value="col-span-1 row-span-1" className="bg-charcoal">Small</option>
+                        <option value="col-span-1 row-span-2" className="bg-charcoal">Medium</option>
+                        <option value="col-span-2 row-span-1" className="bg-charcoal">Wide</option>
+                        <option value="col-span-2 row-span-2" className="bg-charcoal">Large</option>
                       </select>
-                    )}
-                  </div>
+                    </div>
+                  )}
+                  
+                  {item.location && (
+                    <p className="text-white/60 text-[9px] uppercase tracking-widest mt-1">
+                      {item.location}
+                    </p>
+                  )}
                 </div>
               </motion.div>
             ))}
