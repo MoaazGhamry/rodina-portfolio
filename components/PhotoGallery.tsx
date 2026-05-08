@@ -19,6 +19,10 @@ function PhotoCard({
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
 
+  const optimizedSrc = photo.src.includes("cloudinary.com")
+    ? photo.src.replace("/upload/", "/upload/f_auto,q_auto,w_800,c_limit/")
+    : photo.src;
+
   return (
     <motion.div
       ref={ref}
@@ -30,11 +34,12 @@ function PhotoCard({
       onClick={() => onOpen(photo)}
     >
       <Image
-        src={photo.src}
+        src={optimizedSrc}
         alt={photo.title}
         fill
         className="object-cover transition-transform duration-700 group-hover:scale-110"
-        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        priority={index < 4}
       />
 
       {/* Hover overlay */}

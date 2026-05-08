@@ -28,7 +28,7 @@ export default function AdminPage() {
   const { photos: heroPhotos, addHeroPhoto, removeHeroPhoto } = useHeroPhotos();
   
   const [isAdding, setIsAdding] = useState(false);
-  const [newFile, setNewFile] = useState({ title: "", description: "", location: "", src: "", span: "", tag: "", accent: "#B8727D" });
+  const [newFile, setNewFile] = useState({ title: "", description: "", location: "", src: "", span: "col-span-1 row-span-1", tag: "", accent: "#B8727D" });
   const [uploading, setUploading] = useState(false);
   const router = useRouter();
 
@@ -66,7 +66,7 @@ export default function AdminPage() {
         const blob = await (heic2any as any)({
           blob: file,
           toType: "image/jpeg",
-          quality: 0.8
+          quality: 0.9
         });
         
         // Convert Blob/Blob[] to File
@@ -149,7 +149,7 @@ export default function AdminPage() {
       } else {
         await addHeroPhoto({ src: newFile.src });
       }
-      setNewFile({ title: "", description: "", location: "", src: "", span: "", tag: "", accent: "#B8727D" });
+      setNewFile({ title: "", description: "", location: "", src: "", span: "col-span-1 row-span-1", tag: "", accent: "#B8727D" });
       setIsAdding(false);
     } catch (err: any) {
       console.error("Save failed:", err);
@@ -329,6 +329,19 @@ export default function AdminPage() {
                           onChange={(e) => setNewFile({ ...newFile, title: e.target.value })}
                           className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors"
                         />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">Image Size (Grid)</label>
+                        <select
+                          value={newFile.span}
+                          onChange={(e) => setNewFile({ ...newFile, span: e.target.value })}
+                          className="w-full px-5 py-3 rounded-2xl border border-blush/40 bg-cream text-charcoal text-sm focus:outline-none focus:border-rose-gold transition-colors appearance-none"
+                        >
+                          <option value="col-span-1 row-span-1">Small (Standard Square)</option>
+                          <option value="col-span-1 row-span-2">Medium (Portrait/Tall)</option>
+                          <option value="col-span-2 row-span-1">Wide (Landscape)</option>
+                          <option value="col-span-2 row-span-2">Large (Featured Block)</option>
+                        </select>
                       </div>
                       <div>
                         <label className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-2 font-bold">Description</label>

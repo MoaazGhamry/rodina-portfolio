@@ -80,6 +80,10 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
 
   const currentMood = arrowMoods[layoutMode % arrowMoods.length];
 
+  const optimizedSrc = src.includes("cloudinary.com")
+    ? src.replace("/upload/", "/upload/f_auto,q_auto,w_1600,c_limit/")
+    : src;
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -134,7 +138,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                 <div className="relative w-full h-full flex items-center justify-center p-4">
                   <div className="relative w-full h-full max-w-full max-h-full rounded-2xl md:rounded-[3rem] overflow-hidden shadow-2xl border border-white/10">
                     <Image
-                      src={src}
+                      src={optimizedSrc}
                       alt={title || "Portfolio Item"}
                       fill
                       className="object-contain scale-[1.01]"
