@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Maximize2, MapPin } from "lucide-react";
+import { X, MapPin } from "lucide-react";
 import Image from "next/image";
 
 interface MediaModalProps {
@@ -30,13 +30,60 @@ interface ArrowMood {
 
 export function MediaModal({ isOpen, onClose, type, src, title, description, location }: MediaModalProps) {
   const [layoutMode, setLayoutMode] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Pick a random layout on open
+  // Touch / swipe-to-close state
+  const touchStartY = useRef<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
+
   useEffect(() => {
     if (isOpen) {
       setLayoutMode(Math.floor(Math.random() * 3));
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Prevent body scroll while modal is open (important for Safari)
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+    };
+  }, [isOpen]);
+
+  // Swipe-to-close: swipe down > 80px closes the modal
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (touchStartY.current === null || touchStartX.current === null) return;
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+    const deltaX = Math.abs(e.changedTouches[0].clientX - touchStartX.current);
+    // Only trigger if mostly vertical swipe down
+    if (deltaY > 80 && deltaX < 60) {
+      onClose();
+    }
+    touchStartY.current = null;
+    touchStartX.current = null;
+  }, [onClose]);
 
   const arrowMoods: ArrowMood[] = [
     { 
@@ -58,31 +105,34 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
       arrows: [
         { d: "M10,10 C40,40 60,0 90,30", top: "40%", right: "20%", scale: 0.8 },
         { d: "M90,90 Q50,50 10,90", top: "5%", left: "10%", scale: 1.1 },
-        { d: "M50,10 L50,90", bottom: "5%", right: "40%", scale: 0.9, rotate: 45 }
       ]
     },
-    {
-      name: "Starburst",
-      arrows: [
-        { d: "M0,0 L100,100", top: "20%", right: "20%", scale: 1.2, rotate: -30 },
-        { d: "M100,0 L0,100", bottom: "20%", right: "20%", scale: 1.2, rotate: 30 },
-        { d: "M50,0 L50,100", top: "50%", right: "30%", scale: 1, rotate: 90 }
-      ]
-    },
-    {
-      name: "Orbit",
-      arrows: [
-        { d: "M10,50 A40,40 0 1,1 90,50", top: "5%", right: "5%", scale: 2 },
-        { d: "M90,50 A40,40 0 1,1 10,50", bottom: "5%", left: "5%", scale: 2 }
-      ]
-    }
   ];
 
   const currentMood = arrowMoods[layoutMode % arrowMoods.length];
 
+  // Build optimized Cloudinary URL with blur-up support
   const optimizedSrc = src.includes("cloudinary.com")
-    ? src.replace("/upload/", "/upload/f_auto,q_auto,w_1600,c_limit/")
+    ? src.replace("/upload/", "/upload/f_auto,q_auto:good,w_1600,c_limit/")
     : src;
+
+  // Tiny blur placeholder for instant perceived load
+  const blurPlaceholder = src.includes("cloudinary.com")
+    ? src.replace("/upload/", "/upload/w_20,e_blur:200,q_10/")
+    : undefined;
+
+  // On mobile: use fade-only (no scale) for faster perceived open
+  const modalVariants = isMobile
+    ? {
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
+      }
+    : {
+        initial: { scale: 0.92, opacity: 0 },
+        animate: { scale: 1, opacity: 1 },
+        exit: { scale: 0.92, opacity: 0 },
+      };
 
   return (
     <AnimatePresence>
@@ -91,60 +141,49 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] bg-charcoal/95 backdrop-blur-md flex items-center justify-center p-4 md:p-10"
+          transition={{ duration: 0.2 }}
+          // No backdrop-blur — too expensive on Safari mobile
+          className="fixed inset-0 z-[100] bg-charcoal/96 flex items-center justify-center p-4 md:p-10"
           onClick={onClose}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
-          {/* Decorative Background "Garden" */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20 transition-all duration-1000">
-             {/* Randomized Lilies */}
-             <motion.div 
-               animate={{ 
-                 y: layoutMode % 2 === 0 ? [0, -30, 0] : [0, 30, 0],
-                 rotate: layoutMode === 1 ? [0, 360] : 0 
-               }} 
-               transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-               className={`absolute w-48 h-48 ${layoutMode % 2 === 0 ? "top-10 left-10" : "bottom-10 right-1/4"}`}
-             >
-                <svg viewBox="0 0 100 100" fill="#B8727D"><path d="M50 10 C60 30 90 40 50 90 C10 40 40 30 50 10" /></svg>
-             </motion.div>
-             
-             <motion.div 
-               animate={{ scale: [1, 1.3, 1], rotate: [0, -10, 0] }} 
-               transition={{ duration: 10, repeat: Infinity }}
-               className={`absolute w-72 h-72 ${layoutMode % 3 === 0 ? "top-1/4 right-10" : "bottom-20 left-20"}`}
-             >
-                <svg viewBox="0 0 100 100" fill="#B8727D"><path d="M50 10 C60 30 90 40 50 90 C10 40 40 30 50 10" /></svg>
-             </motion.div>
-          </div>
-
-          {/* Close button - Top right */}
+          {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-rose-gold text-white flex items-center justify-center transition-all z-[110]"
+            className="absolute top-5 right-5 z-[110] w-11 h-11 rounded-full bg-white/15 hover:bg-rose-gold text-white flex items-center justify-center"
+            aria-label="Close"
           >
-            <X size={24} />
+            <X size={22} />
           </button>
 
+          {/* Swipe hint — mobile only */}
+          {isMobile && (
+            <div className="absolute top-3 left-1/2 -translate-x-1/2 w-10 h-1 rounded-full bg-white/20" />
+          )}
+
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            {...modalVariants}
+            transition={{ duration: isMobile ? 0.18 : 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="relative w-full h-full max-w-7xl flex flex-col lg:flex-row items-center justify-center gap-4 md:gap-10"
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Media Container */}
             <div className="relative flex-1 w-full h-full flex items-center justify-center min-h-0">
               {type === "image" ? (
-                <div className="relative w-full h-full flex items-center justify-center p-4">
+                <div className="relative w-full h-full flex items-center justify-center p-2 md:p-4">
                   <div className="relative w-full h-full max-w-full max-h-full rounded-2xl md:rounded-[3rem] overflow-hidden shadow-2xl border border-white/10">
                     <Image
                       src={optimizedSrc}
                       alt={title || "Portfolio Item"}
                       fill
                       className="object-contain"
-                      sizes="100vw"
+                      sizes="(max-width: 768px) 100vw, 80vw"
                       priority
                       unoptimized
+                      // Blur-up: shows a tiny blurred version instantly while HD loads
+                      placeholder={blurPlaceholder ? "blur" : "empty"}
+                      blurDataURL={blurPlaceholder}
                     />
                   </div>
                 </div>
@@ -155,16 +194,17 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                   autoPlay
                   loop
                   playsInline
+                  {...{ "webkit-playsinline": "true" } as any}
                   className="max-w-full max-h-[70vh] md:max-h-full rounded-2xl md:rounded-[3rem] shadow-2xl border border-white/10"
                   onClick={(e) => e.stopPropagation()}
                 />
               )}
 
-              {/* Randomized Arrow Mood System */}
-              {currentMood.arrows.map((arrow, i) => (
+              {/* Decorative arrows — desktop only to avoid overdrawing on mobile */}
+              {!isMobile && currentMood.arrows.map((arrow, i) => (
                 <div 
                   key={i}
-                  className="hidden lg:block absolute pointer-events-none transition-all duration-1000"
+                  className="hidden lg:block absolute pointer-events-none"
                   style={{ 
                     top: arrow.top, 
                     bottom: arrow.bottom, 
@@ -188,21 +228,16 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
               ))}
             </div>
 
-            {/* Pink Info Box - ALWAYS PINK */}
+            {/* Info Box */}
             {(title || description) && (
               <motion.div 
-                initial={{ x: 20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
+                initial={{ x: isMobile ? 0 : 20, y: isMobile ? 20 : 0, opacity: 0 }}
+                animate={{ x: 0, y: 0, opacity: 1 }}
+                transition={{ delay: 0.15, duration: 0.3 }}
                 className="w-full lg:w-80 flex-shrink-0 relative"
                 onClick={(e) => e.stopPropagation()}
               >
-                {/* Random Shape Near Box */}
-                <div className="absolute -top-10 -right-10 w-20 h-20 opacity-20 animate-spin-slow">
-                   <svg viewBox="0 0 100 100" fill="white"><path d="M50 0 L60 40 L100 50 L60 60 L50 100 L40 60 L0 50 L40 40 Z" /></svg>
-                </div>
-
-                <div className="bg-rose-gold/90 backdrop-blur-xl rounded-3xl md:rounded-[2.5rem] p-5 md:p-8 shadow-2xl border border-white/20 text-left relative overflow-hidden">
+                <div className="bg-rose-gold/90 rounded-3xl md:rounded-[2.5rem] p-5 md:p-8 shadow-2xl border border-white/20 text-left relative overflow-hidden">
                   {/* Subtle Sketch Pattern */}
                   <div className="absolute inset-0 opacity-10 pointer-events-none flex items-center justify-center">
                     <svg width="200" height="200" viewBox="0 0 100 100" fill="currentColor" className="text-white">
@@ -210,7 +245,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                     </svg>
                   </div>
 
-                  <div className="w-10 h-1px bg-cream/40 mb-3 md:mb-6" />
+                  <div className="w-10 h-px bg-cream/40 mb-3 md:mb-6" />
                   <h3 className="font-serif-custom text-xl md:text-3xl font-bold text-cream mb-1 md:mb-2 italic leading-tight">
                     {title}
                   </h3>
@@ -225,18 +260,10 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                   </p>
                   <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
                     <p className="text-[10px] tracking-[0.3em] uppercase text-cream/50 font-bold">Project Details</p>
-                    <div className="w-5 h-5 text-rose-gold">
+                    <div className="w-5 h-5 text-cream/60">
                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
                     </div>
                   </div>
-                </div>
-
-                {/* Randomized Shapes Below Box */}
-                <div className={`absolute ${layoutMode % 2 === 1 ? "-top-12 -left-12" : "-bottom-12 -left-10"} w-32 h-32 opacity-10 pointer-events-none text-white transition-all duration-1000`}>
-                   <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="5 5">
-                      <circle cx="50" cy="50" r={layoutMode % 2 === 0 ? 30 : 45} />
-                      <path d="M0 50 L100 50 M50 0 L50 100" />
-                   </svg>
                 </div>
               </motion.div>
             )}

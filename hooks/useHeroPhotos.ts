@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
-import { collection, onSnapshot, addDoc, deleteDoc, doc, query, orderBy } from "firebase/firestore";
+import { collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc, query, orderBy } from "firebase/firestore";
 
 export interface HeroPhoto {
   id: string;
@@ -39,5 +39,9 @@ export function useHeroPhotos() {
     await deleteDoc(doc(db, "heroPhotos", id));
   };
 
-  return { photos, loading, addHeroPhoto, removeHeroPhoto };
+  const updateHeroPhoto = async (id: string, data: Partial<HeroPhoto>) => {
+    await updateDoc(doc(db, "heroPhotos", id), data);
+  };
+
+  return { photos, loading, addHeroPhoto, removeHeroPhoto, updateHeroPhoto };
 }

@@ -3,9 +3,16 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { X, ZoomIn, MapPin } from "lucide-react";
+import { ZoomIn, MapPin } from "lucide-react";
 import { usePhotos, Photo } from "@/hooks/usePhotos";
 import { migratePhotos } from "@/lib/migrate";
+import { MediaModal } from "./MediaModal";
+
+// Build a tiny blur-up URL from a Cloudinary src for instant perceived load
+function getBlurUrl(src: string): string | undefined {
+  if (!src.includes("cloudinary.com")) return undefined;
+  return src.replace("/upload/", "/upload/w_20,e_blur:400,q_10,f_jpg/");
+}
 
 function PhotoCard({
   photo,
@@ -19,9 +26,13 @@ function PhotoCard({
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
 
+  // Full-res optimized URL
   const optimizedSrc = photo.src.includes("cloudinary.com")
-    ? photo.src.replace("/upload/", "/upload/f_auto,q_auto,w_1000,c_limit/")
+    ? photo.src.replace("/upload/", "/upload/f_auto,q_auto:good,w_1000,c_limit/")
     : photo.src;
+
+  // Tiny blur placeholder
+  const blurUrl = getBlurUrl(photo.src);
 
   // Mobile: row spans are collapsed to 1 to prevent giant gaps.
   // Desktop (md+): full stored span via responsive classes.
@@ -33,14 +44,17 @@ function PhotoCard({
   };
   const spanClass = spanMap[photo.span] ?? "col-span-1 row-span-1";
 
+  // Only the first 2 photos are eagerly loaded — rest are lazy
+  const isPriority = index < 2;
+
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, scale: 0.93 }}
       animate={inView ? { opacity: 1, scale: 1 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.6, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
       className={`relative overflow-hidden rounded-2xl cursor-pointer group shadow-md ${spanClass}`}
-      style={{ minHeight: 160 }}
+      style={{ minHeight: 160, willChange: "transform" }}
       onClick={() => onOpen(photo)}
     >
       <Image
@@ -48,9 +62,12 @@ function PhotoCard({
         alt={photo.title}
         fill
         className="object-cover transition-transform duration-700 group-hover:scale-110"
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        priority={index < 4}
+        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+        priority={isPriority}
+        loading={isPriority ? "eager" : "lazy"}
         unoptimized
+        placeholder={blurUrl ? "blur" : "empty"}
+        blurDataURL={blurUrl}
       />
 
       {/* Hover overlay */}
@@ -58,7 +75,7 @@ function PhotoCard({
         className="absolute inset-0 bg-gradient-to-t from-rose-deep/80 via-rose-gold/30 to-transparent flex flex-col justify-end p-4"
         initial={{ opacity: 0 }}
         whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.35 }}
+        transition={{ duration: 0.3 }}
       >
         <div className="flex items-end justify-between">
           <div>
@@ -82,8 +99,6 @@ function PhotoCard({
   );
 }
 
-import { MediaModal } from "./MediaModal";
-
 export default function PhotoGallery() {
   const { photos, loading } = usePhotos();
   const [selected, setSelected] = useState<Photo | null>(null);
@@ -91,7 +106,6 @@ export default function PhotoGallery() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   useEffect(() => {
-    // Run migration only once if Firestore is empty
     migratePhotos();
   }, []);
 
@@ -117,7 +131,7 @@ export default function PhotoGallery() {
             <div className="section-divider mx-auto mb-5" />
             <p className="text-sm text-muted max-w-lg mx-auto leading-relaxed">
               Still frames that breathe — from café aesthetics to urban nights.
-              Click any photo to expand.
+              Tap any photo to expand.
             </p>
           </motion.div>
 

@@ -26,7 +26,7 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-cream">
-      {/* Floating orbs */}
+      {/* Floating orbs — GPU-composited, 3 keyframe steps for Safari performance */}
       {orbs.map((orb, i) => (
         <motion.div
           key={i}
@@ -38,12 +38,14 @@ export default function Hero() {
             top: orb.y,
             background: `radial-gradient(circle at 40% 40%, ${orb.color}, transparent 80%)`,
             filter: "blur(40px)",
+            // Force GPU compositing layer — prevents full-page repaints on Safari
+            willChange: "transform",
+            transform: "translateZ(0)",
           }}
           animate={{
-            y: [0, -80, 40, -30, 0],
-            x: [0, 40, -60, 30, 0],
-            scale: [1, 1.15, 0.9, 1.05, 1],
-            rotate: [0, 45, -45, 20, 0],
+            y: [0, -50, 0],
+            x: [0, 30, 0],
+            scale: [1, 1.1, 1],
           }}
           transition={{
             duration: orb.duration * 1.5,

@@ -11,15 +11,21 @@ import { MediaModal } from "./MediaModal";
 function VideoCard({ v, index, onOpen, isGlobalPaused }: { v: Video; index: number; onOpen: (v: Video) => void; isGlobalPaused: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { amount: 0.5 }); // Play when 50% in view
+  const inView = useInView(ref, { amount: 0.5 });
 
   useEffect(() => {
-    if (videoRef.current) {
-      if (inView && !isGlobalPaused) {
-        videoRef.current.play().catch(() => {});
-      } else {
-        videoRef.current.pause();
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (inView && !isGlobalPaused) {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay blocked by Safari — video stays paused, that's fine
+        });
       }
+    } else {
+      video.pause();
     }
   }, [inView, isGlobalPaused]);
 
@@ -31,20 +37,24 @@ function VideoCard({ v, index, onOpen, isGlobalPaused }: { v: Video; index: numb
       transition={{ duration: 0.8, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
       className="group flex flex-col cursor-pointer"
       onClick={() => onOpen(v)}
+      style={{ willChange: "transform" }}
     >
       {/* Video container — 9:16 portrait */}
       <div
-        className="relative overflow-hidden rounded-2xl bg-beige shadow-lg transform-gpu"
+        className="relative overflow-hidden rounded-2xl bg-beige shadow-lg"
         style={{ aspectRatio: "9/16" }}
       >
         <video
           ref={videoRef}
-          src={v.src}
+          src={v.src.includes("cloudinary.com") ? v.src.replace("/upload/", "/upload/f_auto,q_auto:good/") : v.src}
+          poster={v.src.includes("cloudinary.com") ? v.src.replace("/upload/", "/upload/f_auto,q_auto:eco,w_600/").replace(/\.mp4$/i, ".jpg") : undefined}
           muted
           playsInline
+          {...{ "webkit-playsinline": "true" } as any}
           loop
-          preload="metadata"
+          preload={index < 2 ? "metadata" : "none"}
           className="w-full h-full object-cover"
+          style={{ willChange: "transform" }}
         />
 
         {/* Gradient overlay */}
@@ -126,7 +136,9 @@ export default function VideoPortfolio() {
             style={{ 
               scrollbarWidth: 'none', 
               msOverflowStyle: 'none',
-              WebkitOverflowScrolling: 'touch'
+              // Safari: momentum scrolling + hint that only horizontal pan is needed
+              WebkitOverflowScrolling: 'touch',
+              touchAction: 'pan-x',
             }}
           >
             {loading ? (

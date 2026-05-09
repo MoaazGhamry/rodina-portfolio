@@ -11,14 +11,24 @@ function MomentCard({ moment, index, onOpen, isGlobalPaused }: { moment: Moment;
   const containerRef = useRef<HTMLDivElement>(null);
   const inView = useInView(containerRef, { amount: 0.6 });
   const [isHovered, setIsHovered] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   useEffect(() => {
-    if (videoRef.current) {
-      if (inView && !isGlobalPaused) {
-        videoRef.current.play().catch(() => {});
-      } else {
-        videoRef.current.pause();
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (inView && !isGlobalPaused) {
+      // Safari requires a user gesture for autoplay on non-muted videos.
+      // Since this is muted+playsInline, it should work — but we use a promise
+      // with a graceful catch to prevent unhandled rejections.
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay blocked — video stays paused, poster visible
+        });
       }
+    } else {
+      video.pause();
     }
   }, [inView, isGlobalPaused]);
 
@@ -33,15 +43,19 @@ function MomentCard({ moment, index, onOpen, isGlobalPaused }: { moment: Moment;
       onClick={() => onOpen(moment)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      style={{ willChange: "transform" }}
     >
       <video
         ref={videoRef}
-        src={moment.src}
+        src={moment.src.includes("cloudinary.com") ? moment.src.replace("/upload/", "/upload/f_auto,q_auto:good/") : moment.src}
+        poster={moment.src.includes("cloudinary.com") ? moment.src.replace("/upload/", "/upload/f_auto,q_auto:eco,w_600/").replace(/\.mp4$/i, ".jpg") : undefined}
         muted
         playsInline
+        {...{ "webkit-playsinline": "true" } as any}
         loop
-        preload="metadata"
+        preload={index < 3 ? "metadata" : "none"}
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        style={{ willChange: "transform" }}
       />
 
       {/* Decorative Overlay */}
@@ -61,7 +75,7 @@ function MomentCard({ moment, index, onOpen, isGlobalPaused }: { moment: Moment;
         </div>
       </div>
 
-      {/* Caption Area */}
+      {/* Caption Area — always visible on mobile, hover on desktop */}
       <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 md:translate-y-4 md:group-hover:translate-y-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 bg-gradient-to-t from-charcoal/80 to-transparent md:from-transparent">
         <h4 className="font-serif-custom text-base md:text-xl font-bold text-white mb-0.5 md:mb-1">
           {moment.title}
@@ -122,7 +136,7 @@ export default function Moments() {
             viewport={{ once: true }}
             className="hidden md:block text-right"
           >
-            <div className="w-12 h-12 rounded-full border border-blush/30 flex items-center justify-center text-rose-gold animate-bounce-slow">
+            <div className="w-12 h-12 rounded-full border border-blush/30 flex items-center justify-center text-rose-gold">
               <Play size={20} className="rotate-90" />
             </div>
           </motion.div>

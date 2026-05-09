@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const Flower = ({ 
   type, 
@@ -49,19 +50,22 @@ const Flower = ({
   return (
     <motion.div
       className="fixed bottom-0 pointer-events-none text-rose-gold/10"
-      style={{ left }}
+      style={{ 
+        left,
+        willChange: "transform",
+      }}
       initial={{ opacity: 0, y: 200, rotate: 0 }}
       animate={{ 
         opacity: [0, 1, 1, 0],
         y: type === "lily" ? [0, -1200] : [0, -1000], 
-        x: type === "lily" ? [0, 300] : [0, -200], // Diagonal 'flying' motion
+        x: type === "lily" ? [0, 300] : [0, -200],
         rotate: type === "lily" ? [0, 15, -15, 45] : [0, 90, -90, 360],
       }}
       transition={{ 
-        duration: type === "lily" ? duration * 0.8 : duration, // Lilies fly a bit faster
+        duration: type === "lily" ? duration * 0.8 : duration,
         delay, 
         repeat: Infinity, 
-        ease: "linear" // Linear for a constant 'flying' feel
+        ease: "linear"
       }}
     >
       {icons[type]}
@@ -69,34 +73,42 @@ const Flower = ({
   );
 };
 
+// Reduced set — 8 flowers for desktop only (mobile renders none)
+const desktopFlowers: { type: "rose" | "lily" | "tulip"; x: string; delay: number; duration: number; size: number }[] = [
+  { type: "rose",  x: "5%",  delay: 0,  duration: 35, size: 40 },
+  { type: "lily",  x: "18%", delay: 7,  duration: 45, size: 50 },
+  { type: "tulip", x: "32%", delay: 3,  duration: 30, size: 35 },
+  { type: "rose",  x: "48%", delay: 12, duration: 40, size: 45 },
+  { type: "lily",  x: "62%", delay: 5,  duration: 42, size: 55 },
+  { type: "tulip", x: "75%", delay: 9,  duration: 28, size: 38 },
+  { type: "rose",  x: "85%", delay: 15, duration: 38, size: 42 },
+  { type: "lily",  x: "95%", delay: 2,  duration: 50, size: 48 },
+];
+
 export default function FloralBackground() {
-  const flowers: { type: "rose" | "lily" | "tulip"; x: string; delay: number; duration: number; size: number }[] = [
-    { type: "rose", x: "5%", delay: 0, duration: 35, size: 40 },
-    { type: "lily", x: "12%", delay: 7, duration: 45, size: 50 },
-    { type: "tulip", x: "18%", delay: 3, duration: 30, size: 35 },
-    { type: "rose", x: "25%", delay: 12, duration: 40, size: 45 },
-    { type: "lily", x: "32%", delay: 2, duration: 50, size: 60 },
-    { type: "tulip", x: "40%", delay: 9, duration: 28, size: 30 },
-    { type: "rose", x: "48%", delay: 5, duration: 42, size: 55 },
-    { type: "lily", x: "55%", delay: 15, duration: 38, size: 40 },
-    { type: "tulip", x: "62%", delay: 1, duration: 33, size: 42 },
-    { type: "rose", x: "70%", delay: 10, duration: 25, size: 38 },
-    { type: "lily", x: "78%", delay: 4, duration: 48, size: 52 },
-    { type: "tulip", x: "85%", delay: 14, duration: 36, size: 44 },
-    { type: "rose", x: "92%", delay: 6, duration: 29, size: 36 },
-    { type: "lily", x: "98%", delay: 11, duration: 55, size: 58 },
-    // Extra row for more density
-    { type: "rose", x: "8%", delay: 20, duration: 40, size: 42 },
-    { type: "lily", x: "22%", delay: 18, duration: 35, size: 48 },
-    { type: "tulip", x: "38%", delay: 25, duration: 42, size: 36 },
-    { type: "rose", x: "52%", delay: 15, duration: 38, size: 50 },
-    { type: "lily", x: "68%", delay: 22, duration: 33, size: 44 },
-    { type: "tulip", x: "82%", delay: 19, duration: 45, size: 40 },
-  ];
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    // Check screen size
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(mediaQuery.matches);
+    const handleResize = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mediaQuery.addEventListener("change", handleResize);
+
+    // Respect prefers-reduced-motion
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(motionQuery.matches);
+
+    return () => mediaQuery.removeEventListener("change", handleResize);
+  }, []);
+
+  // Don't render on mobile or for users who prefer reduced motion
+  if (!isDesktop || reducedMotion) return null;
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-      {flowers.map((f, i) => (
+      {desktopFlowers.map((f, i) => (
         <Flower
           key={i}
           type={f.type}

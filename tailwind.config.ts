@@ -43,6 +43,14 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateY(30px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        "bounce-slow": {
+          "0%, 100%": { transform: "translateY(0)", animationTimingFunction: "cubic-bezier(0.8,0,1,1)" },
+          "50%": { transform: "translateY(-20px)", animationTimingFunction: "cubic-bezier(0,0,0.2,1)" },
+        },
+        "spin-slow": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
       },
       animation: {
         float: "float 7s ease-in-out infinite",
@@ -50,6 +58,8 @@ const config: Config = {
         "float-xs": "float 5s ease-in-out infinite 1.5s",
         shimmer: "shimmer 3s linear infinite",
         "fade-up": "fadeUp 0.8s ease forwards",
+        "bounce-slow": "bounce-slow 3s ease-in-out infinite",
+        "spin-slow": "spin-slow 8s linear infinite",
       },
     },
   },

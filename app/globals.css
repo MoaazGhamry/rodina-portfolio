@@ -28,16 +28,22 @@
 
   html {
     scroll-behavior: smooth;
+    /* Safari momentum scrolling */
+    -webkit-overflow-scrolling: touch;
   }
 
-  * {
-    @apply transition-colors duration-500 ease-in-out;
-  }
-
+  /* DO NOT add transition to * — it forces repaint on every element and kills Safari perf */
   body {
     @apply bg-cream text-charcoal antialiased;
     background-color: var(--background);
     color: var(--foreground);
+    /* Prevent Safari tap highlight flash */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Only apply color transitions to elements that actually need it */
+  a, button, [role="button"] {
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
   }
 
   ::selection {
@@ -78,5 +84,12 @@
     height: 2px;
     background: linear-gradient(90deg, #B8727D, #F2C4CE);
     border-radius: 9999px;
+  }
+
+  /* GPU-accelerated layer for animated elements */
+  .gpu-layer {
+    will-change: transform;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
 }
