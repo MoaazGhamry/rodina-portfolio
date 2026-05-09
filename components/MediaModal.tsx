@@ -143,27 +143,40 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Animated Background Lilies */}
+          {/* Animated Background Lilies & Motion */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(6)].map((_, i) => (
+            {/* Moving Blurred Backdrop */}
+            <motion.div 
+              animate={{ 
+                x: [-10, 10, -10],
+                y: [-10, 10, -10],
+                rotate: [0, 5, 0]
+              }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-[-10%] opacity-20 blur-3xl text-rose-gold/20 flex items-center justify-center"
+            >
+              <Lily size={800} />
+            </motion.div>
+
+            {[...Array(8)].map((_, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, x: Math.random() * 100 + "%", y: "110%" }}
+                initial={{ opacity: 0, x: (i * 15) + "%", y: "110%" }}
                 animate={{ 
-                  opacity: [0, 0.15, 0.15, 0],
+                  opacity: [0, 0.2, 0.2, 0],
                   y: "-10%",
-                  x: (Math.random() * 100) + "%",
-                  rotate: [0, 45, -45, 90]
+                  x: (i * 15 + (Math.random() * 20 - 10)) + "%",
+                  rotate: [0, 90, -90, 180]
                 }}
                 transition={{ 
-                  duration: 15 + Math.random() * 10,
+                  duration: 20 + Math.random() * 15,
                   repeat: Infinity,
                   delay: i * 2,
                   ease: "linear"
                 }}
                 className="absolute text-rose-gold/20"
               >
-                <Lily size={40 + Math.random() * 60} />
+                <Lily size={60 + Math.random() * 100} />
               </motion.div>
             ))}
           </div>

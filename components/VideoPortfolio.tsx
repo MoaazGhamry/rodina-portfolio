@@ -115,7 +115,7 @@ export default function VideoPortfolio() {
             key={i}
             initial={{ opacity: 0, x: (i * 30) + "%", y: "100%" }}
             animate={{ 
-              opacity: [0, 0.15, 0.15, 0],
+              opacity: [0, 0.1, 0.1, 0],
               y: "-20%",
               x: (i * 30 + (Math.random() * 10 - 5)) + "%",
               rotate: [0, 45, -45, 90]
@@ -126,7 +126,7 @@ export default function VideoPortfolio() {
               delay: i * 4,
               ease: "linear"
             }}
-            className="absolute text-rose-gold/20"
+            className="absolute text-rose-gold/10 mix-blend-overlay"
           >
             <Lily size={150 + i * 80} />
           </motion.div>
