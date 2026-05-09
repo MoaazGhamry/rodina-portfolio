@@ -39,10 +39,9 @@ export default function MusicPlayer() {
     <div className="fixed bottom-6 left-6 z-[60] flex items-center gap-3">
       <audio
         ref={audioRef}
-        src="https://cdn.pixabay.com/audio/2022/02/22/audio_d0c6d35688.mp3"
+        src="https://www.chosic.com/wp-content/uploads/2020/12/Everything-that-floats.mp3"
         loop
         preload="auto"
-        crossOrigin="anonymous"
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onError={(e) => {
