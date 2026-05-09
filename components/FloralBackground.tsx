@@ -61,15 +61,16 @@ const Flower = ({
       initial={{ opacity: 0, y: 200, rotate: 0 }}
       animate={{ 
         opacity: [0, 1, 1, 0],
-        y: type === "lily" ? [0, -1200] : [0, -1000], 
-        x: type === "lily" ? [0, 300] : [0, -200],
-        rotate: type === "lily" ? [0, 15, -15, 45] : [0, 90, -90, 360],
+        y: type === "lily" ? [0, -600, -1200] : [0, -500, -1000], 
+        x: type === "lily" ? [0, 150, -100, 300] : [0, -100, 150, -200],
+        rotate: type === "lily" ? [0, 45, -45, 90] : [0, 180, -180, 360],
+        scale: [0.8, 1.1, 0.9, 1],
       }}
       transition={{ 
-        duration: type === "lily" ? duration * 0.8 : duration,
+        duration: type === "lily" ? duration * 1.2 : duration * 1.5,
         delay, 
         repeat: Infinity, 
-        ease: "linear"
+        ease: "easeInOut"
       }}
     >
       {icons[type]}
@@ -88,11 +89,19 @@ const desktopFlowers: { type: "rose" | "lily" | "tulip"; x: string; delay: numbe
   { type: "lily",  x: "95%", delay: 2,  duration: 50, size: 48 },
 ];
 
+const mobileFlowers: { type: "rose" | "lily" | "tulip"; x: string; delay: number; duration: number; size: number }[] = [
+  { type: "lily",  x: "10%", delay: 0,  duration: 30, size: 35 },
+  { type: "rose",  x: "40%", delay: 5,  duration: 40, size: 30 },
+  { type: "lily",  x: "80%", delay: 10, duration: 35, size: 40 },
+];
+
 export default function FloralBackground() {
   const [isDesktop, setIsDesktop] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
+    setIsLoaded(true);
     const mediaQuery = window.matchMedia("(min-width: 768px)");
     setIsDesktop(mediaQuery.matches);
     const handleResize = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
@@ -104,7 +113,9 @@ export default function FloralBackground() {
     return () => mediaQuery.removeEventListener("change", handleResize);
   }, []);
 
-  if (!isDesktop || reducedMotion) return null;
+  if (!isLoaded || reducedMotion) return null;
+
+  const activeFlowers = isDesktop ? desktopFlowers : mobileFlowers;
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
@@ -112,25 +123,25 @@ export default function FloralBackground() {
       <div className="absolute inset-0 opacity-0 dark:opacity-100 transition-opacity duration-1000">
         <motion.div
           animate={{
-            x: [0, 50, 0],
-            y: [0, 30, 0],
-            scale: [1, 1.2, 1],
+            x: [0, 30, -30, 0],
+            y: [0, 50, -20, 0],
+            scale: [1, 1.2, 0.9, 1],
           }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[10%] left-[10%] w-[40vw] h-[40vw] bg-rose-gold/20 blur-[120px] rounded-full"
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[10%] left-[10%] w-[60vw] h-[60vw] md:w-[40vw] md:h-[40vw] bg-rose-gold/20 blur-[100px] md:blur-[120px] rounded-full"
         />
         <motion.div
           animate={{
-            x: [0, -40, 0],
-            y: [0, 60, 0],
-            scale: [1, 1.1, 1],
+            x: [0, -50, 40, 0],
+            y: [0, -30, 60, 0],
+            scale: [1, 0.8, 1.1, 1],
           }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute bottom-[10%] right-[10%] w-[35vw] h-[35vw] bg-rose-gold/15 blur-[100px] rounded-full"
+          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute bottom-[10%] right-[10%] w-[50vw] h-[50vw] md:w-[35vw] md:h-[35vw] bg-rose-gold/15 blur-[80px] md:blur-[100px] rounded-full"
         />
       </div>
 
-      {desktopFlowers.map((f, i) => (
+      {activeFlowers.map((f, i) => (
         <Flower
           key={i}
           type={f.type}

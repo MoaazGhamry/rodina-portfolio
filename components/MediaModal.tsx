@@ -158,25 +158,26 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
               <Lily size={1000} />
             </motion.div>
 
-            {[...Array(10)].map((_, i) => (
+            {[...Array(12)].map((_, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, x: (i * 10) + "%", y: "110%" }}
+                initial={{ opacity: 0, x: (i * 8) + "%", y: "110%" }}
                 animate={{ 
                   opacity: [0, 0.3, 0.3, 0],
-                  y: "-10%",
-                  x: (i * 10 + (Math.random() * 30 - 15)) + "%",
-                  rotate: [0, 180, -180, 360]
+                  y: ["110%", "50%", "-10%"],
+                  x: [(i * 8) + "%", (i * 8 + (Math.random() * 40 - 20)) + "%", (i * 8 + (Math.random() * 60 - 30)) + "%"],
+                  rotate: [0, 180, -180, 360],
+                  scale: [0.5, 1, 0.7, 1]
                 }}
                 transition={{ 
-                  duration: 15 + Math.random() * 10,
+                  duration: 15 + Math.random() * 15,
                   repeat: Infinity,
-                  delay: i * 1.5,
-                  ease: "linear"
+                  delay: i * 1,
+                  ease: "easeInOut"
                 }}
                 className="absolute text-rose-gold/30"
               >
-                <Lily size={80 + Math.random() * 120} />
+                <Lily size={60 + Math.random() * 150} />
               </motion.div>
             ))}
           </div>

@@ -110,25 +110,26 @@ export default function Moments() {
     <section id="moments" className="py-24 md:py-32 bg-cream overflow-hidden relative">
       {/* Background Animated Lilies */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(3)].map((_, i) => (
+        {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0, x: (i * 40) + "%", y: "110%" }}
+            initial={{ opacity: 0, x: (i * 20) + "%", y: "110%" }}
             animate={{ 
-              opacity: [0, 0.1, 0.1, 0],
-              y: "-10%",
-              x: (i * 40 + (Math.random() * 20 - 10)) + "%",
-              rotate: [0, 90, -90, 180]
+              opacity: [0, 0.15, 0.15, 0],
+              y: ["110%", "50%", "-10%"],
+              x: [(i * 20) + "%", (i * 20 + (Math.random() * 30 - 15)) + "%", (i * 20 + (Math.random() * 50 - 25)) + "%"],
+              rotate: [0, 180, -180, 360],
+              scale: [0.6, 1.2, 0.8, 1]
             }}
             transition={{ 
-              duration: 30 + i * 10,
+              duration: 25 + i * 8,
               repeat: Infinity,
-              delay: i * 5,
-              ease: "linear"
+              delay: i * 4,
+              ease: "easeInOut"
             }}
-            className="absolute text-rose-gold/15"
+            className="absolute text-rose-gold/20"
           >
-            <Lily size={200 + i * 100} />
+            <Lily size={150 + i * 80} />
           </motion.div>
         ))}
       </div>

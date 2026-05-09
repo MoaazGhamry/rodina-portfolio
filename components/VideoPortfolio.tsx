@@ -110,25 +110,26 @@ export default function VideoPortfolio() {
     <section id="videos" className="py-24 md:py-32 bg-blush-light/40 relative overflow-hidden">
       {/* Decorative Lilies Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(4)].map((_, i) => (
+        {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0, x: (i * 30) + "%", y: "100%" }}
+            initial={{ opacity: 0, x: (i * 20) + "%", y: "110%" }}
             animate={{ 
               opacity: [0, 0.1, 0.1, 0],
-              y: "-20%",
-              x: (i * 30 + (Math.random() * 10 - 5)) + "%",
-              rotate: [0, 45, -45, 90]
+              y: ["110%", "40%", "-20%"],
+              x: [(i * 20) + "%", (i * 20 + (Math.random() * 20 - 10)) + "%", (i * 20 + (Math.random() * 40 - 20)) + "%"],
+              rotate: [0, 180, -180, 360],
+              scale: [0.7, 1.1, 0.8, 1]
             }}
             transition={{ 
-              duration: 25 + i * 5,
+              duration: 20 + i * 5,
               repeat: Infinity,
-              delay: i * 4,
-              ease: "linear"
+              delay: i * 3,
+              ease: "easeInOut"
             }}
             className="absolute text-rose-gold/20 mix-blend-screen"
           >
-            <Lily size={150 + i * 80} />
+            <Lily size={120 + i * 60} />
           </motion.div>
         ))}
       </div>
