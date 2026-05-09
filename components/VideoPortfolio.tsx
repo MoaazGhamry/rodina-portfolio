@@ -46,8 +46,8 @@ function VideoCard({ v, index, onOpen, isGlobalPaused }: { v: Video; index: numb
       >
         <video
           ref={videoRef}
-          src={v.src.includes("cloudinary.com") ? v.src.replace("/upload/", "/upload/f_auto,q_auto:good/") : v.src}
-          poster={v.src.includes("cloudinary.com") ? v.src.replace("/upload/", "/upload/f_auto,q_auto:eco,w_600/").replace(/\.mp4$/i, ".jpg") : undefined}
+          src={v.src.includes("cloudinary.com") ? v.src.replace("/upload/", "/upload/f_mp4,vc_auto,q_auto:good/") : v.src}
+          poster={v.src.includes("cloudinary.com") ? v.src.replace("/upload/", "/upload/f_auto,q_auto:eco,w_600/").replace(/\.[^/.]+$/, ".jpg") : undefined}
           muted
           playsInline
           {...{ "webkit-playsinline": "true" } as any}
@@ -62,7 +62,7 @@ function VideoCard({ v, index, onOpen, isGlobalPaused }: { v: Video; index: numb
 
         {/* Maximize icon on hover */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-          <div className="w-12 h-12 rounded-full bg-cream/20 backdrop-blur-md flex items-center justify-center text-cream">
+          <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
              <Maximize2 size={24} />
           </div>
         </div>
@@ -70,7 +70,7 @@ function VideoCard({ v, index, onOpen, isGlobalPaused }: { v: Video; index: numb
         {/* Tag chip */}
         <div className="absolute top-3 left-3">
           <span
-            className="text-[10px] font-semibold tracking-widest uppercase px-3 py-1 rounded-full text-cream"
+            className="text-[10px] font-semibold tracking-widest uppercase px-3 py-1 rounded-full text-white"
             style={{ background: v.accent || "#B8727D" }}
           >
             {v.tag}

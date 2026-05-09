@@ -13,6 +13,7 @@
     --cream: #FCF9F7;
     --card-bg: rgba(253, 248, 245, 0.7);
     --border: rgba(242, 196, 206, 0.3);
+    --beige: #F0E0D3;
   }
 
   .dark {
@@ -24,6 +25,33 @@
     --blush-light: #2D1F21;
     --card-bg: rgba(30, 30, 30, 0.7);
     --border: rgba(184, 114, 125, 0.2);
+    --beige: #1C1917;
+  }
+
+  .rose {
+    --background: #FFF0F3;
+    --foreground: #4A1525;
+    --charcoal: #4A1525;
+    --cream: #FFF0F3;
+    --rose-gold: #D84A6A;
+    --blush: #FFD6E0;
+    --blush-light: #FFF5F7;
+    --card-bg: rgba(255, 240, 243, 0.7);
+    --border: rgba(216, 74, 106, 0.2);
+    --beige: #F9E4E8;
+  }
+
+  .midnight {
+    --background: #0B0C10;
+    --foreground: #E0E2E6;
+    --charcoal: #E0E2E6;
+    --cream: #0B0C10;
+    --rose-gold: #9B72B8;
+    --blush: #2C263A;
+    --blush-light: #1A1625;
+    --card-bg: rgba(20, 22, 30, 0.7);
+    --border: rgba(155, 114, 184, 0.2);
+    --beige: #15161D;
   }
 
   html {
@@ -68,6 +96,18 @@
 
   .dark .text-gradient-rose {
     background: linear-gradient(135deg, #D4909C 0%, #E5B7C1 60%, #F2C4CE 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .rose .text-gradient-rose {
+    background: linear-gradient(135deg, #D84A6A 0%, #E87A90 60%, #FFD6E0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .midnight .text-gradient-rose {
+    background: linear-gradient(135deg, #9B72B8 0%, #B892D8 60%, #E0D6F0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }

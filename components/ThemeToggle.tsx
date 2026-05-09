@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "./ThemeProvider";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Palette, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function ThemeToggle() {
@@ -16,7 +16,7 @@ export function ThemeToggle() {
       aria-label="Toggle theme"
     >
       <AnimatePresence mode="wait" initial={false}>
-        {theme === "light" ? (
+        {theme === "light" && (
           <motion.div
             key="sun"
             initial={{ y: 20, opacity: 0, rotate: -45 }}
@@ -26,7 +26,8 @@ export function ThemeToggle() {
           >
             <Sun size={20} />
           </motion.div>
-        ) : (
+        )}
+        {theme === "dark" && (
           <motion.div
             key="moon"
             initial={{ y: 20, opacity: 0, rotate: 45 }}
@@ -35,6 +36,28 @@ export function ThemeToggle() {
             transition={{ duration: 0.3 }}
           >
             <Moon size={20} />
+          </motion.div>
+        )}
+        {theme === "rose" && (
+          <motion.div
+            key="rose"
+            initial={{ y: 20, opacity: 0, scale: 0.8 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: -20, opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Palette size={20} />
+          </motion.div>
+        )}
+        {theme === "midnight" && (
+          <motion.div
+            key="midnight"
+            initial={{ y: 20, opacity: 0, rotate: 180 }}
+            animate={{ y: 0, opacity: 1, rotate: 0 }}
+            exit={{ y: -20, opacity: 0, rotate: -180 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Sparkles size={20} />
           </motion.div>
         )}
       </AnimatePresence>

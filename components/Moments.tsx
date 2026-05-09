@@ -47,8 +47,8 @@ function MomentCard({ moment, index, onOpen, isGlobalPaused }: { moment: Moment;
     >
       <video
         ref={videoRef}
-        src={moment.src.includes("cloudinary.com") ? moment.src.replace("/upload/", "/upload/f_auto,q_auto:good/") : moment.src}
-        poster={moment.src.includes("cloudinary.com") ? moment.src.replace("/upload/", "/upload/f_auto,q_auto:eco,w_600/").replace(/\.mp4$/i, ".jpg") : undefined}
+        src={moment.src.includes("cloudinary.com") ? moment.src.replace("/upload/", "/upload/f_mp4,vc_auto,q_auto:good/") : moment.src}
+        poster={moment.src.includes("cloudinary.com") ? moment.src.replace("/upload/", "/upload/f_auto,q_auto:eco,w_600/").replace(/\.[^/.]+$/, ".jpg") : undefined}
         muted
         playsInline
         {...{ "webkit-playsinline": "true" } as any}

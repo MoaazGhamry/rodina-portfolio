@@ -16,7 +16,7 @@ const config: Config = {
         rose: "#C9848F",
         "rose-gold": "#B8727D",
         "rose-deep": "#8C4A54",
-        beige: "#F0E0D3",
+        beige: "var(--beige)",
         charcoal: "var(--foreground)",
         "charcoal-light": "var(--foreground)",
         muted: "#94A3B8",
