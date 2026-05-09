@@ -39,7 +39,7 @@ export default function MusicPlayer() {
     <div className="fixed bottom-6 left-6 z-[60] flex items-center gap-3">
       <audio
         ref={audioRef}
-        src="https://www.scottbuckley.com.au/library/wp-content/uploads/Scott-Buckley-The-Long-Walk.mp3"
+        src="https://cdn.pixabay.com/audio/2022/03/10/audio_c369766948.mp3"
         loop
         preload="auto"
         crossOrigin="anonymous"
