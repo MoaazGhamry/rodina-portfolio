@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, MapPin } from "lucide-react";
+import { X, MapPin, Heart } from "lucide-react";
 import Image from "next/image";
 import { Lily } from "./FloralBackground";
 
@@ -54,17 +54,14 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      document.documentElement.style.setProperty("--nav-opacity", "0");
-      document.documentElement.style.setProperty("--nav-pointer-events", "none");
+      document.body.classList.add("modal-open");
     } else {
       document.body.style.overflow = "";
-      document.documentElement.style.setProperty("--nav-opacity", "1");
-      document.documentElement.style.setProperty("--nav-pointer-events", "auto");
+      document.body.classList.remove("modal-open");
     }
     return () => {
       document.body.style.overflow = "";
-      document.documentElement.style.setProperty("--nav-opacity", "1");
-      document.documentElement.style.setProperty("--nav-pointer-events", "auto");
+      document.body.classList.remove("modal-open");
     };
   }, [isOpen]);
 
@@ -164,19 +161,20 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
               <Lily size={1000} />
             </motion.div>
 
-            {[...Array(16)].map((_, i) => {
-              const startX = (i * 100 / 16);
+            {[...Array(18)].map((_, i) => {
+              const startX = (i * 100 / 18);
+              const isHeart = i % 3 === 0;
               return (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: `${startX}%`, y: "110%" }}
+                  initial={{ opacity: 0, left: `${startX}%`, y: "110%" }}
                   animate={{ 
                     opacity: [0, 0.35, 0.35, 0],
                     y: ["110%", "50%", "-15%"],
-                    x: [
+                    left: [
                       `${startX}%`, 
-                      `${startX + (Math.random() * 20 - 10)}%`, 
-                      `${startX + (Math.random() * 40 - 20)}%`
+                      `${startX + (Math.random() * 15 - 7.5)}%`, 
+                      `${startX + (Math.random() * 30 - 15)}%`
                     ],
                     rotate: [0, 180, -180, 360],
                     scale: [0.4, 1.1, 0.6, 1]
@@ -184,12 +182,12 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                   transition={{ 
                     duration: 12 + Math.random() * 18,
                     repeat: Infinity,
-                    delay: i * 0.8,
+                    delay: i * 0.6,
                     ease: "easeInOut"
                   }}
                   className="absolute text-rose-gold/30"
                 >
-                  <Lily size={50 + Math.random() * 180} />
+                  {isHeart ? <Heart size={30 + Math.random() * 50} fill="currentColor" className="opacity-40" /> : <Lily size={50 + Math.random() * 180} />}
                 </motion.div>
               );
             })}
