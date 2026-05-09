@@ -53,17 +53,11 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      document.body.style.position = "fixed";
-      document.body.style.width = "100%";
     } else {
       document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
     }
     return () => {
       document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
     };
   }, [isOpen]);
 
@@ -142,8 +136,8 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          // No backdrop-blur — too expensive on Safari mobile
-          className="fixed inset-0 z-[100] bg-charcoal/96 flex items-center justify-center p-4 md:p-10"
+          // Restored backdrop-blur but kept it moderate for performance
+          className="fixed inset-0 z-[100] bg-charcoal/80 backdrop-blur-md flex items-center justify-center p-4 md:p-10 cursor-pointer"
           onClick={onClose}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
@@ -165,14 +159,16 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
           <motion.div
             {...modalVariants}
             transition={{ duration: isMobile ? 0.18 : 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full h-full max-w-7xl flex flex-col lg:flex-row items-center justify-center gap-4 md:gap-10"
-            onClick={(e) => e.stopPropagation()}
+            className="relative w-full h-full max-w-7xl flex flex-col lg:flex-row items-center justify-center gap-4 md:gap-10 cursor-default"
           >
             {/* Media Container */}
             <div className="relative flex-1 w-full h-full flex items-center justify-center min-h-0">
               {type === "image" ? (
                 <div className="relative w-full h-full flex items-center justify-center p-2 md:p-4">
-                  <div className="relative w-full h-full max-w-full max-h-full rounded-2xl md:rounded-[3rem] overflow-hidden shadow-2xl border border-white/10">
+                  <div 
+                    className="relative w-full h-full max-w-full max-h-full rounded-2xl md:rounded-[3rem] overflow-hidden shadow-2xl border border-white/10"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <Image
                       src={optimizedSrc}
                       alt={title || "Portfolio Item"}
