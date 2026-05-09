@@ -185,9 +185,9 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                     delay: i * 0.6,
                     ease: "easeInOut"
                   }}
-                  className="absolute text-rose-gold/30"
+                  className="absolute text-rose-gold/45"
                 >
-                  {isHeart ? <Heart size={30 + Math.random() * 50} fill="currentColor" className="opacity-40" /> : <Lily size={50 + Math.random() * 180} />}
+                  {isHeart ? <Heart size={30 + Math.random() * 50} fill="currentColor" className="opacity-50" /> : <Lily size={50 + Math.random() * 180} />}
                 </motion.div>
               );
             })}
@@ -245,7 +245,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                   playsInline
                   preload="auto"
                   {...{ "webkit-playsinline": "true" } as any}
-                  className="max-w-full max-h-[82vh] md:max-h-full rounded-2xl md:rounded-[3rem] shadow-2xl border border-white/10"
+                  className="max-w-full h-[65vh] md:max-h-full rounded-2xl md:rounded-[3rem] shadow-2xl border border-white/10 object-cover"
                   onClick={(e) => e.stopPropagation()}
                 />
               )}
@@ -284,10 +284,10 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                 initial={{ x: isMobile ? 0 : 20, y: isMobile ? 20 : 0, opacity: 0 }}
                 animate={{ x: 0, y: 0, opacity: 1 }}
                 transition={{ delay: 0.15, duration: 0.3 }}
-                className="w-full lg:w-80 flex-shrink-0 relative"
+                className="w-full lg:w-80 h-[25vh] lg:h-auto flex-shrink-0 relative"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="bg-rose-gold/90 rounded-3xl md:rounded-[2.5rem] p-4 md:p-8 shadow-2xl border border-white/20 text-left relative overflow-hidden">
+                <div className="bg-rose-gold/90 h-full rounded-3xl md:rounded-[2.5rem] p-6 md:p-8 shadow-2xl border border-white/20 text-left relative overflow-hidden flex flex-col justify-center">
                   {/* Subtle Sketch Pattern */}
                   <div className="absolute inset-0 opacity-10 pointer-events-none flex items-center justify-center">
                     <svg width="200" height="200" viewBox="0 0 100 100" fill="currentColor" className="text-white">
@@ -310,31 +310,11 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                   </p>
                   
                   {/* Smart Music & Interaction Footer */}
-                  <div className="mt-4 md:mt-8 pt-3 md:pt-6 border-t border-white/10 flex items-center gap-3">
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        window.dispatchEvent(new CustomEvent('toggle-music'));
-                      }}
-                      className="w-10 h-10 rounded-full bg-black/20 flex items-center justify-center text-white/80 hover:bg-black/40 transition-all"
-                    >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                    </button>
-
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        window.dispatchEvent(new CustomEvent('toggle-music'));
-                      }}
-                      className="flex-1 bg-black/20 hover:bg-black/30 text-white py-2 px-4 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase transition-all flex items-center justify-center gap-2"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-rose-gold animate-pulse" />
-                      CALM MUSIC
-                    </button>
-
-                    <button className="w-10 h-10 rounded-full bg-black/20 flex items-center justify-center text-rose-gold hover:bg-black/40 transition-all">
-                      <Heart size={18} fill="currentColor" />
-                    </button>
+                  <div className="mt-4 md:mt-8 pt-4 md:pt-6 border-t border-white/10 flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-[10px] text-white/60 uppercase tracking-widest font-bold">
+                      <Heart size={14} className="text-white/40" />
+                      <span>Saved</span>
+                    </div>
                   </div>
                 </div>
               </motion.div>

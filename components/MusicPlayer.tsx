@@ -3,14 +3,13 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, VolumeX, Music } from "lucide-react";
+import { useMusicSettings } from "@/hooks/useMusicSettings";
 
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  const [customSrc, setCustomSrc] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { musicUrl } = useMusicSettings();
 
   const togglePlay = useCallback(() => {
     if (!audioRef.current) return;
@@ -29,28 +28,8 @@ export default function MusicPlayer() {
     return () => window.removeEventListener('toggle-music', handleGlobalToggle);
   }, [togglePlay]);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setCustomSrc(url);
-      setIsPlaying(false); // Reset to allow play with new src
-      setTimeout(() => {
-        if (audioRef.current) {
-          audioRef.current.play();
-        }
-      }, 100);
-    }
-  };
-
   useEffect(() => {
-    // Attempt subtle autoplay on first user interaction if not already playing
     const handleFirstInteraction = () => {
-      if (!isPlaying && audioRef.current) {
-        // Many browsers allow play() after any user interaction
-        // but we won't force it to be loud/annoying.
-        // We'll keep it paused by default but ready.
-      }
       window.removeEventListener("click", handleFirstInteraction);
     };
     window.addEventListener("click", handleFirstInteraction);
@@ -61,7 +40,7 @@ export default function MusicPlayer() {
     <div className="fixed bottom-6 left-6 z-[60] flex items-center gap-3 music-player-container transition-opacity duration-300">
       <audio
         ref={audioRef}
-        src={customSrc || "https://cdn.pixabay.com/audio/2024/02/09/audio_651a4a2928.mp3"}
+        src={musicUrl || "https://cdn.pixabay.com/audio/2024/02/09/audio_651a4a2928.mp3"}
         loop
         preload="auto"
         onPlay={() => setIsPlaying(true)}
@@ -113,19 +92,6 @@ export default function MusicPlayer() {
               <Music size={12} />
               {isPlaying ? "Calm Vibes Active" : "Enable Calm Music"}
             </p>
-            <button 
-              onClick={() => fileInputRef.current?.click()}
-              className="text-[9px] text-white/40 hover:text-rose-gold transition-colors text-left uppercase tracking-tighter"
-            >
-              + Upload Custom Song
-            </button>
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              onChange={handleFileUpload} 
-              accept="audio/*" 
-              className="hidden" 
-            />
           </motion.div>
         )}
       </AnimatePresence>

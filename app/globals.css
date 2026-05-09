@@ -159,10 +159,11 @@
   }
 
   body.modal-open nav,
-  body.modal-open .music-player-container {
+  body.modal-open .music-player-container,
+  body.modal-open .floating-badge {
     opacity: 0 !important;
     pointer-events: none !important;
-    transform: translateY(-100%) !important;
+    transform: translateY(-20px) !important;
     transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
   }
 }

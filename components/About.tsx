@@ -228,7 +228,7 @@ export default function About() {
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                className="absolute -bottom-5 -left-10 glass-card rounded-2xl px-5 py-3 shadow-lg z-20"
+                className="absolute -bottom-5 -left-10 glass-card floating-badge rounded-2xl px-5 py-3 shadow-lg z-20"
               >
                 <p className="text-[10px] tracking-widest uppercase text-muted mb-0.5 font-bold">Swipe Me</p>
                 <p className="text-sm font-semibold text-charcoal">{photos[imgIndex]?.location || "Cairo, Egypt"} 🌸</p>
