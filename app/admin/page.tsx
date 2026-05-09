@@ -5,7 +5,7 @@ import { auth, storage } from "@/lib/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, UploadCloud, Trash2, Edit2, LogOut, Check, Image as ImageIcon, Plus } from "lucide-react";
+import { X, UploadCloud, Trash2, Pencil, Save, LogOut, Check, Image as ImageIcon, Plus } from "lucide-react";
 import Image from "next/image";
 import { usePhotos } from "@/hooks/usePhotos";
 import { useVideos } from "@/hooks/useVideos";
