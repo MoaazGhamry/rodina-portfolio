@@ -148,35 +148,35 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
             {/* Moving Blurred Backdrop */}
             <motion.div 
               animate={{ 
-                x: [-10, 10, -10],
-                y: [-10, 10, -10],
-                rotate: [0, 5, 0]
+                x: [-20, 20, -20],
+                y: [-20, 20, -20],
+                rotate: [0, 10, 0]
               }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-[-10%] opacity-20 blur-3xl text-rose-gold/20 flex items-center justify-center"
+              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-[-20%] opacity-30 blur-3xl text-rose-gold/40 flex items-center justify-center"
             >
-              <Lily size={800} />
+              <Lily size={1000} />
             </motion.div>
 
-            {[...Array(8)].map((_, i) => (
+            {[...Array(10)].map((_, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, x: (i * 15) + "%", y: "110%" }}
+                initial={{ opacity: 0, x: (i * 10) + "%", y: "110%" }}
                 animate={{ 
-                  opacity: [0, 0.2, 0.2, 0],
+                  opacity: [0, 0.3, 0.3, 0],
                   y: "-10%",
-                  x: (i * 15 + (Math.random() * 20 - 10)) + "%",
-                  rotate: [0, 90, -90, 180]
+                  x: (i * 10 + (Math.random() * 30 - 15)) + "%",
+                  rotate: [0, 180, -180, 360]
                 }}
                 transition={{ 
-                  duration: 20 + Math.random() * 15,
+                  duration: 15 + Math.random() * 10,
                   repeat: Infinity,
-                  delay: i * 2,
+                  delay: i * 1.5,
                   ease: "linear"
                 }}
-                className="absolute text-rose-gold/20"
+                className="absolute text-rose-gold/30"
               >
-                <Lily size={60 + Math.random() * 100} />
+                <Lily size={80 + Math.random() * 120} />
               </motion.div>
             ))}
           </div>

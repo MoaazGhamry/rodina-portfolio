@@ -51,7 +51,7 @@ export default function Navbar() {
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${
           scrolled || open
-            ? "bg-white/70 dark:bg-charcoal/70 backdrop-blur-xl border-b border-rose-gold/20 shadow-lg"
+            ? "bg-white/80 dark:bg-[#1A0F11]/90 backdrop-blur-xl border-b border-rose-gold/20 shadow-lg"
             : "bg-transparent"
         }`}
       >
@@ -72,7 +72,7 @@ export default function Navbar() {
                 <li key={l.href}>
                   <button
                     onClick={() => scrollTo(l.href)}
-                    className="text-[10px] tracking-[0.2em] uppercase text-charcoal-light dark:text-white/70 hover:text-rose-gold dark:hover:text-rose-gold transition-colors duration-300 font-bold"
+                    className="text-[10px] tracking-[0.2em] uppercase text-charcoal/70 dark:text-white/80 hover:text-rose-gold dark:hover:text-rose-gold transition-colors duration-300 font-bold"
                   >
                     {l.label}
                   </button>
@@ -83,7 +83,7 @@ export default function Navbar() {
               <ThemeToggle />
               <button
                 onClick={() => scrollTo("#contact")}
-                className="text-[10px] tracking-[0.2em] uppercase px-6 py-3 rounded-full bg-rose-gold text-white hover:shadow-lg hover:shadow-rose-gold/30 transition-all duration-300 font-bold"
+                className="text-[10px] tracking-[0.2em] uppercase px-6 py-3 rounded-full bg-rose-gold text-white hover:shadow-lg hover:shadow-rose-gold/40 dark:shadow-rose-gold/20 dark:hover:shadow-rose-gold/40 transition-all duration-300 font-bold"
               >
                 Hire Me
               </button>
@@ -112,7 +112,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed top-20 inset-x-0 z-40 bg-white/95 dark:bg-charcoal/95 backdrop-blur-xl border-b border-rose-gold/20 shadow-2xl md:hidden overflow-hidden"
+            className="fixed top-20 inset-x-0 z-40 bg-white/95 dark:bg-[#1A0F11]/95 backdrop-blur-xl border-b border-rose-gold/20 shadow-2xl md:hidden overflow-hidden"
           >
             <ul className="flex flex-col px-8 py-10 gap-6">
               {links.map((l, i) => (

@@ -126,7 +126,7 @@ export default function VideoPortfolio() {
               delay: i * 4,
               ease: "linear"
             }}
-            className="absolute text-rose-gold/10 mix-blend-overlay"
+            className="absolute text-rose-gold/20 mix-blend-screen"
           >
             <Lily size={150 + i * 80} />
           </motion.div>

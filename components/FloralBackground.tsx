@@ -53,7 +53,7 @@ const Flower = ({
 
   return (
     <motion.div
-      className="fixed bottom-0 pointer-events-none text-rose-gold/10"
+      className="fixed bottom-0 pointer-events-none text-rose-gold/10 dark:text-rose-gold/30"
       style={{ 
         left,
         willChange: "transform",
@@ -108,6 +108,28 @@ export default function FloralBackground() {
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+      {/* Dark Mode Pink Orbs */}
+      <div className="absolute inset-0 opacity-0 dark:opacity-100 transition-opacity duration-1000">
+        <motion.div
+          animate={{
+            x: [0, 50, 0],
+            y: [0, 30, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[10%] left-[10%] w-[40vw] h-[40vw] bg-rose-gold/20 blur-[120px] rounded-full"
+        />
+        <motion.div
+          animate={{
+            x: [0, -40, 0],
+            y: [0, 60, 0],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute bottom-[10%] right-[10%] w-[35vw] h-[35vw] bg-rose-gold/15 blur-[100px] rounded-full"
+        />
+      </div>
+
       {desktopFlowers.map((f, i) => (
         <Flower
           key={i}
