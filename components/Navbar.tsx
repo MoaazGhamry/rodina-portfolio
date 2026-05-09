@@ -48,6 +48,10 @@ export default function Navbar() {
           y: visible ? 0 : -100, 
           opacity: visible ? 1 : 0 
         }}
+        style={{ 
+          opacity: "var(--nav-opacity, 1)",
+          pointerEvents: "var(--nav-pointer-events, auto)" as any
+        }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${
           scrolled || open

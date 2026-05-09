@@ -50,15 +50,21 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Prevent body scroll while modal is open (important for Safari)
+  // Prevent body scroll and hide navbar while modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      document.documentElement.style.setProperty("--nav-opacity", "0");
+      document.documentElement.style.setProperty("--nav-pointer-events", "none");
     } else {
       document.body.style.overflow = "";
+      document.documentElement.style.setProperty("--nav-opacity", "1");
+      document.documentElement.style.setProperty("--nav-pointer-events", "auto");
     }
     return () => {
       document.body.style.overflow = "";
+      document.documentElement.style.setProperty("--nav-opacity", "1");
+      document.documentElement.style.setProperty("--nav-pointer-events", "auto");
     };
   }, [isOpen]);
 
@@ -158,28 +164,35 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
               <Lily size={1000} />
             </motion.div>
 
-            {[...Array(12)].map((_, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: (i * 8) + "%", y: "110%" }}
-                animate={{ 
-                  opacity: [0, 0.3, 0.3, 0],
-                  y: ["110%", "50%", "-10%"],
-                  x: [(i * 8) + "%", (i * 8 + (Math.random() * 40 - 20)) + "%", (i * 8 + (Math.random() * 60 - 30)) + "%"],
-                  rotate: [0, 180, -180, 360],
-                  scale: [0.5, 1, 0.7, 1]
-                }}
-                transition={{ 
-                  duration: 15 + Math.random() * 15,
-                  repeat: Infinity,
-                  delay: i * 1,
-                  ease: "easeInOut"
-                }}
-                className="absolute text-rose-gold/30"
-              >
-                <Lily size={60 + Math.random() * 150} />
-              </motion.div>
-            ))}
+            {[...Array(16)].map((_, i) => {
+              const startX = (i * 100 / 16);
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: `${startX}%`, y: "110%" }}
+                  animate={{ 
+                    opacity: [0, 0.35, 0.35, 0],
+                    y: ["110%", "50%", "-15%"],
+                    x: [
+                      `${startX}%`, 
+                      `${startX + (Math.random() * 20 - 10)}%`, 
+                      `${startX + (Math.random() * 40 - 20)}%`
+                    ],
+                    rotate: [0, 180, -180, 360],
+                    scale: [0.4, 1.1, 0.6, 1]
+                  }}
+                  transition={{ 
+                    duration: 12 + Math.random() * 18,
+                    repeat: Infinity,
+                    delay: i * 0.8,
+                    ease: "easeInOut"
+                  }}
+                  className="absolute text-rose-gold/30"
+                >
+                  <Lily size={50 + Math.random() * 180} />
+                </motion.div>
+              );
+            })}
           </div>
 
           {/* Ambient Glow */}
