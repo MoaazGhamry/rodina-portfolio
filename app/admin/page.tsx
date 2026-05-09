@@ -249,7 +249,7 @@ export default function AdminPage() {
                 <input
                   type="file"
                   accept="audio/*"
-                  onChange={handleMusicUpload}
+                  onChange={handleFileUpload}
                   className="absolute inset-0 opacity-0 cursor-pointer z-10"
                   disabled={uploading}
                 />
