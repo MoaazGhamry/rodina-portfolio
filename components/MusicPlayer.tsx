@@ -39,8 +39,12 @@ export default function MusicPlayer() {
     <div className="fixed bottom-6 left-6 z-[60] flex items-center gap-3">
       <audio
         ref={audioRef}
-        src="https://www.chosic.com/wp-content/uploads/2021/07/The-Garden-of-Wish.mp3"
+        src="https://www.scottbuckley.com.au/library/wp-content/uploads/Scott-Buckley-The-Long-Walk.mp3"
         loop
+        preload="auto"
+        crossOrigin="anonymous"
+        onCanPlay={() => console.log("Audio is ready")}
+        onError={(e) => console.error("Audio loading failed", e)}
       />
       
       <motion.button
