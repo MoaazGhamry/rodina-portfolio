@@ -9,16 +9,38 @@ export default function MusicPlayer() {
   const [showTooltip, setShowTooltip] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const togglePlay = () => {
+  const [customSrc, setCustomSrc] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const togglePlay = useCallback(() => {
     if (!audioRef.current) return;
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-      audioRef.current.play().catch(() => {
-        console.log("Autoplay blocked or audio failed");
+      audioRef.current.play().catch((err) => {
+        console.error("Autoplay blocked or audio failed", err);
       });
     }
-    setIsPlaying(!isPlaying);
+  }, [isPlaying]);
+
+  useEffect(() => {
+    const handleGlobalToggle = () => togglePlay();
+    window.addEventListener('toggle-music', handleGlobalToggle);
+    return () => window.removeEventListener('toggle-music', handleGlobalToggle);
+  }, [togglePlay]);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setCustomSrc(url);
+      setIsPlaying(false); // Reset to allow play with new src
+      setTimeout(() => {
+        if (audioRef.current) {
+          audioRef.current.play();
+        }
+      }, 100);
+    }
   };
 
   useEffect(() => {
@@ -36,10 +58,10 @@ export default function MusicPlayer() {
   }, [isPlaying]);
 
   return (
-    <div className="fixed bottom-6 left-6 z-[60] flex items-center gap-3">
+    <div className="fixed bottom-6 left-6 z-[60] flex items-center gap-3 music-player-container transition-opacity duration-300">
       <audio
         ref={audioRef}
-        src="https://cdn.pixabay.com/audio/2024/02/09/audio_651a4a2928.mp3"
+        src={customSrc || "https://cdn.pixabay.com/audio/2024/02/09/audio_651a4a2928.mp3"}
         loop
         preload="auto"
         onPlay={() => setIsPlaying(true)}
@@ -85,12 +107,25 @@ export default function MusicPlayer() {
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -10 }}
-            className="glass-card px-4 py-2 rounded-xl border border-rose-gold/10 pointer-events-none"
+            className="glass-card px-4 py-2 rounded-xl border border-rose-gold/10 flex flex-col gap-2"
           >
             <p className="text-[10px] tracking-widest uppercase font-bold text-rose-gold flex items-center gap-2">
               <Music size={12} />
               {isPlaying ? "Calm Vibes Active" : "Enable Calm Music"}
             </p>
+            <button 
+              onClick={() => fileInputRef.current?.click()}
+              className="text-[9px] text-white/40 hover:text-rose-gold transition-colors text-left uppercase tracking-tighter"
+            >
+              + Upload Custom Song
+            </button>
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              onChange={handleFileUpload} 
+              accept="audio/*" 
+              className="hidden" 
+            />
           </motion.div>
         )}
       </AnimatePresence>

@@ -158,7 +158,8 @@
     -webkit-transform: translateZ(0);
   }
 
-  body.modal-open nav {
+  body.modal-open nav,
+  body.modal-open .music-player-container {
     opacity: 0 !important;
     pointer-events: none !important;
     transform: translateY(-100%) !important;

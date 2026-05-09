@@ -156,7 +156,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                 rotate: [0, 10, 0]
               }}
               transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-[-20%] opacity-30 blur-3xl text-rose-gold/40 flex items-center justify-center"
+              className="absolute inset-[-20%] opacity-40 md:opacity-30 blur-3xl text-rose-gold/40 flex items-center justify-center z-0"
             >
               <Lily size={1000} />
             </motion.div>
@@ -245,7 +245,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                   playsInline
                   preload="auto"
                   {...{ "webkit-playsinline": "true" } as any}
-                  className="max-w-full max-h-[70vh] md:max-h-full rounded-2xl md:rounded-[3rem] shadow-2xl border border-white/10"
+                  className="max-w-full max-h-[82vh] md:max-h-full rounded-2xl md:rounded-[3rem] shadow-2xl border border-white/10"
                   onClick={(e) => e.stopPropagation()}
                 />
               )}
@@ -287,7 +287,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                 className="w-full lg:w-80 flex-shrink-0 relative"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="bg-rose-gold/90 rounded-3xl md:rounded-[2.5rem] p-5 md:p-8 shadow-2xl border border-white/20 text-left relative overflow-hidden">
+                <div className="bg-rose-gold/90 rounded-3xl md:rounded-[2.5rem] p-4 md:p-8 shadow-2xl border border-white/20 text-left relative overflow-hidden">
                   {/* Subtle Sketch Pattern */}
                   <div className="absolute inset-0 opacity-10 pointer-events-none flex items-center justify-center">
                     <svg width="200" height="200" viewBox="0 0 100 100" fill="currentColor" className="text-white">
@@ -295,24 +295,46 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                     </svg>
                   </div>
 
-                  <div className="w-10 h-px bg-white/40 mb-3 md:mb-6" />
-                  <h3 className="font-serif-custom text-xl md:text-3xl font-bold text-white mb-1 md:mb-2 italic leading-tight">
+                  <div className="w-10 h-px bg-white/40 mb-2 md:mb-6" />
+                  <h3 className="font-serif-custom text-lg md:text-3xl font-bold text-white mb-1 md:mb-2 italic leading-tight">
                     {title}
                   </h3>
                   {location && (
-                    <div className="flex items-center gap-2 text-[10px] text-white/70 mb-4 uppercase tracking-widest font-bold">
-                      <MapPin size={12} className="text-white" />
+                    <div className="flex items-center gap-2 text-[9px] md:text-[10px] text-white/70 mb-3 md:mb-4 uppercase tracking-widest font-bold">
+                      <MapPin size={11} className="text-white" />
                       <span>{location}</span>
                     </div>
                   )}
-                  <p className="text-white/90 text-sm md:text-base leading-relaxed font-medium">
+                  <p className="text-white/90 text-xs md:text-base leading-relaxed font-medium">
                     {description}
                   </p>
-                  <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
-                    <p className="text-[10px] tracking-[0.3em] uppercase text-white/50 font-bold">Project Details</p>
-                    <div className="w-5 h-5 text-white/60">
-                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
-                    </div>
+                  
+                  {/* Smart Music & Interaction Footer */}
+                  <div className="mt-4 md:mt-8 pt-3 md:pt-6 border-t border-white/10 flex items-center gap-3">
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        window.dispatchEvent(new CustomEvent('toggle-music'));
+                      }}
+                      className="w-10 h-10 rounded-full bg-black/20 flex items-center justify-center text-white/80 hover:bg-black/40 transition-all"
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    </button>
+
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        window.dispatchEvent(new CustomEvent('toggle-music'));
+                      }}
+                      className="flex-1 bg-black/20 hover:bg-black/30 text-white py-2 px-4 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase transition-all flex items-center justify-center gap-2"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-rose-gold animate-pulse" />
+                      CALM MUSIC
+                    </button>
+
+                    <button className="w-10 h-10 rounded-full bg-black/20 flex items-center justify-center text-rose-gold hover:bg-black/40 transition-all">
+                      <Heart size={18} fill="currentColor" />
+                    </button>
                   </div>
                 </div>
               </motion.div>
