@@ -76,7 +76,7 @@ function MomentCard({ moment, index, onOpen, isGlobalPaused }: { moment: Moment;
       </div>
 
       {/* Caption Area — always visible on mobile, hover on desktop */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 md:translate-y-4 md:group-hover:translate-y-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 bg-gradient-to-t from-charcoal/80 to-transparent md:from-transparent">
+      <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 md:translate-y-4 md:group-hover:translate-y-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent">
         <h4 className="font-serif-custom text-base md:text-xl font-bold text-white mb-0.5 md:mb-1">
           {moment.title}
         </h4>

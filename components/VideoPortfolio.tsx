@@ -131,14 +131,13 @@ export default function VideoPortfolio() {
 
         {/* Horizontal Video Container */}
         <div className="relative group/container">
-          <div 
+          <div
             className="flex gap-6 overflow-x-auto pb-12 pt-4 scrollbar-hide snap-x snap-mandatory"
             style={{ 
               scrollbarWidth: 'none', 
               msOverflowStyle: 'none',
-              // Safari: momentum scrolling + hint that only horizontal pan is needed
+              // Safari: momentum scrolling
               WebkitOverflowScrolling: 'touch',
-              touchAction: 'pan-x',
             }}
           >
             {loading ? (

@@ -172,7 +172,7 @@ export default function Contact() {
                       type={f.type}
                       required
                       placeholder={f.placeholder}
-                      className="w-full px-4 py-3 rounded-xl border border-blush/40 dark:border-white/10 bg-cream/50 dark:bg-white/5 text-charcoal dark:text-cream text-sm placeholder:text-muted/40 dark:placeholder:text-cream/20 focus:outline-none focus:border-rose-gold focus:ring-2 focus:ring-rose-gold/20 transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-blush/40 dark:border-white/10 bg-white/80 dark:bg-charcoal/90 text-charcoal dark:text-cream text-sm placeholder:text-muted/80 dark:placeholder:text-cream/50 focus:outline-none focus:border-rose-gold focus:ring-2 focus:ring-rose-gold/20 transition-all"
                     />
                   </div>
                 ))}
@@ -190,7 +190,7 @@ export default function Contact() {
                     required
                     rows={4}
                     placeholder="Tell me about your vision — what kind of edit or shoot are you looking for?"
-                    className="w-full px-4 py-3 rounded-xl border border-blush/40 dark:border-white/10 bg-cream/50 dark:bg-white/5 text-charcoal dark:text-cream text-sm placeholder:text-muted/40 dark:placeholder:text-cream/20 focus:outline-none focus:border-rose-gold focus:ring-2 focus:ring-rose-gold/20 transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-blush/40 dark:border-white/10 bg-white/80 dark:bg-charcoal/90 text-charcoal dark:text-cream text-sm placeholder:text-muted/80 dark:placeholder:text-cream/50 focus:outline-none focus:border-rose-gold focus:ring-2 focus:ring-rose-gold/20 transition-all resize-none"
                   />
                 </div>
 

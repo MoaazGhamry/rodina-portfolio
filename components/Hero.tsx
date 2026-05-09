@@ -136,9 +136,10 @@ export default function Hero() {
             whileHover={{ scale: 1.04, boxShadow: "0 12px 30px rgba(184,114,125,0.35)" }}
             whileTap={{ scale: 0.97 }}
             onClick={scrollToWork}
-            className="px-9 py-4 rounded-full bg-rose-gold text-cream text-sm font-semibold tracking-widest uppercase transition-shadow"
+            className="relative overflow-hidden group px-9 py-4 rounded-full bg-rose-gold text-cream text-sm font-semibold tracking-widest uppercase transition-shadow"
           >
-            View My Work
+            <span className="relative z-10">View My Work</span>
+            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:animate-shimmer" />
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.04 }}
