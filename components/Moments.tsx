@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { Maximize2, Play, Volume2 } from "lucide-react";
 import { useMoments, Moment } from "@/hooks/useMoments";
 import { MediaModal } from "./MediaModal";
+import { Lily } from "./FloralBackground";
 
 function MomentCard({ moment, index, onOpen, isGlobalPaused }: { moment: Moment; index: number; onOpen: (m: Moment) => void; isGlobalPaused: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -95,9 +96,7 @@ function MomentCard({ moment, index, onOpen, isGlobalPaused }: { moment: Moment;
 
       {/* Botanical Corner (Subtle) */}
       <div className="absolute -bottom-4 -right-4 w-24 h-24 text-rose-gold/20 opacity-0 group-hover:opacity-40 transition-opacity rotate-12 pointer-events-none">
-        <svg viewBox="0 0 100 100" fill="currentColor">
-          <path d="M50 10 C60 30 90 40 50 90 C10 40 40 30 50 10" />
-        </svg>
+        <Lily size={96} />
       </div>
     </motion.div>
   );
@@ -108,7 +107,31 @@ export default function Moments() {
   const [selected, setSelected] = useState<Moment | null>(null);
 
   return (
-    <section id="moments" className="py-24 md:py-32 bg-cream overflow-hidden">
+    <section id="moments" className="py-24 md:py-32 bg-cream overflow-hidden relative">
+      {/* Background Animated Lilies */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(3)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: (i * 40) + "%", y: "110%" }}
+            animate={{ 
+              opacity: [0, 0.1, 0.1, 0],
+              y: "-10%",
+              x: (i * 40 + (Math.random() * 20 - 10)) + "%",
+              rotate: [0, 90, -90, 180]
+            }}
+            transition={{ 
+              duration: 30 + i * 10,
+              repeat: Infinity,
+              delay: i * 5,
+              ease: "linear"
+            }}
+            className="absolute text-rose-gold/15"
+          >
+            <Lily size={200 + i * 100} />
+          </motion.div>
+        ))}
+      </div>
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">

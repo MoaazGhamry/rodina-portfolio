@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { Maximize2 } from "lucide-react";
 import { useVideos, Video } from "@/hooks/useVideos";
 import { migrateVideos } from "@/lib/migrateVideos";
+import { Lily } from "./FloralBackground";
 
 import { MediaModal } from "./MediaModal";
 
@@ -108,21 +109,28 @@ export default function VideoPortfolio() {
   return (
     <section id="videos" className="py-24 md:py-32 bg-blush-light/40 relative overflow-hidden">
       {/* Decorative Lilies Background */}
-      <div className="absolute top-10 left-[-5%] text-rose-gold/10 -rotate-12 pointer-events-none w-64 h-64 md:w-96 md:h-96">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
-          <path d="M12 22V15" />
-          <path d="M12 15C12 15 20 12 20 8C20 4 16 4 12 8C8 4 4 4 4 8C4 12 12 15 12 15Z" fill="currentColor" fillOpacity="0.2" />
-          <path d="M12 8V2" />
-          <path d="M9 20C9 20 9 17 12 16C15 17 15 20 15 20" />
-        </svg>
-      </div>
-      <div className="absolute bottom-20 right-[-10%] text-rose-gold/10 rotate-[25deg] pointer-events-none w-80 h-80 md:w-[32rem] md:h-[32rem]">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
-          <path d="M12 22V15" />
-          <path d="M12 15C12 15 20 12 20 8C20 4 16 4 12 8C8 4 4 4 4 8C4 12 12 15 12 15Z" fill="currentColor" fillOpacity="0.2" />
-          <path d="M12 8V2" />
-          <path d="M9 20C9 20 9 17 12 16C15 17 15 20 15 20" />
-        </svg>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(4)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: (i * 30) + "%", y: "100%" }}
+            animate={{ 
+              opacity: [0, 0.15, 0.15, 0],
+              y: "-20%",
+              x: (i * 30 + (Math.random() * 10 - 5)) + "%",
+              rotate: [0, 45, -45, 90]
+            }}
+            transition={{ 
+              duration: 25 + i * 5,
+              repeat: Infinity,
+              delay: i * 4,
+              ease: "linear"
+            }}
+            className="absolute text-rose-gold/20"
+          >
+            <Lily size={150 + i * 80} />
+          </motion.div>
+        ))}
       </div>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">

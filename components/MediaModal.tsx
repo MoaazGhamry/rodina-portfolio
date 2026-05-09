@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, MapPin } from "lucide-react";
 import Image from "next/image";
+import { Lily } from "./FloralBackground";
 
 interface MediaModalProps {
   isOpen: boolean;
@@ -142,6 +143,33 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
+          {/* Animated Background Lilies */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {[...Array(6)].map((_, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: Math.random() * 100 + "%", y: "110%" }}
+                animate={{ 
+                  opacity: [0, 0.15, 0.15, 0],
+                  y: "-10%",
+                  x: (Math.random() * 100) + "%",
+                  rotate: [0, 45, -45, 90]
+                }}
+                transition={{ 
+                  duration: 15 + Math.random() * 10,
+                  repeat: Infinity,
+                  delay: i * 2,
+                  ease: "linear"
+                }}
+                className="absolute text-rose-gold/20"
+              >
+                <Lily size={40 + Math.random() * 60} />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Ambient Glow */}
+          <div className="absolute inset-0 bg-gradient-radial from-rose-gold/5 to-transparent opacity-50" />
           {/* Close button */}
           <button
             onClick={onClose}
