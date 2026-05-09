@@ -39,24 +39,19 @@ export default function MusicPlayer() {
     <div className="fixed bottom-6 left-6 z-[60] flex items-center gap-3">
       <audio
         ref={audioRef}
-        src="https://www.chosic.com/wp-content/uploads/2020/12/Everything-that-floats.mp3"
+        src="https://cdn.pixabay.com/audio/2024/02/09/audio_651a4a2928.mp3"
         loop
         preload="auto"
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onError={(e) => {
           console.error("Audio failed to load", e);
-          // Try a fallback link if the primary fails
-          if (audioRef.current && !audioRef.current.src.includes("soundhelix")) {
-            audioRef.current.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
-            audioRef.current.load();
-          }
         }}
       />
       
       <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
         onClick={togglePlay}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
@@ -66,56 +61,22 @@ export default function MusicPlayer() {
           {isPlaying ? (
             <motion.div
               key="playing"
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              className="z-10"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: [0.8, 1.2, 0.8] }}
+              transition={{ duration: 2, repeat: Infinity }}
             >
-              <Volume2 size={24} />
+              <Music size={26} />
             </motion.div>
           ) : (
             <motion.div
               key="paused"
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              className="z-10"
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
             >
-              <VolumeX size={24} className="opacity-40" />
+              <VolumeX size={26} className="opacity-40" />
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* Dynamic Background Pulse when playing */}
-        {isPlaying && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.15 }}
-            className="absolute inset-0 bg-rose-gold"
-          />
-        )}
-
-        {/* Animated Rhythmic Bars - More Premium Style */}
-        {isPlaying && (
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-end gap-[3px] h-3">
-            {[...Array(4)].map((_, i) => (
-              <motion.div
-                key={i}
-                animate={{ 
-                  height: ["20%", "100%", "20%"],
-                  opacity: [0.3, 1, 0.3]
-                }}
-                transition={{ 
-                  duration: 0.5 + i * 0.15, 
-                  repeat: Infinity, 
-                  ease: "easeInOut",
-                  delay: i * 0.1
-                }}
-                className="w-[3px] bg-rose-gold rounded-full"
-              />
-            ))}
-          </div>
-        )}
       </motion.button>
 
       <AnimatePresence>
