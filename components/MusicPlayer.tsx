@@ -39,12 +39,20 @@ export default function MusicPlayer() {
     <div className="fixed bottom-6 left-6 z-[60] flex items-center gap-3">
       <audio
         ref={audioRef}
-        src="https://cdn.pixabay.com/audio/2022/03/10/audio_c369766948.mp3"
+        src="https://cdn.pixabay.com/audio/2022/02/22/audio_d0c6d35688.mp3"
         loop
         preload="auto"
         crossOrigin="anonymous"
-        onCanPlay={() => console.log("Audio is ready")}
-        onError={(e) => console.error("Audio loading failed", e)}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onError={(e) => {
+          console.error("Audio failed to load", e);
+          // Try a fallback link if the primary fails
+          if (audioRef.current && !audioRef.current.src.includes("soundhelix")) {
+            audioRef.current.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+            audioRef.current.load();
+          }
+        }}
       />
       
       <motion.button
