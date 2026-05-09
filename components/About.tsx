@@ -34,14 +34,22 @@ export default function About() {
     migrateHero();
   }, []);
 
-  const nextImg = () => {
+  const nextImg = useCallback(() => {
     if (photos.length === 0) return;
     setImgIndex((prev) => (prev + 1) % photos.length);
-  };
-  const prevImg = () => {
+  }, [photos.length]);
+
+  const prevImg = useCallback(() => {
     if (photos.length === 0) return;
     setImgIndex((prev) => (prev - 1 + photos.length) % photos.length);
-  };
+  }, [photos.length]);
+
+  // Auto-swipe functionality
+  useEffect(() => {
+    if (photos.length <= 1) return;
+    const timer = setInterval(nextImg, 4500); // Swap every 4.5s
+    return () => clearInterval(timer);
+  }, [photos.length, nextImg]);
 
   return (
     <section id="about" ref={ref} className="py-24 md:py-32 bg-cream overflow-hidden">
@@ -156,10 +164,10 @@ export default function About() {
                     {photos.length > 0 && (
                       <motion.div
                         key={imgIndex}
-                        initial={{ x: 300, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        exit={{ x: -300, opacity: 0 }}
-                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        initial={{ x: "100%", opacity: 0, scale: 0.95 }}
+                        animate={{ x: 0, opacity: 1, scale: 1 }}
+                        exit={{ x: "-100%", opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                         drag="x"
                         dragConstraints={{ left: 0, right: 0 }}
                         onDragEnd={(e, { offset, velocity }) => {

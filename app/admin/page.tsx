@@ -345,10 +345,10 @@ export default function AdminPage() {
                         onChange={(e) => updatePhoto(item.id, { span: e.target.value })}
                         className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] rounded-xl px-3 py-2 outline-none cursor-pointer hover:bg-white/20"
                       >
-                        <option value="col-span-1 row-span-1" className="bg-charcoal">Small</option>
-                        <option value="col-span-1 row-span-2" className="bg-charcoal">Medium</option>
-                        <option value="col-span-2 row-span-1" className="bg-charcoal">Wide</option>
-                        <option value="col-span-2 row-span-2" className="bg-charcoal">Large</option>
+                        <option value="col-span-1 row-span-1" className="bg-[#2A2A2A] text-white">Small</option>
+                        <option value="col-span-1 row-span-2" className="bg-[#2A2A2A] text-white">Medium</option>
+                        <option value="col-span-2 row-span-1" className="bg-[#2A2A2A] text-white">Wide</option>
+                        <option value="col-span-2 row-span-2" className="bg-[#2A2A2A] text-white">Large</option>
                       </select>
                     </div>
                   )}
