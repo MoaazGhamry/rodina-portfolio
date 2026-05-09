@@ -51,6 +51,7 @@ export const viewport = {
 };
 
 import { ThemeProvider } from "@/components/ThemeProvider";
+import MusicPlayer from "@/components/MusicPlayer";
 
 export default function RootLayout({
   children,
@@ -62,6 +63,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider>
           {children}
+          <MusicPlayer />
         </ThemeProvider>
       </body>
     </html>
