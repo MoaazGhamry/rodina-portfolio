@@ -5,7 +5,8 @@ import { auth, storage } from "@/lib/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Trash2, LogOut, X, Save, UploadCloud, Pencil } from "lucide-react";
+import { X, UploadCloud, Trash2, Edit2, LogOut, Check, Image as ImageIcon, Plus } from "lucide-react";
+import Image from "next/image";
 import { usePhotos } from "@/hooks/usePhotos";
 import { useVideos } from "@/hooks/useVideos";
 import { useHeroPhotos } from "@/hooks/useHeroPhotos";
@@ -14,7 +15,6 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { migratePhotos } from "@/lib/migrate";
 import { migrateVideos } from "@/lib/migrateVideos";
 import { migrateHero } from "@/lib/migrateHero";
-import Image from "next/image";
 
 type Tab = "photos" | "videos" | "moments" | "hero";
 
@@ -400,7 +400,7 @@ export default function AdminPage() {
                       activeTab === "videos" || activeTab === "moments" ? (
                         <video src={newFile.src} autoPlay muted loop className="w-full h-full object-cover" />
                       ) : (
-                        <img src={newFile.src} alt="Preview" className="w-full h-full object-cover" />
+                        <Image src={newFile.src} alt="Preview" fill className="w-full h-full object-cover" unoptimized />
                       )
                     ) : (
                       <div className="text-center p-6">

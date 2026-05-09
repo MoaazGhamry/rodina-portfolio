@@ -29,6 +29,7 @@ export default function About() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [imgIndex, setImgIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     migrateHero();
@@ -46,10 +47,10 @@ export default function About() {
 
   // Auto-swipe functionality
   useEffect(() => {
-    if (photos.length <= 1) return;
-    const timer = setInterval(nextImg, 4500); // Swap every 4.5s
+    if (photos.length <= 1 || isHovered) return;
+    const timer = setInterval(nextImg, 5000); // Swap every 5s
     return () => clearInterval(timer);
-  }, [photos.length, nextImg]);
+  }, [photos.length, nextImg, isHovered]);
 
   return (
     <section id="about" ref={ref} className="py-24 md:py-32 bg-cream overflow-hidden">
@@ -145,7 +146,11 @@ export default function About() {
             <div className="absolute -bottom-8 -left-8 w-48 h-48 rounded-full bg-beige/60 blur-2xl pointer-events-none" />
 
             {/* Frame */}
-            <div className="relative w-72 h-96 sm:w-80 sm:h-[420px] select-none">
+            <div 
+              className="relative w-72 h-96 sm:w-80 sm:h-[420px] select-none"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
               {/* Rose-gold border offset */}
               <div className="absolute inset-0 rounded-[2.5rem] border-2 border-rose-gold/40 translate-x-4 translate-y-4" />
               

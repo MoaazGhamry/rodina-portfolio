@@ -46,8 +46,8 @@ function VideoCard({ v, index, onOpen, isGlobalPaused }: { v: Video; index: numb
       >
         <video
           ref={videoRef}
-          src={v.src.includes("cloudinary.com") ? v.src.replace("/upload/", "/upload/f_mp4,vc_auto,q_auto:good/") : v.src}
-          poster={v.src.includes("cloudinary.com") ? v.src.replace("/upload/", "/upload/f_auto,q_auto:eco,w_600/").replace(/\.[^/.]+$/, ".jpg") : undefined}
+          src={v.src.includes("cloudinary.com") ? v.src.replace("/upload/", "/upload/f_auto,q_auto:eco,w_480,c_scale/") : v.src}
+          poster={v.src.includes("cloudinary.com") ? v.src.replace("/upload/", "/upload/f_auto,q_auto:eco,w_400,c_scale/").replace(/\.[^/.]+$/, ".jpg") : undefined}
           muted
           playsInline
           {...{ "webkit-playsinline": "true" } as any}
@@ -106,8 +106,26 @@ export default function VideoPortfolio() {
   }, []);
 
   return (
-    <section id="videos" className="py-24 md:py-32 bg-blush-light/40">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="videos" className="py-24 md:py-32 bg-blush-light/40 relative overflow-hidden">
+      {/* Decorative Lilies Background */}
+      <div className="absolute top-10 left-[-5%] text-rose-gold/10 -rotate-12 pointer-events-none w-64 h-64 md:w-96 md:h-96">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+          <path d="M12 22V15" />
+          <path d="M12 15C12 15 20 12 20 8C20 4 16 4 12 8C8 4 4 4 4 8C4 12 12 15 12 15Z" fill="currentColor" fillOpacity="0.2" />
+          <path d="M12 8V2" />
+          <path d="M9 20C9 20 9 17 12 16C15 17 15 20 15 20" />
+        </svg>
+      </div>
+      <div className="absolute bottom-20 right-[-10%] text-rose-gold/10 rotate-[25deg] pointer-events-none w-80 h-80 md:w-[32rem] md:h-[32rem]">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+          <path d="M12 22V15" />
+          <path d="M12 15C12 15 20 12 20 8C20 4 16 4 12 8C8 4 4 4 4 8C4 12 12 15 12 15Z" fill="currentColor" fillOpacity="0.2" />
+          <path d="M12 8V2" />
+          <path d="M9 20C9 20 9 17 12 16C15 17 15 20 15 20" />
+        </svg>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Heading */}
         <motion.div
           ref={ref}

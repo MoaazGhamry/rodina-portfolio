@@ -185,11 +185,12 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                 </div>
               ) : (
                 <video
-                  src={src.includes("cloudinary.com") ? src.replace("/upload/", "/upload/f_mp4,vc_auto,q_auto:good/") : src}
+                  src={src.includes("cloudinary.com") ? src.replace("/upload/", "/upload/f_auto,q_auto:good/") : src}
                   controls
                   autoPlay
                   loop
                   playsInline
+                  preload="auto"
                   {...{ "webkit-playsinline": "true" } as any}
                   className="max-w-full max-h-[70vh] md:max-h-full rounded-2xl md:rounded-[3rem] shadow-2xl border border-white/10"
                   onClick={(e) => e.stopPropagation()}
