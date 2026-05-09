@@ -167,7 +167,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
               return (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, left: `${startX}%`, y: "110%" }}
+                  initial={{ opacity: 0, left: `${startX}%`, y: `${20 + Math.random() * 80}%` }}
                   animate={{ 
                     opacity: [0, 0.35, 0.35, 0],
                     y: ["110%", "50%", "-15%"],
@@ -182,7 +182,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                   transition={{ 
                     duration: 12 + Math.random() * 18,
                     repeat: Infinity,
-                    delay: i * 0.6,
+                    delay: i * 0.1, // Reduced delay for faster population
                     ease: "easeInOut"
                   }}
                   className="absolute text-rose-gold/45"
@@ -245,7 +245,7 @@ export function MediaModal({ isOpen, onClose, type, src, title, description, loc
                   playsInline
                   preload="auto"
                   {...{ "webkit-playsinline": "true" } as any}
-                  className="max-w-full h-[65vh] md:max-h-full rounded-2xl md:rounded-[3rem] shadow-2xl border border-white/10 object-cover"
+                  className="w-full h-[65vh] lg:h-[85vh] lg:w-auto rounded-2xl md:rounded-[3rem] shadow-2xl border border-white/10 object-cover"
                   onClick={(e) => e.stopPropagation()}
                 />
               )}
