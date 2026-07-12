@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
-import Image from "next/image";
 
 const links = [
   { label: "About", href: "#about" },
@@ -64,16 +63,10 @@ export default function Navbar() {
           {/* Logo */}
           <a
             href="#"
+            className="font-serif-custom text-2xl font-bold text-gradient-rose tracking-wide"
             onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-            className="relative h-12 w-32"
           >
-            <Image
-              src="/logo.png"
-              alt="Logo"
-              fill
-              className="object-contain object-left"
-              priority
-            />
+            R.H.S
           </a>
 
           {/* Desktop links */}

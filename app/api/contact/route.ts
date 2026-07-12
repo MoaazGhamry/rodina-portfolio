@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import path from "path";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import nodemailer from "nodemailer";
@@ -59,6 +60,9 @@ export async function POST(req: Request) {
       subject: "Thank you for reaching out! 🌸",
       html: `
         <div style="font-family: 'Georgia', serif; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #fceef0; border-radius: 12px; background-color: #fdfbfb;">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <img src="cid:portfolio_email_photo" alt="Rodina" style="max-height: 150px; border-radius: 12px;" />
+          </div>
           <h2 style="color: #4a4a4a; text-align: center; font-style: italic;">Hello, ${name} 🌸</h2>
           <hr style="border: none; border-top: 1px solid #fceef0; margin: 20px 0;" />
           <p style="color: #555; line-height: 1.6; font-size: 16px;">
@@ -75,6 +79,13 @@ export async function POST(req: Request) {
           <p style="color: #555; margin-top: 0;">Rodina Hany Shaheen</p>
         </div>
       `,
+      attachments: [
+        {
+          filename: 'for_email.png',
+          path: path.join(process.cwd(), 'public', 'for_email.png'),
+          cid: 'portfolio_email_photo',
+        },
+      ],
     };
 
     // 4. Email to Rodina (Lead Notification)
