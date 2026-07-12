@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import path from "path";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { collection, addDoc, getFirestore } from "firebase/firestore/lite";
+import { app } from "@/lib/firebase";
 import nodemailer from "nodemailer";
 
 export async function POST(req: Request) {
@@ -17,7 +17,8 @@ export async function POST(req: Request) {
 
     // 1. STICT AWAIT: Save lead to Firestore
     try {
-      const contactsRef = collection(db, "contacts");
+      const dbLite = getFirestore(app);
+      const contactsRef = collection(dbLite, "contacts");
       await addDoc(contactsRef, {
         name,
         email,
