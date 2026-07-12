@@ -43,13 +43,38 @@ export default function Contact() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setLoading(false);
-    setSent(true);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      project: formData.get("project"),
+    };
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to send message");
+      }
+
+      setSent(true);
+    } catch (err: any) {
+      setError(err.message || "An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fadeUp = (delay = 0) => ({
@@ -193,6 +218,16 @@ export default function Contact() {
                     className="w-full px-4 py-3 rounded-xl border border-blush/40 dark:border-white/10 bg-white/80 dark:bg-charcoal/90 text-charcoal dark:text-cream text-sm placeholder:text-muted/80 dark:placeholder:text-cream/50 focus:outline-none focus:border-rose-gold focus:ring-2 focus:ring-rose-gold/20 transition-all resize-none"
                   />
                 </div>
+
+                {error && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-xs text-red-500 font-medium text-center"
+                  >
+                    {error}
+                  </motion.p>
+                )}
 
                 <motion.button
                   whileHover={{ scale: 1.02, boxShadow: "0 12px 30px rgba(184,114,125,0.3)" }}
