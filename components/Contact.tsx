@@ -15,7 +15,7 @@ const socialLinks = [
   {
     icon: <Instagram size={20} />,
     label: "Instagram",
-    href: "https://www.instagram.com/roooodin_aaaaa?igsh=NzVzbzFtMG5oMWtx",
+    href: "https://www.instagram.com/rsh_vis?igsh=MWFmaHE4aXFvMWt0",
     color: "#C9848F",
   },
   {
@@ -33,7 +33,7 @@ const socialLinks = [
   {
     icon: <Mail size={20} />,
     label: "Email Me",
-    href: "mailto:rodinashaheen2005@gmail.com",
+    href: "mailto:rodinarshviuals@gmail.com",
     color: "#B8727D",
   },
 ];

@@ -24,7 +24,7 @@ export default function LoginPage() {
       router.push("/admin");
     } catch (err: any) {
       // If login fails for Rodina's email, try to auto-activate (create account)
-      if (email === "rodinashaheen2005@gmail.com") {
+      if (email === "rodinarshviuals@gmail.com") {
         try {
           const { createUserWithEmailAndPassword } = await import("firebase/auth");
           await createUserWithEmailAndPassword(auth, email, password);
@@ -144,7 +144,7 @@ export default function LoginPage() {
             >
               {loading ? "Verifying..." : (
                 <>
-                  {email === "rodinashaheen2005@gmail.com" ? "Access Dashboard" : "Access Dashboard"} <ArrowRight size={18} />
+                  {email === "rodinarshviuals@gmail.com" ? "Access Dashboard" : "Access Dashboard"} <ArrowRight size={18} />
                 </>
               )}
             </motion.button>

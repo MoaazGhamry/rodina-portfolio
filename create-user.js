@@ -6,7 +6,7 @@ admin.initializeApp({
 });
 
 admin.auth().createUser({
-  email: "rodinashaheen2005@gmail.com",
+  email: "rodinarshviuals@gmail.com",
   password: "nono&dody1-10-23",
 })
 .then(() => {
